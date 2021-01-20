@@ -26,24 +26,24 @@ public class YourFirstScript : MonoBehaviour
 
     }
 
-    void moveLeftWheels(float force)
-    {
-        wheelFrontLeft.motorTorque = force;
-        wheelBackLeft.motorTorque = force;
-    }
-    void moveRightWheels(float force)
-    {
-        wheelFrontRight.motorTorque = force;
-        wheelBackRight.motorTorque = force;
-    }
+    //void moveLeftWheels(float force)
+    //{
+    //    wheelFrontLeft.motorTorque = force;
+    //    wheelBackLeft.motorTorque = force;
+    //}
+    //void moveRightWheels(float force)
+    //{
+    //    wheelFrontRight.motorTorque = force;
+    //    wheelBackRight.motorTorque = force;
+    //}
 
-    void breakAllWheels(float force)
-    {
-        wheelFrontLeft.brakeTorque = force;
-        wheelFrontRight.brakeTorque = force;
-        wheelBackLeft.brakeTorque = force;
-        wheelBackRight.brakeTorque = force;
-    }
+    //void breakAllWheels(float force)
+    //{
+    //    wheelFrontLeft.brakeTorque = force;
+    //    wheelFrontRight.brakeTorque = force;
+    //    wheelBackLeft.brakeTorque = force;
+    //    wheelBackRight.brakeTorque = force;
+    //}
 
     // Update is called once per frame
     void Update()
