@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/IsaiahFunPlace/Scene/PlayScene.unity
+    guid: de305a1e31bac5245a687d840c726a17
   m_configObjects: {}
