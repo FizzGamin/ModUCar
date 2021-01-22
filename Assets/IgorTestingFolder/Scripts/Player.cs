@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private bool jumpKeyWasPressed;
     private float horizontalInput;
     private Rigidbody rigidbodyComponent;
+    private int superJumpsRemaining = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +35,22 @@ public class Player : MonoBehaviour
 
         if (jumpKeyWasPressed && Physics.OverlapSphere(groundCheckTransform.position, 0.1f, playerMask).Length != 0)
         {
-            rigidbodyComponent.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
+            float jumpPower = superJumpsRemaining > 0 ? 8 : 5;
+            if (jumpPower > 5) superJumpsRemaining--;
+            rigidbodyComponent.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
             jumpKeyWasPressed = false;
         }
 
         
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 6)
+        {
+            Destroy(other.gameObject);
+            superJumpsRemaining++;
+        }
+    }
 
 }
