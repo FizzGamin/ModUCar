@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private LayerMask playerMask;
+
+    private bool jumpKeyWasPressed;
+    private float horizontalInput;
+    private Rigidbody rigidbodyComponent;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidbodyComponent = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -15,18 +22,24 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.VelocityChange);
+            jumpKeyWasPressed = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GetComponent<Rigidbody>().AddForce(Vector3.Left * 5, ForceMode.VelocityChange);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D)
-        {
-            GetComponent<Rigidbody>().AddForce(Vector3.Right * 5, ForceMode.VelocityChange);
-        }
-
+        horizontalInput = Input.GetAxis("Horizontal");
     }
+
+    private void FixedUpdate()
+    {
+        rigidbodyComponent.velocity = new Vector3(horizontalInput, rigidbodyComponent.velocity.y, 0);
+
+        if (jumpKeyWasPressed && Physics.OverlapSphere(groundCheckTransform.position, 0.1f, playerMask).Length != 0)
+        {
+            rigidbodyComponent.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
+            jumpKeyWasPressed = false;
+        }
+
+        
+    }
+
+
 }
