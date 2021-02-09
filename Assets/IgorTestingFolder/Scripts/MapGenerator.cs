@@ -6,7 +6,7 @@ using System.Threading;
 
 public class MapGenerator : MonoBehaviour
 {
-    public enum DrawMode { NoiseMap, DrawMesh,  FalloffMap}
+    public enum DrawMode { NoiseMap, DrawMesh, FalloffMap }
     public DrawMode drawMode;
 
     public TerrainData terrainData;
@@ -20,7 +20,7 @@ public class MapGenerator : MonoBehaviour
 
     public bool autoUpdate;
 
-    float[,] falloffMap; 
+    float[,] falloffMap;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
@@ -94,7 +94,7 @@ public class MapGenerator : MonoBehaviour
         new Thread(threadStart).Start();
     }
 
-    void MeshDataThread(MapData mapData, int lod,  Action<MeshData> callback)
+    void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback)
     {
         MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, lod, terrainData.useFlatShading);
         lock (meshDataThreadInfoQueue)
@@ -131,7 +131,7 @@ public class MapGenerator : MonoBehaviour
 
         if (terrainData.useFalloff)
         {
-            if(falloffMap == null)
+            if (falloffMap == null)
             {
                 falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2);
             }
@@ -147,24 +147,26 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+
         return new MapData(noiseMap);
     }
     private void OnValidate()
     {
-        if(terrainData != null)
+        if (terrainData != null)
         {
             terrainData.OnValuesUpdated -= OnValuesUpdated;
             terrainData.OnValuesUpdated += OnValuesUpdated;
         }
-        if(noiseData != null)
+        if (noiseData != null)
         {
             noiseData.OnValuesUpdated -= OnValuesUpdated;
             noiseData.OnValuesUpdated += OnValuesUpdated;
         }
-        if(textureData != null)
+        if (textureData != null)
         {
-            textureData.OnValuesUpdated -= OnValuesUpdated;
-            textureData.OnValuesUpdated += OnValuesUpdated;
+            textureData.OnValuesUpdated -= OnTextureValuesUpdated;
+            textureData.OnValuesUpdated += OnTextureValuesUpdated;
         }
     }
 
