@@ -1,19 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IPlayer
 {
+    private const float Y_ANGLE_MAX = 90;
+    private const float Y_ANGLE_MIN = -90;
+    private const string INTERACTION_HUD_NAME = "InteractionHud";
+
     public float speed = 10;
     public float sensitivity = 3;
+    public float maxInteractDistance = 20;
+
+    private float yAngle;
+    private const float yMax = 90;
+    private const float yMin = -90;
+    private Text interactionHud;
+    private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     
     void Start()
     {
         Screen.lockCursor = true;
+        yAngle = transform.eulerAngles.x; //Up and down is somehow x but whatever
+        interactionHud = GameObject.Find(INTERACTION_HUD_NAME).GetComponent<Text>();
     }
 
-    // Update is called once per frame
     void Update()
+    {
+        HandleInteraction();
+        HandleMovement();
+    }
+
+    public IItem GetItemInInventory(int i)
+    {
+        return null;
+    }
+    private void MoveInDirection(Vector3 vector)
+    {
+        transform.position = transform.position + (vector.normalized * speed * Time.deltaTime);
+    }
+
+    private void HandleMovement()
     {
         if (Input.GetKey("w"))
         {
@@ -33,21 +62,53 @@ public class CameraController : MonoBehaviour
         }
         if (Input.GetAxis("Mouse X") != 0)
         {
-            RotateInDirection(new Vector3(0, Input.GetAxis("Mouse X") * sensitivity, 0));
+            transform.eulerAngles = transform.eulerAngles + new Vector3(0, Input.GetAxis("Mouse X") * sensitivity, 0);
         }
         if (Input.GetAxis("Mouse Y") != 0)
         {
-            RotateInDirection(new Vector3(Input.GetAxis("Mouse Y") * sensitivity * -1, 0, 0));
+            yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * sensitivity * -1, yMin, yMax);
+            transform.eulerAngles = new Vector3(yAngle, transform.eulerAngles.y, transform.eulerAngles.z);
         }
     }
-    private void MoveInDirection(Vector3 vector)
-    {
-        transform.position = transform.position + (vector.normalized * speed * Time.deltaTime);
-    }
 
-    private void RotateInDirection(Vector3 vector)
+    private void HandleInteraction()
     {
-        
-        transform.eulerAngles = transform.eulerAngles + vector;
+        if (Input.GetKeyDown("f"))
+        {
+            IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                //We are likely going to want this to be asynchronous in the future
+                interactable.Interact(this);
+                interactionHud.text = "(F) " + interactable.GetInteractionText();
+            }
+        }
+
+        //Update the currently looked at thing
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, maxInteractDistance))
+        {
+            if (hit.transform.gameObject != prevLookedAt)
+            {
+                prevLookedAt = hit.transform.gameObject;
+                IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactionHud.text = "(F) " + interactable.GetInteractionText();
+                    interactionHud.enabled = true;
+                }
+                else
+                {
+                    interactionHud.text = "";
+                    interactionHud.enabled = false;
+                }
+            }
+        }
+        else
+        {
+            prevLookedAt = null;
+            interactionHud.text = "";
+            interactionHud.enabled = false;
+        }
     }
 }
