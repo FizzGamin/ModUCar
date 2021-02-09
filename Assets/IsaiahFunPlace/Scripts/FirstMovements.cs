@@ -6,11 +6,24 @@ using UnityEngine;
 public class FirstMovements : MonoBehaviour
 {
     private Animator animator;
+    private string currentState;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        animator.Play("idle");
+        //currentState = "idle";
+    }
+
+    void changeAnimationState(string newState)
+    {
+        if (currentState == newState)
+            return;
+
+        animator.Play(newState);
+
+        currentState = newState;
     }
 
     // Update is called once per frame
@@ -21,7 +34,11 @@ public class FirstMovements : MonoBehaviour
             animator.SetBool("isRunning", true);
         }
         else
+        {
+            gameObject.GetComponent<Animator>().enabled = false;
+            gameObject.GetComponent<Animator>().enabled = true;
             animator.SetBool("isRunning", false);
+        }
 
         if (Input.GetKey(KeyCode.W))
         {
