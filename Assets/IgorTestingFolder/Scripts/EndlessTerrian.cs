@@ -181,7 +181,6 @@ public class EndlessTerrian : MonoBehaviour
                         else if (!lodMesh.hasRequestedMesh)
                             lodMesh.RequestMesh(mapData);
                     }
-                    visibleTerrainChunks.Add(this);
                 }
                 if(wasVisible != visible)
                 {
