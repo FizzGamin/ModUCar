@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -17,7 +15,9 @@ public class NoiseData : UpdatableData
     public int seed;
     public Vector2 offset;
 
-    protected virtual void OnValidate()
+#if UNITY_EDITOR
+
+    protected override void OnValidate()
     {
         if (lacunarity < 1)
             lacunarity = 1;
@@ -26,4 +26,6 @@ public class NoiseData : UpdatableData
 
         base.OnValidate();
     }
+#endif
+
 }
