@@ -12,16 +12,17 @@ public class CameraController : MonoBehaviour, IPlayer
 
     public float speed = 10;
     public float sensitivity = 3;
-    public float maxInteractDistance = 20;
+    public float maxInteractDistance = 5;
+    public GameObject testObj;
 
     private float yAngle;
-    private const float yMax = 90;
-    private const float yMin = -90;
     private Text interactionHud;
     private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     
     void Start()
     {
+        GameManager.instance.SetPlayer(this);
+        Debug.Log(testObj.GetComponent<IItem>().GetWeight());
         Screen.lockCursor = true;
         yAngle = transform.eulerAngles.x; //Up and down is somehow x but whatever
         interactionHud = GameObject.Find(INTERACTION_HUD_NAME).GetComponent<Text>();
@@ -31,6 +32,14 @@ public class CameraController : MonoBehaviour, IPlayer
     {
         HandleInteraction();
         HandleMovement();
+
+        //DEBUG
+        if (Input.GetKeyDown("e"))
+        {
+            GameManager g = GameManager.instance;
+            LootService s = g.GetLootService();
+            s.TestItemGeneration(ItemQuality.B, 100000);
+        }
     }
 
     public IItem GetItemInInventory(int i)
@@ -66,7 +75,7 @@ public class CameraController : MonoBehaviour, IPlayer
         }
         if (Input.GetAxis("Mouse Y") != 0)
         {
-            yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * sensitivity * -1, yMin, yMax);
+            yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * sensitivity * -1, Y_ANGLE_MIN, Y_ANGLE_MAX);
             transform.eulerAngles = new Vector3(yAngle, transform.eulerAngles.y, transform.eulerAngles.z);
         }
     }

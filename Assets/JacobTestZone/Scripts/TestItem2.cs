@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestScript : IItem, IInteractable
+public class TestItem2 : IItem, IInteractable
 {
     private const string ENABLED_TEXT = "Turn off";
     private const string DISABLED_TEXT = "Turn on";
@@ -35,7 +35,7 @@ public class TestScript : IItem, IInteractable
         {
             float offset = (360 / count * i) + rot;
             Transform t = spheres[i].transform;
-            t.position = transform.position + new Vector3(0,(float)Math.Cos(rad(offset)) * radius, (float)Math.Sin(rad(offset)) * radius);
+            t.position = transform.position + new Vector3(0, (float)Math.Cos(rad(offset)) * radius, (float)Math.Sin(rad(offset)) * radius);
         }
         rot += rotSpeed;
     }
@@ -47,11 +47,7 @@ public class TestScript : IItem, IInteractable
 
     public void Interact(IPlayer player)
     {
-        isEnabled = !isEnabled;
-        foreach (GameObject sphere in spheres)
-        {
-            sphere.SetActive(isEnabled);
-        }
+        Debug.Log("Interacted");
     }
 
     public string GetInteractionText()
@@ -66,12 +62,12 @@ public class TestScript : IItem, IInteractable
 
     public override string GetName()
     {
-        return "Test Object";
+        return "Test Object 2: Electric Boogaloo";
     }
 
     public override ItemQuality GetQuality()
     {
-        return ItemQuality.C;
+        return ItemQuality.B;
     }
 
     public override int GetWeight()
