@@ -12,33 +12,39 @@ public class FirstMovements : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        animator.Play("idle");
-        //currentState = "idle";
-    }
-
-    void changeAnimationState(string newState)
-    {
-        if (currentState == newState)
-            return;
-
-        animator.Play(newState);
-
-        currentState = newState;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-        {
-            animator.SetBool("isRunning", true);
-        }
+        // Move forward animation
+        if (Input.GetKey(KeyCode.W))
+            animator.SetBool("isWalkForward", true);
         else
-        {
-            gameObject.GetComponent<Animator>().enabled = false;
-            gameObject.GetComponent<Animator>().enabled = true;
-            animator.SetBool("isRunning", false);
-        }
+            animator.SetBool("isWalkForward", false);
+
+        // Move Backward animation
+        if (Input.GetKey(KeyCode.S))
+            animator.SetBool("isWalkBackward", true);
+        else
+            animator.SetBool("isWalkBackward", false);
+
+        // Move left animation
+        if (Input.GetKey(KeyCode.A))
+            animator.SetBool("isWalkLeft", true);
+        else
+            animator.SetBool("isWalkLeft", false);
+
+        // Move right animation
+        if (Input.GetKey(KeyCode.D))
+            animator.SetBool("isWalkRight", true);
+        else
+            animator.SetBool("isWalkRight", false);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+            animator.SetBool("isCrouching", true);
+        else
+            animator.SetBool("isCrouching", false);
 
         if (Input.GetKey(KeyCode.W))
         {
