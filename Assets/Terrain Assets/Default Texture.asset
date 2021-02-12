@@ -23,30 +23,30 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: 53f5e7753a33c714b9947ca9a6c0d2df, type: 3}
     tint: {r: 0.6509434, g: 0.62212425, b: 0.29783732, a: 1}
     tintStrength: 0.2
-    startHeight: 0.078
+    startHeight: 0.1
     blendStrength: 0.08
-    textureScale: 20
+    textureScale: 8.87
   - texture: {fileID: 2800000, guid: f0fc3eda7662ef7449c9de81e464eb5f, type: 3}
     tint: {r: 0.094562106, g: 0.8018868, b: 0.29800996, a: 0}
     tintStrength: 0
-    startHeight: 0.088
-    blendStrength: 0.08
-    textureScale: 20
+    startHeight: 0.232
+    blendStrength: 0.01
+    textureScale: 13.84
   - texture: {fileID: 2800000, guid: 75ebdbe6afa8fce428623536869a84ad, type: 3}
     tint: {r: 0.2924528, g: 0.21782121, b: 0.19450872, a: 0}
     tintStrength: 0
-    startHeight: 0.225
-    blendStrength: 0.02
-    textureScale: 20
+    startHeight: 0.675
+    blendStrength: 0.01
+    textureScale: 14.9
   - texture: {fileID: 2800000, guid: 922cb94a1a2c5604495e030206c70ee3, type: 3}
     tint: {r: 0.41509432, g: 0.2097534, b: 0, a: 0}
     tintStrength: 0
-    startHeight: 0.431
+    startHeight: 0.812
     blendStrength: 0.04
-    textureScale: 20
+    textureScale: 16.1
   - texture: {fileID: 2800000, guid: ac4023a141ed13a49889a2551c85852f, type: 3}
     tint: {r: 1, g: 1, b: 1, a: 0}
     tintStrength: 0.39
-    startHeight: 0.8
+    startHeight: 0.963
     blendStrength: 0.09
-    textureScale: 20
+    textureScale: 8.2
