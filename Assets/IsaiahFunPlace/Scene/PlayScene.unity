@@ -1195,7 +1195,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.63
+      value: -3.587
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
@@ -3419,6 +3419,40 @@ MonoBehaviour:
   - {fileID: 345063745}
   - {fileID: 345063746}
   - {fileID: 345063766}
+--- !u!195 &345063771
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345063711}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 3.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: -4.7
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &345063772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345063711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a01803f97c0e244bee472e0507dcf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &350474453 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4288087103742750515, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -4349,6 +4383,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438030222}
+  - component: {fileID: 438030223}
   m_Layer: 0
   m_Name: Leg4L target
   m_TagString: Untagged
@@ -4370,6 +4405,28 @@ Transform:
   m_Father: {fileID: 879968046}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &438030223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438030221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063726}
+  otherFoot: {fileID: 1091737513}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &441726927
 GameObject:
   m_ObjectHideFlags: 0
@@ -4810,6 +4867,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 628635408}
+  - component: {fileID: 628635409}
   m_Layer: 0
   m_Name: Leg2L target
   m_TagString: Untagged
@@ -4831,6 +4889,28 @@ Transform:
   m_Father: {fileID: 1932205324}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &628635409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628635407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063753}
+  otherFoot: {fileID: 1680890386}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &634310497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2890138656511364105, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -4918,6 +4998,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 684757505}
+  - component: {fileID: 684757506}
   m_Layer: 0
   m_Name: Leg1L target
   m_TagString: Untagged
@@ -4939,6 +5020,28 @@ Transform:
   m_Father: {fileID: 834346953}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &684757506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684757504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063716}
+  otherFoot: {fileID: 930655080}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &691859180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2675936845010596086, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -6022,6 +6125,56 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1167047880}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &900630752 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6504095525924704110, guid: 6d0feffd0dcb46c418d35b906bd7c7ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 1632714543}
+  m_PrefabAsset: {fileID: 0}
+--- !u!218 &900630757
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900630752}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_TerrainData: {fileID: 0}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 0}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ScaleInLightmap: 1
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 0
+--- !u!154 &900630758
+TerrainCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900630752}
+  m_Material: {fileID: 0}
+  m_Enabled: 1
+  m_TerrainData: {fileID: 0}
+  m_EnableTreeColliders: 1
 --- !u!4 &901098964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3567026781501348573, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -6079,6 +6232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 920245798}
+  - component: {fileID: 920245799}
   m_Layer: 0
   m_Name: Leg 3R target
   m_TagString: Untagged
@@ -6100,6 +6254,28 @@ Transform:
   m_Father: {fileID: 2107037098}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &920245799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920245797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063732}
+  otherFoot: {fileID: 1982033247}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &923464478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3296668817624412054, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -6127,6 +6303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 930655079}
+  - component: {fileID: 930655080}
   m_Layer: 0
   m_Name: Leg 1R target
   m_TagString: Untagged
@@ -6148,6 +6325,28 @@ Transform:
   m_Father: {fileID: 2103826117}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &930655080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930655078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063759}
+  otherFoot: {fileID: 684757506}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &930776912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1019216485476873284, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -6563,6 +6762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1091737512}
+  - component: {fileID: 1091737513}
   m_Layer: 0
   m_Name: Leg 4R target
   m_TagString: Untagged
@@ -6584,6 +6784,28 @@ Transform:
   m_Father: {fileID: 262923111}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091737513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091737511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063720}
+  otherFoot: {fileID: 438030223}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1091800513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7031682949463136744, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -11174,6 +11396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1680890385}
+  - component: {fileID: 1680890386}
   m_Layer: 0
   m_Name: Leg 2R target
   m_TagString: Untagged
@@ -11195,6 +11418,28 @@ Transform:
   m_Father: {fileID: 128586021}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1680890386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680890384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063747}
+  otherFoot: {fileID: 628635409}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1682784680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3450560261862939645, guid: 5586052bc21a08744a8564e68ea9f15a,
@@ -11960,6 +12205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1982033246}
+  - component: {fileID: 1982033247}
   m_Layer: 0
   m_Name: Leg3L target
   m_TagString: Untagged
@@ -11981,6 +12227,28 @@ Transform:
   m_Father: {fileID: 1966420646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1982033247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982033245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  body: {fileID: 345063738}
+  otherFoot: {fileID: 920245799}
+  speed: 1
+  stepDistance: 0.5
+  stepLength: 0.5
+  stepHeight: 0.2
+  footOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1985405892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1369213521347206585, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
