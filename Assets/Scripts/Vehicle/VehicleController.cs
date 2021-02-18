@@ -18,11 +18,11 @@ public class VehicleController : MonoBehaviour
         //Setup the vehicles substeps
         foreach (WheelCollider wc in powerWheelColliders)
         {
-            wc.ConfigureVehicleSubsteps(10, 1, 2);
+            wc.ConfigureVehicleSubsteps(.5f, 1, 2);
         }
         foreach (WheelCollider wc in steeringWheelColliders)
         {
-            wc.ConfigureVehicleSubsteps(10, 1, 2);
+            wc.ConfigureVehicleSubsteps(.5f, 1, 2);
         }
     }
 
@@ -35,64 +35,56 @@ public class VehicleController : MonoBehaviour
             wc.brakeTorque = 0;
             wc.motorTorque = 0;
         }
+
         //reset the steering as well (and brakes)
         foreach (WheelCollider wc in steeringWheelColliders)
         {
             wc.brakeTorque = 0;
-            wc.steerAngle = Mathf.Lerp(wc.steerAngle,0,5f*Time.deltaTime);
+            wc.steerAngle = Mathf.Lerp(wc.steerAngle, 0, 5f * Time.deltaTime);
         }
 
         //If the vehicle is currently being controlled, check for inputs
         if (isControlling)
         {
-            //Apply force to go forward
-            if (Input.GetKey(KeyCode.W))
-            {
-                foreach(WheelCollider wc in powerWheelColliders)
-                {
-                    wc.motorTorque = vehiclePower;
-                }
-            }
+            RunPlayerVehicleControl();
+        }
+    }
 
-            //Apply force to reverse
-            if (Input.GetKey(KeyCode.S))
-            {
-                foreach (WheelCollider wc in powerWheelColliders)
-                {
-                    wc.motorTorque = -vehiclePower;
-                }
-            }
+    void RunPlayerVehicleControl()
+    {
+        float driveInfluence = Input.GetAxis("Vertical");
+        float steeringInfluence = Input.GetAxis("Horizontal");
 
-            //Turn left
-            if (Input.GetKey(KeyCode.A))
-            {
-                foreach (WheelCollider wc in steeringWheelColliders)
-                {
-                    wc.steerAngle = Mathf.Lerp(wc.steerAngle, -vehicleSteeringAngle, 5f * Time.deltaTime);
-                }
-            }
+        //Apply force to go forward
+        foreach (WheelCollider wc in powerWheelColliders)
+        {
+            wc.motorTorque = driveInfluence * vehiclePower;
+        }
 
-            //Turn Right
-            if (Input.GetKey(KeyCode.D))
-            {
-                foreach (WheelCollider wc in steeringWheelColliders)
-                {
-                    wc.steerAngle = Mathf.Lerp(wc.steerAngle, vehicleSteeringAngle, 5f * Time.deltaTime);
-                }
-            }
+        //adjust steering wheel angle
+        foreach (WheelCollider wc in steeringWheelColliders)
+        {
+            wc.steerAngle = Mathf.Lerp(wc.steerAngle, vehicleSteeringAngle * steeringInfluence, 5f * Time.deltaTime);
+        }
 
-            //Break force applied to all wheels
-            if (Input.GetKey(KeyCode.Space))
+        //Break force applied to all wheels
+        if (Input.GetButton("Breaks"))
+        {
+            foreach (WheelCollider wc in powerWheelColliders)
             {
-                foreach (WheelCollider wc in powerWheelColliders)
-                {
-                    wc.brakeTorque = vehiclePower;
-                }
-                foreach (WheelCollider wc in steeringWheelColliders)
-                {
-                    wc.brakeTorque = vehiclePower;
-                }
+                wc.brakeTorque = vehiclePower * 3;
             }
+            foreach (WheelCollider wc in steeringWheelColliders)
+            {
+                wc.brakeTorque = vehiclePower * 3;
+            }
+        }
+
+        //DEV MODE FLIP KEY
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            transform.position += new Vector3(0, 3, 0);
+            transform.eulerAngles = Vector3.zero;
         }
     }
 }
