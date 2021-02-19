@@ -33,11 +33,6 @@ public class MapPreview : MonoBehaviour
             DrawTexture(TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(meshSettings.numVertsPerLine), 0,1)));
     }
 
-    void OnTextureValuesUpdated()
-    {
-        textureData.ApplyToMaterial(terrainMaterial);
-    }
-
     public void DrawTexture(Texture2D texture)
     {
         textureRender.sharedMaterial.mainTexture = texture;
@@ -62,6 +57,11 @@ public class MapPreview : MonoBehaviour
         {
             DrawMapInEditor();
         }
+    }
+
+    void OnTextureValuesUpdated()
+    {
+        textureData.ApplyToMaterial(terrainMaterial);
     }
 
     void OnValidate()

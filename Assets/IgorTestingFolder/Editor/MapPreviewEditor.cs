@@ -1,10 +1,10 @@
-using UnityEditor;
 using UnityEngine;
-
+using UnityEditor;
 
 [CustomEditor(typeof(MapPreview))]
 public class MapPreviewEditor : Editor
 {
+
     public override void OnInspectorGUI()
     {
         MapPreview mapPreview = (MapPreview)target;
@@ -21,6 +21,5 @@ public class MapPreviewEditor : Editor
         {
             mapPreview.DrawMapInEditor();
         }
-        
     }
 }

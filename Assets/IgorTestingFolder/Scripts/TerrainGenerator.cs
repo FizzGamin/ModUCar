@@ -19,7 +19,7 @@ public class TerrainGenerator : MonoBehaviour
     Vector2 viewerPosition;
     Vector2 viewerPositionOld;
 
-    float meshSettingsmeshWorldSize;
+    float meshWorldSize;
     int chunksVisibleInViewDst;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
@@ -31,8 +31,8 @@ public class TerrainGenerator : MonoBehaviour
         textureSettings.UpdateMeshHeights(mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
  
         float maxViewDst = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
-        meshSettingsmeshWorldSize = meshSettings.meshWorldSize;
-        chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / meshSettingsmeshWorldSize);
+        meshWorldSize = meshSettings.meshWorldSize;
+        chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / meshWorldSize);
 
         UpdateVisibleChunks();
     }
@@ -65,8 +65,8 @@ public class TerrainGenerator : MonoBehaviour
             visibleTerrainChunks[i].UpdateTerrainChunk();
         }
 
-        int currentChunkCoordX = Mathf.RoundToInt(viewerPosition.x / meshSettingsmeshWorldSize);
-        int currentChunkCoordY = Mathf.RoundToInt(viewerPosition.y / meshSettingsmeshWorldSize);
+        int currentChunkCoordX = Mathf.RoundToInt(viewerPosition.x / meshWorldSize);
+        int currentChunkCoordY = Mathf.RoundToInt(viewerPosition.y / meshWorldSize);
 
         for (int yOffset = -chunksVisibleInViewDst; yOffset <= chunksVisibleInViewDst; yOffset++)
         {
