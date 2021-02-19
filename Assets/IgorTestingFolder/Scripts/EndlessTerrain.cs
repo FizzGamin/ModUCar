@@ -23,7 +23,7 @@ public class EndlessTerrain : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
-    private void Start()
+    void Start()
     {
         mapGenerator = FindObjectOfType<MapGenerator>();
 
@@ -115,7 +115,7 @@ public class EndlessTerrain : MonoBehaviour
 
             sampleCentre = coord * meshWorldSize / mapGenerator.meshSettings.meshScale;
             Vector2 position = coord * meshWorldSize;
-            bounds = new Bounds(sampleCentre, Vector2.one * meshWorldSize);
+            bounds = new Bounds(position, Vector2.one * meshWorldSize);
             
 
             meshObject = new GameObject("Terrain Chunk");

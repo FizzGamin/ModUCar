@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu()]
 public class MeshSettings : UpdatableData
 {
     public const int numSupportedLODs = 5;
@@ -11,7 +11,6 @@ public class MeshSettings : UpdatableData
     public float meshScale = 2.5f;
     public bool useFlatShading;
 
-
     [Range(0, numSupportedChunkSizes - 1)]
     public int chunkSizeIndex;
     [Range(0, numSupportedFlatshadedChunkSizes - 1)]
@@ -21,5 +20,4 @@ public class MeshSettings : UpdatableData
     public int numVertsPerLine => supportedChunkSizes[useFlatShading ? flatshadedChunkSizeIndex : chunkSizeIndex] + 1;
 
     public float meshWorldSize => (numVertsPerLine - 3) * meshScale;
-
 }
