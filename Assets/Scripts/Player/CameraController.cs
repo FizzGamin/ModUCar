@@ -189,14 +189,14 @@ public class CameraController : MonoBehaviour, IPlayer
 
         //Temporary inventory viewing code, should only run when the inventory is modified
         //Will eventually be placed with whatever UI code is necessary
-        Debug.Log("Inventory:\n\n");
+        /*Debug.Log("Inventory:\n\n");
         for (int i = 0; i < INVENTORY_SIZE; i++)
         {
             string line = "\n[" + i + "]: ";
             if (inventory[i] != null)
             {
                 line += inventory[i].GetName();
-            } else
+            } else+
             {
                 line += "Empty";
             }
@@ -205,6 +205,6 @@ public class CameraController : MonoBehaviour, IPlayer
                 line += " <-- SELECTED";
             }
             Debug.Log(line + "\n\n");
-        }
+        }*/
     }
 }

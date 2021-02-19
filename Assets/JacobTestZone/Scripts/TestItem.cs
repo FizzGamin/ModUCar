@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TestItem2 : IPickupable
+public class TestItem : IPickupable
 {
     void Start()
     {
@@ -11,10 +11,6 @@ public class TestItem2 : IPickupable
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("p"))
-        {
-            Debug.Log("Script is active");
-        }
     }
 
     public override GameObject CreateItem()
@@ -24,21 +20,21 @@ public class TestItem2 : IPickupable
 
     public override string GetName()
     {
-        return "Test Object 2: Electric Boogaloo";
+        return "Test Object 1";
     }
 
     public override ItemQuality GetQuality()
     {
-        return ItemQuality.B;
+        return ItemQuality.D;
     }
 
     public override int GetWeight()
     {
-        return 100;
+        return 200;
     }
 
     public override string GetSpriteName()
     {
-        return "TestSprite2";
+        return "TestSprite1";
     }
 }

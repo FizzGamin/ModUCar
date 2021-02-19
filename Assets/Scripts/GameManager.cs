@@ -8,6 +8,7 @@ public class GameManager : UnitySingleton<GameManager>
 {
     private IPlayer player;
     private LootService lootService;
+    private SpriteService spriteService;
 
     public void SetPlayer(IPlayer player)
     {
@@ -27,5 +28,15 @@ public class GameManager : UnitySingleton<GameManager>
     public LootService GetLootService()
     {
         return lootService;
+    }
+
+    public void SetSpriteService(SpriteService spriteService)
+    {
+        this.spriteService = spriteService;
+    }
+
+    public SpriteService GetSpriteService()
+    {
+        return spriteService;
     }
 }

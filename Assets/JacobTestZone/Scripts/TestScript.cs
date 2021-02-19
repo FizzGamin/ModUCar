@@ -79,8 +79,8 @@ public class TestScript : IItem, IInteractable
         return 100;
     }
 
-    public override Sprite GetSprite()
+    public override string GetSpriteName()
     {
-        return null;
+        return "TestSprite1";
     }
 }

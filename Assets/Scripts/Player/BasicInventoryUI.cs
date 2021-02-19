@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class BasicInventoryUI : MonoBehaviour, InventoryUI
 {
+    private const string MISSING_SPRITE_NAME = "MissingSprite";
+
     private List<GameObject> slots;
     private Sprite missingSprite;
+    private int currentSelected = 0;
     void Start()
     {
         List<GameObject> temp = new List<GameObject>();
@@ -16,8 +19,9 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
             temp.Add(child.gameObject);
         }
         slots = temp.OrderBy(o => o.transform.position.x).ToList();
+        Select(0);
 
-        missingSprite = Resources.Load("Sprites/MissingSprite", typeof(Sprite)) as Sprite;
+        missingSprite = GetSpriteByName(MISSING_SPRITE_NAME);
     }
 
     public void UpdateInventory(IItem[] items, int selected)
@@ -29,10 +33,10 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
 
         for (int i = 0; i < slots.Count; i++)
         {
-            Image slotImage = slots[i].GetComponentInChildren<Image>();
+            Image slotImage = slots[i].GetComponentsInChildren<Image>(true).Where((img) => img.gameObject != slots[i]).First();
             if (items[i] != null)
             {
-                Sprite itemSprite = items[i].GetSprite();
+                Sprite itemSprite = GetSpriteByName(items[i].GetSpriteName());
                 if (itemSprite != null)
                 {
                     slotImage.sprite = itemSprite;
@@ -48,5 +52,27 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
                 slotImage.gameObject.SetActive(false);
             }
         }
+
+        if (currentSelected != selected)
+        {
+            Deselect(currentSelected);
+            Select(selected);
+            currentSelected = selected;
+        }
+    }
+
+    private void Select(int i)
+    {
+        slots[i].transform.localScale = new Vector3(.95f, .95f, .95f);
+    }
+
+    private void Deselect(int i)
+    {
+        slots[i].transform.localScale = new Vector3(.9f, .9f, .9f);
+    }
+
+    private Sprite GetSpriteByName(string name)
+    {
+        return GameManager.instance.GetSpriteService().GetSprite(name);
     }
 }
