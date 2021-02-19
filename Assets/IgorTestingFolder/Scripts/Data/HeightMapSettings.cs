@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu()]
 public class HeightMapSettings : UpdatableData
 {
     public NoiseSettings noiseSettings;

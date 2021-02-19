@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [CustomEditor(typeof(MapGenerator))]
-public class MapGeneratorEditror : Editor
+public class MapGeneratorEditor : Editor
 {
     public override void OnInspectorGUI()
     {

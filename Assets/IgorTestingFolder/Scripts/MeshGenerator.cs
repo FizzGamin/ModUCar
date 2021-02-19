@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
 public static class MeshGenerator
 {
     public static MeshData GenerateTerrainMesh(float[,] heightMap, MeshSettings meshSettings, int levelOfDetail)
@@ -69,7 +68,7 @@ public static class MeshGenerator
                 vertexIndex++;
             }
         }
-        meshData.Finalize();
+        meshData.ProcessMesh();
 
         return meshData;
     }
@@ -160,17 +159,12 @@ public class MeshData
             int vertexIndexC = triangles[normalTriangleIndex + 2];
 
             Vector3 triangleNormal = SurfaceNormalFromIndices(vertexIndexA, vertexIndexB, vertexIndexC);
-            if (vertexIndexA >= 0) {
+            if (vertexIndexA >= 0)
                 vertexNormals[vertexIndexA] += triangleNormal;
-            }
             if (vertexIndexB >= 0)
-            {
                 vertexNormals[vertexIndexB] += triangleNormal;
-            }
             if (vertexIndexC >= 0)
-            {
                 vertexNormals[vertexIndexC] += triangleNormal;
-            }
         }
 
         for (int i = 0; i < vertexNormals.Length; i++)
@@ -191,19 +185,15 @@ public class MeshData
         return Vector3.Cross(sideAB, sideAC).normalized;
     }
 
-    public void Finalize()
+    public void ProcessMesh()
     {
         if (useFlatShading)
-        {
             FlatShading();
-        }
         else
-        {
             BakeNormals();
-        }
     }
 
-    private void BakeNormals()
+    void BakeNormals()
     {
         bakedNormals = CalculateNormals();
     }
@@ -230,13 +220,10 @@ public class MeshData
         mesh.triangles = triangles;
         mesh.uv = uvs;
         if (useFlatShading)
-        {
             mesh.RecalculateNormals();
-        }
         else
-        {
             mesh.normals = bakedNormals;
-        }
+
         return mesh;
     }
 

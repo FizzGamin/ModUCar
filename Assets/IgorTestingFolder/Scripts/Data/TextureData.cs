@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[CreateAssetMenu]
+[CreateAssetMenu()]
 public class TextureData : UpdatableData
 {
     const int textureSize = 512;
