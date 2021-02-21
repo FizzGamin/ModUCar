@@ -19,6 +19,7 @@ public class LootService : UnitySingleton<LootService>
     {
         items = new List<IItem>();
         random = new System.Random();
+
         GameManager.instance.SetLootService(this);
 
         UnityEngine.Object[] itemObjs = Resources.LoadAll("Items");

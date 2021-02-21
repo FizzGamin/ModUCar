@@ -13,5 +13,5 @@ public abstract class IItem : MonoBehaviour
     /// </summary>
     /// <returns>An integer >= 1, standard weight is 100</returns>
     public abstract int GetWeight();
-    public abstract Sprite GetSprite();
+    public abstract string GetSpriteName();
 }
