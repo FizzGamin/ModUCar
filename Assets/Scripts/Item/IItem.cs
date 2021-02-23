@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
 
-[Serializable]
 public abstract class IItem : MonoBehaviour
 {
-    public Sprite itemSprite;
     public abstract GameObject CreateItem();
     public abstract string GetName();
     public abstract ItemQuality GetQuality();

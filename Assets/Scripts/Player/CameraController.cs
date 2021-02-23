@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour, IPlayer
 {
@@ -36,6 +38,7 @@ public class CameraController : MonoBehaviour, IPlayer
     void Update()
     {
         HandleInteraction();
+        HandleUse();
         HandleMovement();
         HandleInventoryKeys();
 
@@ -57,6 +60,7 @@ public class CameraController : MonoBehaviour, IPlayer
     {
         return inventory[i];
     }
+
     private void MoveInDirection(Vector3 vector)
     {
         transform.position = transform.position + (vector.normalized * speed * Time.deltaTime);
@@ -91,9 +95,21 @@ public class CameraController : MonoBehaviour, IPlayer
         }
     }
 
+    private void HandleUse()
+    {
+        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && inventory[slotSelected] != null)
+        {
+            IEquippable equipped = inventory[slotSelected].GetComponent<IEquippable>();
+            if (equipped != null)
+            {
+                equipped.Use(this);
+            }
+        }
+    }
+
     private void HandleInteraction()
     {
-        if (Input.GetKeyDown("f"))
+        if (Input.GetKeyDown("f") && prevLookedAt != null)
         {
             IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
             if (interactable != null)
@@ -206,5 +222,10 @@ public class CameraController : MonoBehaviour, IPlayer
             }
             Debug.Log(line + "\n\n");
         }*/
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }
