@@ -60,7 +60,7 @@ public static class MeshGenerator
                         float dstPercentFromAToB = dstToMainVertexA / (float)skipIncrement;
 
                         float heightMainVertexA = heightMap[isVertical ? x : x - dstToMainVertexA, isVertical ? y - dstToMainVertexA : y];
-                        float heightMainVertexB = heightMap[isVertical ? x : x - dstToMainVertexA, isVertical ? y + dstToMainVertexA : y];
+                        float heightMainVertexB = heightMap[isVertical ? x : x - dstToMainVertexA, isVertical ? y + dstToMainVertexB : y];
                         
                         height = heightMainVertexA * (1-dstPercentFromAToB) + heightMainVertexB * dstPercentFromAToB;
                     }
@@ -98,7 +98,7 @@ public class MeshData
     Vector3[] bakedNormals;
 
     Vector3[] outOfMeshVertices;
-    int[] outOfMeshTrianges;
+    int[] outOfMeshTriangles;
 
     int triangleIndex;
     int outOfMeshTriangleIndex;
@@ -122,7 +122,7 @@ public class MeshData
         triangles = new int[(numMeshEdgeTriangles + numMainTriangles) *3];
 
         outOfMeshVertices  = new Vector3[numVertsPerLine * 4 - 4];
-        outOfMeshTrianges = new int[24 * (numVertsPerLine-2)] ;
+        outOfMeshTriangles = new int[24 * (numVertsPerLine-2)] ;
     }
 
     public void AddVertex(Vector3 vertexPosition, Vector2 uv, int vertexIndex)
@@ -143,9 +143,9 @@ public class MeshData
     {
         if (a < 0 || b < 0 || c < 0)
         {
-            outOfMeshTrianges[outOfMeshTriangleIndex] = a;
-            outOfMeshTrianges[outOfMeshTriangleIndex + 1] = b;
-            outOfMeshTrianges[outOfMeshTriangleIndex + 2] = c;
+            outOfMeshTriangles[outOfMeshTriangleIndex] = a;
+            outOfMeshTriangles[outOfMeshTriangleIndex + 1] = b;
+            outOfMeshTriangles[outOfMeshTriangleIndex + 2] = c;
             outOfMeshTriangleIndex += 3;
         }
         else
@@ -174,13 +174,13 @@ public class MeshData
             vertexNormals[vertexIndexC] += triangleNormal;
         }
 
-        int borderTriangleCount = outOfMeshTrianges.Length / 3;
-        for (int i = 0; i < triangleCount; i++)
+        int borderTriangleCount = outOfMeshTriangles.Length / 3;
+        for (int i = 0; i < borderTriangleCount; i++)
         {
             int normalTriangleIndex = i * 3;
-            int vertexIndexA = triangles[normalTriangleIndex];
-            int vertexIndexB = triangles[normalTriangleIndex + 1];
-            int vertexIndexC = triangles[normalTriangleIndex + 2];
+            int vertexIndexA = outOfMeshTriangles[normalTriangleIndex];
+            int vertexIndexB = outOfMeshTriangles[normalTriangleIndex + 1];
+            int vertexIndexC = outOfMeshTriangles[normalTriangleIndex + 2];
 
             Vector3 triangleNormal = SurfaceNormalFromIndices(vertexIndexA, vertexIndexB, vertexIndexC);
             if (vertexIndexA >= 0)
