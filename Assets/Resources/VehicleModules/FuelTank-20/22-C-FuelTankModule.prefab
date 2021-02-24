@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2586122574404633285
+--- !u!1 &5166148779454479341
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 532312171825106451}
-  - component: {fileID: 5449033395343718839}
-  - component: {fileID: 241017007235527295}
+  - component: {fileID: 7147563557099599675}
+  - component: {fileID: 3444342454470410399}
+  - component: {fileID: 7424847570853923671}
   m_Layer: 0
   m_Name: FuelTank
   m_TagString: Untagged
@@ -18,35 +18,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &532312171825106451
+--- !u!4 &7147563557099599675
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2586122574404633285}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -2.3381152, y: 2.5467231, z: -0.000000007450581}
-  m_LocalScale: {x: 1.6899202, y: 1.6899202, z: 1.6899202}
+  m_GameObject: {fileID: 5166148779454479341}
+  m_LocalRotation: {x: -0.5589873, y: -0.43816525, z: 0.4362413, w: 0.55248344}
+  m_LocalPosition: {x: -0.06883509, y: 0.08725862, z: -0.0024989755}
+  m_LocalScale: {x: 1.2616528, y: 1.2616528, z: 1.2616527}
   m_Children: []
-  m_Father: {fileID: 2642224484809945879}
+  m_Father: {fileID: 4681783309412190783}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5449033395343718839
+--- !u!33 &3444342454470410399
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2586122574404633285}
-  m_Mesh: {fileID: 1394636399847062218, guid: ffde03f3ceb961642b5a88c4eec48bde, type: 3}
---- !u!23 &241017007235527295
+  m_GameObject: {fileID: 5166148779454479341}
+  m_Mesh: {fileID: 1394636399847062218, guid: a644222bdc375c542814a46554e6c90d, type: 3}
+--- !u!23 &7424847570853923671
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2586122574404633285}
+  m_GameObject: {fileID: 5166148779454479341}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &2931223069698614936
+--- !u!1 &5454661457133015173
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,9 +89,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1214485056707537010}
-  - component: {fileID: 7577277965118988012}
-  - component: {fileID: 2027160526690419251}
+  - component: {fileID: 4681783309412190783}
+  m_Layer: 0
+  m_Name: C-FuelTankModule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4681783309412190783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454661457133015173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8397154535811895642}
+  - {fileID: 7147563557099599675}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5548386276977319856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8397154535811895642}
+  - component: {fileID: 969960707531319236}
+  - component: {fileID: 8679549136726522651}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -99,35 +131,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1214485056707537010
+--- !u!4 &8397154535811895642
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2931223069698614936}
+  m_GameObject: {fileID: 5548386276977319856}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2642224484809945879}
+  m_Father: {fileID: 4681783309412190783}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7577277965118988012
+--- !u!33 &969960707531319236
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2931223069698614936}
-  m_Mesh: {fileID: -5495902117074765545, guid: ffde03f3ceb961642b5a88c4eec48bde, type: 3}
---- !u!23 &2027160526690419251
+  m_GameObject: {fileID: 5548386276977319856}
+  m_Mesh: {fileID: -5495902117074765545, guid: a644222bdc375c542814a46554e6c90d, type: 3}
+--- !u!23 &8679549136726522651
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2931223069698614936}
+  m_GameObject: {fileID: 5548386276977319856}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -162,35 +194,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &3449970103945259437
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2642224484809945879}
-  m_Layer: 0
-  m_Name: B-FuelTankModule
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2642224484809945879
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3449970103945259437}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1214485056707537010}
-  - {fileID: 532312171825106451}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
