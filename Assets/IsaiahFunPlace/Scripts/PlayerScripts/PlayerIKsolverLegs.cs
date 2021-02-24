@@ -8,16 +8,20 @@ public class PlayerIKsolverLegs: MonoBehaviour
     [SerializeField] Transform legRoot = default;
     [SerializeField] Transform body = default;
     [SerializeField] PlayerIKsolverLegs otherFoot = default;
-    float speed = 6f;
-    float stepDistance = 2f;
-    float stepLength = 2f;
-    float stepHeight = 2f;
+    float speed = 5f;
+    //NOTE: stepDistance must be >= stepLength
+    float stepDistance = 1.7f;
+    float stepLength = 1.7f;
+    float stepHeight = 1.5f;
+    //if the foot for some reason goes into the ground, change this offset value
     Vector3 footOffset = default;
     float footSpacing;
     Vector3 oldPosition, currentPosition, newPosition;
     Vector3 oldNormal, currentNormal, newNormal;
     float lerp; // >= 1 means leg is not moving, otherwise it is
-
+    float timeSinceLastMove = 0;
+    bool legReset = true;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +35,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
     void Update()
     {
         transform.position = currentPosition;
-        transform.up = currentNormal;
+        //transform.up = currentNormal + new Vector3(-1, -1, 1);
 
         // create the raycast Ray
         Ray ray = new Ray(legRoot.position + (legRoot.right * footSpacing), Vector3.down);
@@ -39,14 +43,26 @@ public class PlayerIKsolverLegs: MonoBehaviour
         // this is where the actual raycast is made, raycast information stored in info. Executes if statement on a successful raycast
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
         {
-            // checks if distance is big enough to move, the other leg is not moving, and this foot is not moving
+            timeSinceLastMove = timeSinceLastMove + Time.deltaTime;
+            // checks if distance is big enough to move, the other leg is not moving, and this foot is not moving 
             if (Vector3.Distance(newPosition, info.point) > stepDistance && !otherFoot.IsMoving() && lerp >= 1)
             {
+                timeSinceLastMove = 0;
                 lerp = 0;
                 // checks if the leg should be moving forwards or backwards
                 int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
-                newPosition = info.point;// + (legRoot.forward * stepLength * direction) + footOffset;
+                newPosition = info.point + (body.up * stepLength * direction); // + (legRoot.forward * stepLength * direction) + footOffset;
                 newNormal = info.normal;
+                legReset = false;
+            }
+            // OR enough time has passed and the foot location is different than the racast location
+            else if (timeSinceLastMove > 0.5 && Vector3.Distance(newPosition, info.point) > 0 && legReset == false)
+            {
+                timeSinceLastMove = 0;
+                lerp = 0;
+                newPosition = info.point;
+                newNormal = info.normal;
+                legReset = true;
             }
         }
 

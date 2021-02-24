@@ -48,19 +48,19 @@ public class FirstMovements : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(Vector3.down * Time.deltaTime * 15);
+            transform.Translate(Vector3.down * Time.deltaTime * 7);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector3.left * Time.deltaTime * 15);
+            transform.Translate(Vector3.left * Time.deltaTime * 7);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector3.up * Time.deltaTime * 15);
+            transform.Translate(Vector3.up * Time.deltaTime * 7);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector3.right * Time.deltaTime * 15);
+            transform.Translate(Vector3.right * Time.deltaTime * 7);
         }
 
     }
