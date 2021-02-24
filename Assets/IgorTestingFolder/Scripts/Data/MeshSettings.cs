@@ -17,7 +17,7 @@ public class MeshSettings : UpdatableData
     public int flatshadedChunkSizeIndex;
 
     // number of vertices per line of mesh rendered at LOD=0. 
-    public int numVertsPerLine => supportedChunkSizes[useFlatShading ? flatshadedChunkSizeIndex : chunkSizeIndex] + 1;
+    public int numVertsPerLine => supportedChunkSizes[useFlatShading ? flatshadedChunkSizeIndex : chunkSizeIndex] + 5;
 
     public float meshWorldSize => (numVertsPerLine - 3) * meshScale;
 }
