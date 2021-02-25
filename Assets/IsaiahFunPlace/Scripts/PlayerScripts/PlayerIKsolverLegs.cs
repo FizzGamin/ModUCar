@@ -14,7 +14,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
     float stepLength = 1.7f;
     float stepHeight = 1.5f;
     //if the foot for some reason goes into the ground, change this offset value
-    Vector3 footOffset = default;
+    Vector3 footOffset = new Vector3(-220f, 90, 0);
     float footSpacing;
     Vector3 oldPosition, currentPosition, newPosition;
     Vector3 oldNormal, currentNormal, newNormal;
@@ -27,7 +27,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
     {
         footSpacing = -transform.localPosition.x;
         currentPosition = newPosition = oldPosition = transform.position;
-        currentNormal = newNormal = oldNormal = transform.up;
+        currentNormal = newNormal = oldNormal = footOffset;
         lerp = 1;
     }
 
@@ -35,7 +35,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
     void Update()
     {
         transform.position = currentPosition;
-        //transform.up = currentNormal + new Vector3(-1, -1, 1);
+        transform.eulerAngles = currentNormal; 
 
         // create the raycast Ray
         Ray ray = new Ray(legRoot.position + (legRoot.right * footSpacing), Vector3.down);
@@ -52,7 +52,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
                 // checks if the leg should be moving forwards or backwards
                 int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
                 newPosition = info.point + (body.up * stepLength * direction); // + (legRoot.forward * stepLength * direction) + footOffset;
-                newNormal = info.normal;
+                newNormal = info.normal + footOffset;
                 legReset = false;
             }
             // OR enough time has passed and the foot location is different than the racast location
@@ -61,7 +61,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
                 timeSinceLastMove = 0;
                 lerp = 0;
                 newPosition = info.point;
-                newNormal = info.normal;
+                newNormal = info.normal + footOffset;
                 legReset = true;
             }
         }
