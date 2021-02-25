@@ -25,7 +25,7 @@ public class PlayerIKArms : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //transform.up = Vector3.down;
+        transform.up = Vector3.down;
         //transform.position = armRoot.position;
 
         timeSinceLastMove = 0;
