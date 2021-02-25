@@ -17,11 +17,6 @@ public class TestItem2 : IPickupable
         }
     }
 
-    public override GameObject CreateItem()
-    {
-        throw new NotImplementedException();
-    }
-
     public override string GetName()
     {
         return "Test Object 2: Electric Boogaloo";

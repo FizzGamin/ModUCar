@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class EvilBlock : MonoBehaviour, IDamageable
 {
-    float health = 100f;
+    private float health = 100f;
+    private bool died = false;
     public void TakeDamage(float damage)
     {
         if (health < 0) return;
@@ -12,14 +13,16 @@ public class EvilBlock : MonoBehaviour, IDamageable
         {
             Debug.Log("Evil block died");
             GameObject.Destroy(gameObject, .5f);
-            
+            died = true;
         }
     }
 
     void OnDestroy()
     {
-        //Drop loot
-        GameObject dropped = GameManager.instance.GetLootService().GetItem(ItemQuality.D).CreateItem();
-        dropped.transform.position = gameObject.transform.position;
+        if (died) {
+            //Drop loot
+            GameObject dropped = GameManager.instance.GetLootService().GetItem(ItemQuality.B).CreateItem();
+            dropped.transform.position = gameObject.transform.position;
+        }
     }
 }

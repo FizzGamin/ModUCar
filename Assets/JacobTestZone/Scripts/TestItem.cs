@@ -13,11 +13,6 @@ public class TestItem : IPickupable
     {
     }
 
-    public override GameObject CreateItem()
-    {
-        throw new NotImplementedException();
-    }
-
     public override string GetName()
     {
         return "Test Object 1";

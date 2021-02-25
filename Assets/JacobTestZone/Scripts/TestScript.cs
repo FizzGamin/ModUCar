@@ -59,11 +59,6 @@ public class TestScript : IItem, IInteractable
         return isEnabled ? ENABLED_TEXT : DISABLED_TEXT;
     }
 
-    public override GameObject CreateItem()
-    {
-        throw new NotImplementedException();
-    }
-
     public override string GetName()
     {
         return "Test Object";
