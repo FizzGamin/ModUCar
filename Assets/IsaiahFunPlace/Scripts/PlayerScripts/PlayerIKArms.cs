@@ -14,7 +14,7 @@ public class PlayerIKArms : MonoBehaviour
     float stepLength = 1.7f;
     float stepHeight = 1.5f;
     //if the foot for some reason goes into the ground, change this offset value
-    //Vector3 footOffset = default;
+    Vector3 armOffset = new Vector3(0, 45, 180);
     float armSpacing;
     Vector3 oldPosition, currentPosition, newPosition;
     Vector3 oldNormal, currentNormal, newNormal;
@@ -25,24 +25,24 @@ public class PlayerIKArms : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.up = Vector3.down;
         //transform.position = armRoot.position;
 
         timeSinceLastMove = 0;
-        armSpacing = -transform.localPosition.x;
+        armSpacing = transform.localPosition.y;
         currentPosition = newPosition = oldPosition = transform.position;
-        currentNormal = newNormal = oldNormal = transform.up;
+        currentNormal = newNormal = oldNormal = armOffset;
+        transform.eulerAngles = armOffset;
         lerp = 1;
     }
-
+    
     // Update is called once per frame
     void Update()
     {
         transform.position = currentPosition;
-        //transform.up = currentNormal + new Vector3(-1, -1, 1);
+        transform.eulerAngles = armOffset;
 
         // create the raycast Ray
-        Ray ray = new Ray(armRoot.position + (armRoot.right * armSpacing), Vector3.down);
+        Ray ray = new Ray(armRoot.position + (armRoot.up * armSpacing), Vector3.down);
 
         // this is where the actual raycast is made, raycast information stored in info. Executes if statement on a successful raycast
         if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
@@ -88,7 +88,7 @@ public class PlayerIKArms : MonoBehaviour
             oldNormal = newNormal;
         }
     }
-
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

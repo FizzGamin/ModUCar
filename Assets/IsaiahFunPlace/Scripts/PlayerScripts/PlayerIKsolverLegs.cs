@@ -14,7 +14,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
     float stepLength = 1.7f;
     float stepHeight = 1.5f;
     //if the foot for some reason goes into the ground, change this offset value
-    Vector3 footOffset = new Vector3(-220f, 90, 0);
+    Vector3 footOffset = new Vector3(-250f, 90, 0);
     float footSpacing;
     Vector3 oldPosition, currentPosition, newPosition;
     Vector3 oldNormal, currentNormal, newNormal;
