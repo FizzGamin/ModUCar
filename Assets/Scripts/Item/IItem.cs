@@ -3,7 +3,10 @@ using UnityEngine;
 
 public abstract class IItem : MonoBehaviour
 {
-    public abstract GameObject CreateItem();
+    public virtual GameObject CreateItem()
+    {
+        return Instantiate(this.gameObject);
+    }
     public abstract string GetName();
     public abstract ItemQuality GetQuality();
     /// <summary>

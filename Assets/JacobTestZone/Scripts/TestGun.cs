@@ -12,10 +12,6 @@ public class TestGun : IPickupable, IEquippable
 
     //Eventually, this item should be held by the player and the position of the laser should depend on the gun
     private Vector3 POS_OFFSET = new Vector3(.5f, -.5f, 1.5f);
-    public override GameObject CreateItem()
-    {
-        throw new System.NotImplementedException();
-    }
 
     public override string GetName()
     {
@@ -41,10 +37,9 @@ public class TestGun : IPickupable, IEquippable
     {
         GameObject playerObj = player.GetGameObject();
         Vector3 forward = playerObj.transform.forward;
-        Vector3 pos = playerObj.transform.position + playerObj.transform.TransformDirection(POS_OFFSET);
-        Vector3 mousePoint = GetMousePoint(playerObj);
+        Vector3 pos = playerObj.transform.position;
 
-        Vector3 fireVector = Quaternion.Euler(Random.Range(SPREAD, -SPREAD), Random.Range(SPREAD, -SPREAD), Random.Range(SPREAD, -SPREAD)) * (mousePoint - pos);
+        Vector3 fireVector = Quaternion.Euler(Random.Range(SPREAD, -SPREAD), Random.Range(SPREAD, -SPREAD), Random.Range(SPREAD, -SPREAD)) * forward;
 
         RaycastHit hit;
         if (Physics.BoxCast(pos, new Vector3(LASER_WIDTH, LASER_WIDTH, LASER_WIDTH), fireVector, out hit, playerObj.transform.rotation, MAX_DIST))
@@ -54,10 +49,10 @@ public class TestGun : IPickupable, IEquippable
             {
                 damageable.TakeDamage(DAMAGE);
             }
-            CreateLaser(pos, hit.point, hit.distance);
+            CreateLaser(pos + playerObj.transform.TransformDirection(POS_OFFSET), hit.point, hit.distance);
         } else
         {
-            CreateLaser(pos, fireVector * MAX_DIST + pos, MAX_DIST);
+            CreateLaser(pos + playerObj.transform.TransformDirection(POS_OFFSET), fireVector * MAX_DIST + pos, MAX_DIST);
         }
     }
 
