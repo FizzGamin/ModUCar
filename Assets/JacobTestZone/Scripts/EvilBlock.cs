@@ -21,7 +21,7 @@ public class EvilBlock : MonoBehaviour, IDamageable
     {
         if (died) {
             //Drop loot
-            GameObject dropped = GameManager.instance.GetLootService().GetItem(ItemQuality.B).CreateItem();
+            GameObject dropped = GameManager.GetLootService().GetItem(ItemQuality.B).CreateItem();
             dropped.transform.position = gameObject.transform.position;
         }
     }

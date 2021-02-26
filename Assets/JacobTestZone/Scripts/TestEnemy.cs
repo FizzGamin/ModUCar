@@ -16,7 +16,7 @@ public class TestEnemy : IEnemy
 
     void Update()
     {
-        navAgent.SetDestination(GameManager.instance.GetPlayer().GetGameObject().transform.position);
+        navAgent.SetDestination(GameManager.GetPlayer().GetGameObject().transform.position);
     }
 
     public override void TakeDamage(float damage)

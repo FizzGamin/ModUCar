@@ -13,6 +13,8 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
     private int currentSelected = 0;
     void Start()
     {
+        GameManager.GetUIManager().SetInventoryUI(this);
+
         List<GameObject> temp = new List<GameObject>();
         foreach (Transform child in transform)
         {
@@ -73,6 +75,6 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
 
     private Sprite GetSpriteByName(string name)
     {
-        return GameManager.instance.GetSpriteService().GetSprite(name);
+        return GameManager.GetSpriteService().GetSprite(name);
     }
 }

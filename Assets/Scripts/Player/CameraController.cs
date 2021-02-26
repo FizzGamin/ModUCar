@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -24,13 +23,17 @@ public class CameraController : MonoBehaviour, IPlayer
     private int slotSelected = 0;
     private bool inventoryChanged = false;
 
+    //This keeps track of whether or not the key-presses made are going to be handled by the camera or by something else, for example, being in menu
+    private bool isControlled = true;
+
     void Start()
     {
-        GameManager.instance.SetPlayer(this);
-        Screen.lockCursor = true;
+        GameManager.SetPlayer(this);
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
         yAngle = transform.eulerAngles.x; //Up and down is somehow x but whatever
         interactionHud = GameObject.Find(INTERACTION_HUD_NAME).GetComponent<Text>();
-        inventoryUI = GameObject.Find(INVENTORY_UI_NAME).GetComponent<InventoryUI>();
+        inventoryUI = GameManager.GetUIManager().GetInventoryUI();
         inventory = new IItem[INVENTORY_SIZE];
         
     }
@@ -50,8 +53,7 @@ public class CameraController : MonoBehaviour, IPlayer
         //DEBUG
         if (Input.GetKeyDown("e"))
         {
-            GameManager g = GameManager.instance;
-            LootService s = g.GetLootService();
+            LootService s = GameManager.GetLootService();
             s.TestItemGeneration(ItemQuality.B, 100000);
         }
     }
@@ -227,5 +229,10 @@ public class CameraController : MonoBehaviour, IPlayer
     public GameObject GetGameObject()
     {
         return gameObject;
+    }
+
+    public void PassControl()
+    {
+        isControlled = true;
     }
 }

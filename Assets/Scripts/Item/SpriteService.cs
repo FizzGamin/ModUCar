@@ -8,7 +8,7 @@ public class SpriteService : UnitySingleton<SpriteService>
     Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
     void Start()
     {
-        GameManager.instance.SetSpriteService(this);
+        GameManager.SetSpriteService(this);
 
         //Init sprites
         Texture2D[] textures = Resources.LoadAll("Sprites", typeof(Texture2D)).Cast<Texture2D>().ToArray();

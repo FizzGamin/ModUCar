@@ -1,42 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditorInternal;
-using UnityEngine;
-
 public class GameManager : UnitySingleton<GameManager>
 {
     private IPlayer player;
     private LootService lootService;
     private SpriteService spriteService;
+    private UIManager uiManager;
 
-    public void SetPlayer(IPlayer player)
+    public static void SetPlayer(IPlayer player)
     {
-        this.player = player;
+        instance.player = player;
     }
 
-    public IPlayer GetPlayer()
+    public static IPlayer GetPlayer()
     {
-        return player;
+        return instance.player;
     }
 
-    public void SetLootService(LootService lootService)
+    public static void SetLootService(LootService lootService)
     {
-        this.lootService = lootService;
+        instance.lootService = lootService;
     }
 
-    public LootService GetLootService()
+    public static LootService GetLootService()
     {
-        return lootService;
+        return instance.lootService;
     }
 
-    public void SetSpriteService(SpriteService spriteService)
+    public static void SetSpriteService(SpriteService spriteService)
     {
-        this.spriteService = spriteService;
+        instance.spriteService = spriteService;
     }
 
-    public SpriteService GetSpriteService()
+    public static SpriteService GetSpriteService()
     {
-        return spriteService;
+        return instance.spriteService;
+    }
+
+    public static void SetUIManager(UIManager uiManager)
+    {
+        instance.uiManager = uiManager;
+    }
+
+    public static UIManager GetUIManager()
+    {
+        return instance.uiManager;
     }
 }
