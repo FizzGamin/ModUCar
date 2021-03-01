@@ -13,7 +13,7 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
     private int currentSelected = 0;
     void Start()
     {
-        GameManager.GetUIManager().SetInventoryUI(this);
+        UIManager.SetInventoryUI(this);
 
         List<GameObject> temp = new List<GameObject>();
         foreach (Transform child in transform)

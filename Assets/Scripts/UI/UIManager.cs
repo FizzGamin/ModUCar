@@ -5,18 +5,36 @@ using UnityEngine;
 public class UIManager : UnitySingleton<UIManager>
 {
     private InventoryUI inventoryUI;
-    private void Start()
+    private PauseMenuUI pauseMenuUI;
+    private InteractionHud interactionHud;
+
+    public static InventoryUI GetInventoryUI()
     {
-        GameManager.SetUIManager(this);
+        return instance.inventoryUI;
     }
 
-    public InventoryUI GetInventoryUI()
+    public static void SetInventoryUI(InventoryUI inventoryUI)
     {
-        return inventoryUI;
+        instance.inventoryUI = inventoryUI;
     }
 
-    public void SetInventoryUI(InventoryUI inventoryUI)
+    public static PauseMenuUI GetPauseMenuUI()
     {
-        this.inventoryUI = inventoryUI;
+        return instance.pauseMenuUI;
+    }
+
+    public static void SetPauseMenuUI(PauseMenuUI pauseMenuUI)
+    {
+        instance.pauseMenuUI = pauseMenuUI;
+    }
+
+    public static InteractionHud GetInteractionHud()
+    {
+        return instance.interactionHud;
+    }
+
+    public static void SetInteractionHud(InteractionHud interactionHud)
+    {
+        instance.interactionHud = interactionHud;
     }
 }

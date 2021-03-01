@@ -6,8 +6,6 @@ public class CameraController : MonoBehaviour, IPlayer
 {
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
-    private const string INTERACTION_HUD_NAME = "InteractionHud";
-    private const string INVENTORY_UI_NAME = "InventoryBar";
     private const int INVENTORY_SIZE = 3;
 
     public float speed = 10;
@@ -16,8 +14,9 @@ public class CameraController : MonoBehaviour, IPlayer
     public float dropDistance = 2;
 
     private float yAngle;
-    private Text interactionHud;
+    private InteractionHud interactionHud;
     private InventoryUI inventoryUI;
+    private PauseMenuUI pauseMenuUI;
     private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     private IItem[] inventory;
     private int slotSelected = 0;
@@ -32,29 +31,25 @@ public class CameraController : MonoBehaviour, IPlayer
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
         yAngle = transform.eulerAngles.x; //Up and down is somehow x but whatever
-        interactionHud = GameObject.Find(INTERACTION_HUD_NAME).GetComponent<Text>();
-        inventoryUI = GameManager.GetUIManager().GetInventoryUI();
+        interactionHud = UIManager.GetInteractionHud();
+        inventoryUI = UIManager.GetInventoryUI();
         inventory = new IItem[INVENTORY_SIZE];
-        
+        pauseMenuUI = UIManager.GetPauseMenuUI();
     }
 
     void Update()
     {
-        HandleInteraction();
-        HandleUse();
-        HandleMovement();
-        HandleInventoryKeys();
-
-        if (inventoryChanged)
+        if (isControlled)
         {
-            InventoryUpdated();
-        }
+            HandleInteraction();
+            HandleUse();
+            HandleMovement();
+            HandleInventoryKeys();
 
-        //DEBUG
-        if (Input.GetKeyDown("e"))
-        {
-            LootService s = GameManager.GetLootService();
-            s.TestItemGeneration(ItemQuality.B, 100000);
+            if (inventoryChanged)
+            {
+                InventoryUpdated();
+            }
         }
     }
 
@@ -118,7 +113,7 @@ public class CameraController : MonoBehaviour, IPlayer
             {
                 //We are likely going to want this to be asynchronous in the future
                 interactable.Interact(this);
-                interactionHud.text = "(F) " + interactable.GetInteractionText();
+                interactionHud.Enable("(F) " + interactable.GetInteractionText());
             }
         }
 
@@ -132,21 +127,18 @@ public class CameraController : MonoBehaviour, IPlayer
                 IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
-                    interactionHud.text = "(F) " + interactable.GetInteractionText();
-                    interactionHud.enabled = true;
+                    interactionHud.Enable("(F) " + interactable.GetInteractionText());
                 }
                 else
                 {
-                    interactionHud.text = "";
-                    interactionHud.enabled = false;
+                    interactionHud.Disable();
                 }
             }
         }
         else
         {
             prevLookedAt = null;
-            interactionHud.text = "";
-            interactionHud.enabled = false;
+            interactionHud.Disable();
         }
     }
 

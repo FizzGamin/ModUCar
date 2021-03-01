@@ -3,7 +3,6 @@ public class GameManager : UnitySingleton<GameManager>
     private IPlayer player;
     private LootService lootService;
     private SpriteService spriteService;
-    private UIManager uiManager;
 
     public static void SetPlayer(IPlayer player)
     {
@@ -33,15 +32,5 @@ public class GameManager : UnitySingleton<GameManager>
     public static SpriteService GetSpriteService()
     {
         return instance.spriteService;
-    }
-
-    public static void SetUIManager(UIManager uiManager)
-    {
-        instance.uiManager = uiManager;
-    }
-
-    public static UIManager GetUIManager()
-    {
-        return instance.uiManager;
     }
 }
