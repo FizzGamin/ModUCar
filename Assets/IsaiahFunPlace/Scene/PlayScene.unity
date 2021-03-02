@@ -795,7 +795,7 @@ PrefabInstance:
     - target: {fileID: 6504095525924704106, guid: 6d0feffd0dcb46c418d35b906bd7c7ef,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6504095525924704106, guid: 6d0feffd0dcb46c418d35b906bd7c7ef,
         type: 3}
@@ -1486,27 +1486,27 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1019279839}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.69
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 36.87
+      value: -4.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
@@ -1516,7 +1516,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e0976ce5b840334795d1f6b943da375,
         type: 3}
@@ -3735,40 +3735,6 @@ MonoBehaviour:
   - {fileID: 345063745}
   - {fileID: 345063746}
   - {fileID: 345063766}
---- !u!195 &345063771
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345063711}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 3.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: -4.7
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &345063772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345063711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97a01803f97c0e244bee472e0507dcf1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &350474453 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4288087103742750515, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -3849,12 +3815,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353574876}
-  m_LocalRotation: {x: -0.21817449, y: 0.4828539, z: 0.12640676, w: 0.838614}
-  m_LocalPosition: {x: -72.23475, y: 32.186527, z: 13.142361}
+  m_LocalRotation: {x: 0.10267608, y: -0.7495609, z: -0.11909574, w: -0.642987}
+  m_LocalPosition: {x: 47.55372, y: 47.92093, z: 58.344067}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!45 &353574879
 Skybox:
@@ -4765,7 +4731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 438030222}
-  - component: {fileID: 438030223}
+  - component: {fileID: 438030224}
   m_Layer: 0
   m_Name: Leg4L target
   m_TagString: Untagged
@@ -4787,7 +4753,7 @@ Transform:
   m_Father: {fileID: 879968046}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &438030223
+--- !u!114 &438030224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4796,7 +4762,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 438030221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e7faf4ce661f1744a1464fa8eb98228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainLayer:
@@ -4804,7 +4770,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063726}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 1091737513}
+  otherFoot: {fileID: 1982033248}
 --- !u!1 &441726927
 GameObject:
   m_ObjectHideFlags: 0
@@ -4942,6 +4908,8 @@ GameObject:
   - component: {fileID: 475279011}
   - component: {fileID: 475279010}
   - component: {fileID: 475279009}
+  - component: {fileID: 475279014}
+  - component: {fileID: 475279013}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -5023,8 +4991,52 @@ Transform:
   m_LocalScale: {x: 2, y: 29.444, z: 12.0216}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -57.785}
+--- !u!154 &475279013
+TerrainCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475279008}
+  m_Material: {fileID: 0}
+  m_Enabled: 1
+  m_TerrainData: {fileID: 0}
+  m_EnableTreeColliders: 1
+--- !u!218 &475279014
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475279008}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_TerrainData: {fileID: 0}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 0}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ScaleInLightmap: 1
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 0
 --- !u!4 &479550920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1128513836738396932, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -5467,7 +5479,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 628635407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Script: {fileID: 11500000, guid: 55f29720c7200894f9f6876be685cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainLayer:
@@ -5475,7 +5487,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063753}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 1680890386}
+  otherFoot: {fileID: 684757506}
 --- !u!4 &634310497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2890138656511364105, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -5590,7 +5602,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063716}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 930655080}
+  otherFoot: {fileID: 628635409}
 --- !u!4 &691859180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2675936845010596086, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -6727,7 +6739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 920245798}
-  - component: {fileID: 920245799}
+  - component: {fileID: 920245800}
   m_Layer: 0
   m_Name: Leg 3R target
   m_TagString: Untagged
@@ -6749,7 +6761,7 @@ Transform:
   m_Father: {fileID: 2107037098}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &920245799
+--- !u!114 &920245800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6758,7 +6770,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 920245797}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e7faf4ce661f1744a1464fa8eb98228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainLayer:
@@ -6766,7 +6778,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063732}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 1982033247}
+  otherFoot: {fileID: 1091737514}
 --- !u!4 &923464478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3296668817624412054, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -6833,7 +6845,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063759}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 684757506}
+  otherFoot: {fileID: 1680890386}
 --- !u!4 &930776912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1019216485476873284, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -8394,6 +8406,73 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1167047880}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1019279836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019279839}
+  - component: {fileID: 1019279838}
+  - component: {fileID: 1019279837}
+  m_Layer: 0
+  m_Name: SpiderNav
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1019279837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019279836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a01803f97c0e244bee472e0507dcf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &1019279838
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019279836}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 3
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 3.5
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!4 &1019279839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019279836}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.014149, y: -3.69, z: 41.93}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 345063767}
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1021744862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1632759751195861815, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -8706,7 +8785,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1091737512}
-  - component: {fileID: 1091737513}
+  - component: {fileID: 1091737514}
   m_Layer: 0
   m_Name: Leg 4R target
   m_TagString: Untagged
@@ -8728,7 +8807,7 @@ Transform:
   m_Father: {fileID: 262923111}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1091737513
+--- !u!114 &1091737514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8737,7 +8816,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1091737511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e7faf4ce661f1744a1464fa8eb98228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainLayer:
@@ -8745,7 +8824,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063720}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 438030223}
+  otherFoot: {fileID: 920245800}
 --- !u!4 &1091800513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7031682949463136744, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -9158,7 +9237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: b544816461f324e56a39767fdeb5b114, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: b544816461f324e56a39767fdeb5b114, type: 3}
       propertyPath: m_LocalScale.x
@@ -13742,7 +13821,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1680890384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Script: {fileID: 11500000, guid: 55f29720c7200894f9f6876be685cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainLayer:
@@ -13750,7 +13829,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063747}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 628635409}
+  otherFoot: {fileID: 930655080}
 --- !u!4 &1683444899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6977322144722133213, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,
@@ -15071,7 +15150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1982033246}
-  - component: {fileID: 1982033247}
+  - component: {fileID: 1982033248}
   m_Layer: 0
   m_Name: Leg3L target
   m_TagString: Untagged
@@ -15093,7 +15172,7 @@ Transform:
   m_Father: {fileID: 1966420646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1982033247
+--- !u!114 &1982033248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15102,7 +15181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1982033245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c42c92eb20b8744b42231415496633, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e7faf4ce661f1744a1464fa8eb98228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   terrainLayer:
@@ -15110,7 +15189,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   legRoot: {fileID: 345063738}
   body: {fileID: 345063767}
-  otherFoot: {fileID: 920245799}
+  otherFoot: {fileID: 438030224}
 --- !u!4 &1985405892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1369213521347206585, guid: 6079c2c0ba11c7f468af0a2c0c820bf3,

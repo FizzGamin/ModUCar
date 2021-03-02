@@ -7,8 +7,8 @@ public class SpiderIKSolver : MonoBehaviour
     [SerializeField] LayerMask terrainLayer = default;
     [SerializeField] Transform legRoot = default;
     [SerializeField] Transform body = default;
-    [SerializeField] SpiderIKSolver otherFoot = default;
-    float speed = 3f;
+    [SerializeField] SpiderIKlegsSecond otherFoot = default;
+    float speed = 10f;
     float stepDistance = .2f;
     float stepLength = .2f;
     float stepHeight = .3f;
@@ -21,32 +21,33 @@ public class SpiderIKSolver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        footSpacing = transform.localPosition.x;
+        footSpacing = legRoot.localPosition.x + (System.Math.Sign(legRoot.localPosition.x) * .5f);
         currentPosition = newPosition = oldPosition = transform.position;
-        currentNormal = newNormal = oldNormal = transform.up;
+        currentNormal = newNormal = oldNormal = footOffset;
         lerp = 1;
+        transform.eulerAngles = new Vector3(270, 180, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.position = currentPosition;
-        transform.up = currentNormal;
+        transform.eulerAngles = currentNormal;
 
         // create the raycast Ray
-        Ray ray = new Ray(legRoot.position, Vector3.down);    //legRoot.position + (legRoot.right * footSpacing), Vector3.down);
+        Ray ray = new Ray(legRoot.position + (body.right * footSpacing), Vector3.down);    //legRoot.position + (legRoot.right * footSpacing), Vector3.down);
 
         // this is where the actual raycast is made, raycast information stored in info. Executes if statement on a successful raycast
         if (Physics.Raycast(ray, out RaycastHit info, 5, terrainLayer.value))
         {
             // checks if distance is big enough to move, the other leg is not moving, and this foot is not moving
-            if (Vector3.Distance(newPosition, info.point) > stepDistance /*&& !otherFoot.IsMoving()*/ && lerp >= 1)
+            if (Vector3.Distance(newPosition, info.point) > stepDistance && !otherFoot.IsMoving() && lerp >= 1)
             {
                 lerp = 0;
                 // checks if the leg should be moving forwards or backwards
                 int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
-                newPosition = info.point + (legRoot.forward * stepLength * direction) + footOffset;
-                newNormal = info.normal;
+                newPosition = info.point + (body.up * stepLength * direction);
+                newNormal = info.normal + footOffset;
             }
         }
 
