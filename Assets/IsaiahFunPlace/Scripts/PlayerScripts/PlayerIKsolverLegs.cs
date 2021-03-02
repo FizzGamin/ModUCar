@@ -51,7 +51,18 @@ public class PlayerIKsolverLegs: MonoBehaviour
                 lerp = 0;
                 // checks if the leg should be moving forwards or backwards
                 int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
-                newPosition = info.point + (body.up * stepLength * direction); // + (legRoot.forward * stepLength * direction) + footOffset;
+                int swayDir = 0;
+                if (Input.GetKey(KeyCode.A))
+                {
+                    swayDir = -1;
+                    direction = 0;
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    swayDir = 1;
+                    direction = 0;
+                }
+                newPosition = info.point + (body.up * stepLength * direction) + (body.right * stepLength * swayDir); // + (legRoot.forward * stepLength * direction) + footOffset;
                 newNormal = info.normal + footOffset;
                 legReset = false;
             }
