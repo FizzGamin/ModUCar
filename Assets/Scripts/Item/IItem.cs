@@ -4,7 +4,7 @@ public abstract class IItem : MonoBehaviour
 {
     public virtual GameObject CreateItem()
     {
-        return Instantiate(this.gameObject);
+        return Instantiate(gameObject);
     }
     public abstract string GetName();
     public abstract ItemQuality GetQuality();

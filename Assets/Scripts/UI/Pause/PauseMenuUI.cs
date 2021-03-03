@@ -1,4 +1,4 @@
-public interface PauseMenuUI
+public interface PauseMenuUI : ToggleableUI
 {
-    public void Open();
+
 }

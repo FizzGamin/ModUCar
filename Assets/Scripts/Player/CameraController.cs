@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour, IPlayer
 
     //This keeps track of whether or not the key-presses made are going to be handled by the camera or by something else, for example, being in menu
     private bool isControlled = true;
+    private ToggleableUI currentlyOpen = null;
 
     void Start()
     {
@@ -39,6 +40,8 @@ public class CameraController : MonoBehaviour, IPlayer
 
     void Update()
     {
+        HandleEscape();
+
         if (isControlled)
         {
             HandleInteraction();
@@ -159,6 +162,26 @@ public class CameraController : MonoBehaviour, IPlayer
         }
     }
 
+    private void HandleEscape()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isControlled)
+            {
+                isControlled = false;
+                UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+                UnityEngine.Cursor.visible = true;
+                currentlyOpen = pauseMenuUI;
+                pauseMenuUI.Open();
+            } else
+            {
+                currentlyOpen.Close();
+                currentlyOpen = null;
+                PassControl();
+            }
+        }
+    }
+
     private void DropCurrentItem()
     {
         if (inventory[slotSelected] == null) return;
@@ -225,6 +248,8 @@ public class CameraController : MonoBehaviour, IPlayer
 
     public void PassControl()
     {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.visible = false;
         isControlled = true;
     }
 }

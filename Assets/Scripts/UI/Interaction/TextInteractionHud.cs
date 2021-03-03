@@ -11,13 +11,13 @@ public class TextInteractionHud : MonoBehaviour, InteractionHud
     }
     public void Disable()
     {
-        interactionText.text = null;
+        interactionText.text = "";
         gameObject.SetActive(false);
     }
 
     public void Enable(string text)
     {
-        if (!gameObject.activeInHierarchy)
+        if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
         }
