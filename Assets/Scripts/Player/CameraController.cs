@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour, IPlayer
