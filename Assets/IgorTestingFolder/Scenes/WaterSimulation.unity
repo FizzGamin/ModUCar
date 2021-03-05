@@ -135,8 +135,8 @@ GameObject:
   - component: {fileID: 308026790}
   - component: {fileID: 308026789}
   - component: {fileID: 308026788}
-  - component: {fileID: 308026791}
   - component: {fileID: 308026792}
+  - component: {fileID: 308026791}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -192,7 +192,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308026787}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: bad9473b77cee2e4c81f3860d976ca99, type: 2}
 --- !u!4 &308026790
 Transform:
   m_ObjectHideFlags: 0
@@ -202,12 +202,24 @@ Transform:
   m_GameObject: {fileID: 308026787}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &308026791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308026787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf38d313c77ac840801bc1329c42764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &308026792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,18 +235,6 @@ MonoBehaviour:
   length: 2
   speed: 1
   offset: 0
---- !u!114 &308026792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308026787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf38d313c77ac840801bc1329c42764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1099129118
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +502,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129291895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.36, z: 0}
+  m_LocalPosition: {x: 0, y: 0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -517,7 +517,7 @@ Rigidbody:
   m_GameObject: {fileID: 2129291895}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.01
+  m_Drag: 0.1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -537,5 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 2129291900}
-  depthBeforeSubmerged: 0.1
-  displacementAmount: 3
+  depthBeforeSubmerged: 0.5
+  displacementAmount: 5
+  waterDrag: 1
+  waterAngularDrag: 0.5
