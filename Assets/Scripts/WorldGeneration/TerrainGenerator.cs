@@ -85,6 +85,9 @@ public class TerrainGenerator : MonoBehaviour
                         terrainChunkDictionary.Add(viewedChunkCoord, newChunk);
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         newChunk.Load();
+
+                        //Generate buildings in the chunk
+                        WorldGenerator.instance.SpawnBuilding(new Vector3(100, 0, 100), Quaternion.identity);
                     }
                 }
 

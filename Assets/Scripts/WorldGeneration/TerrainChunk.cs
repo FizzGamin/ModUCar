@@ -9,7 +9,7 @@ public class TerrainChunk
 
     GameObject meshObject;
     Vector2 sampleCentre;
-    Bounds bounds;
+    Bounds bounds { get; set; }
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
@@ -44,6 +44,7 @@ public class TerrainChunk
 
 
         meshObject = new GameObject("Terrain Chunk");
+        meshObject.layer = 7;
         meshRenderer = meshObject.AddComponent<MeshRenderer>();
         meshFilter = meshObject.AddComponent<MeshFilter>();
         meshCollider = meshObject.AddComponent<MeshCollider>();
@@ -64,7 +65,7 @@ public class TerrainChunk
             }
         }
 
-        maxViewDistance = detailLevels[detailLevels.Length - 1].visibleDstThreshold; 
+        maxViewDistance = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
     }
 
     public void Load()
