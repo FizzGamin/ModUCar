@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +9,23 @@ public class WorldGenerator : UnitySingleton<WorldGenerator>
 
     private void Update()
     {
-        Debug.DrawRay(new Vector3(100, 20000, 100), Vector3.down * 40000, Color.red, 7);
+
     }
 
     public void SpawnBuilding(Vector3 pos, Quaternion rot)
     {
-        pos.y = GetLandHeight(pos);
-        GameObject building = Instantiate(smallBuilding, pos, rot);
+        float y = GetLandHeight(pos);
+        GameObject building = Instantiate(smallBuilding, new Vector3(pos.x, y, pos.z), rot);
     }
 
     public float GetLandHeight(Vector3 worldPos)
     {
         RaycastHit hit;
-        int layerMask = 7;
-        worldPos.y = 999999;
-        Physics.Raycast(worldPos, Vector3.down, out hit, Mathf.Infinity, layerMask);
+        Vector3 startPos = new Vector3(worldPos.x, 10000, worldPos.z);
+        Physics.Raycast(startPos, Vector3.down, out hit, 20000f);
         Debug.DrawLine(Vector3.one * 2 + hit.point, Vector3.one * -2 + hit.point);
+        Debug.DrawLine(startPos, hit.point, Color.red, 10000f);
+        Debug.Log(hit.point.y);
         return hit.point.y;
     }
 }
