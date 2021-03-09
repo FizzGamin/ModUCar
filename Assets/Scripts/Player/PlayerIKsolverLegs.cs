@@ -34,8 +34,10 @@ public class PlayerIKsolverLegs: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //need to change direction foot is pointing to the same direction the body is pointing
         transform.position = currentPosition;
-        transform.eulerAngles = currentNormal; 
+        transform.eulerAngles = currentNormal;
+        transform.eulerAngles = new Vector3(currentNormal.x, body.eulerAngles.y, currentNormal.z);
 
         // create the raycast Ray
         Ray ray = new Ray(legRoot.position + (legRoot.right * footSpacing), Vector3.down);
@@ -51,6 +53,9 @@ public class PlayerIKsolverLegs: MonoBehaviour
                 lerp = 0;
                 // checks if the leg should be moving forwards or backwards
                 int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
+                /*int swayDir = 0;
+                if (legRoot.InverseTransformPoint(info.point).x > legRoot.InverseTransformPoint(newPosition).x) swayDir = 1;
+                if (legRoot.InverseTransformPoint(info.point).x < legRoot.InverseTransformPoint(newPosition).x) swayDir = -1;*/
                 int swayDir = 0;
                 if (Input.GetKey(KeyCode.A))
                 {

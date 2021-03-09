@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private IItem[] inventory;
     private int slotSelected = 0;
     private bool inventoryChanged = false;
+    private Rigidbody rb;
 
     //This keeps track of whether or not the key-presses made are going to be handled by the player or by something else, for example, being in menu
     private bool isControlled = true;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         inventoryUI = UIManager.GetInventoryUI();
         inventory = new IItem[INVENTORY_SIZE];
         pauseMenuUI = UIManager.GetPauseMenuUI();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -67,22 +69,23 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void HandleMovement()
     {
+        Vector3 dir = Vector3.zero;
         //The player model is backwards..?
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(transform.forward * -1 * Time.deltaTime * speed);
+            dir -= transform.up;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(transform.right * Time.deltaTime * speed);
+            dir -= transform.right;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(transform.forward * Time.deltaTime * speed);
+            dir += transform.up;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(transform.right * -1 * Time.deltaTime * speed);
+            dir += transform.right;
         }
         if (Input.GetAxis("Mouse X") != 0)
         {
@@ -93,6 +96,7 @@ public class PlayerController : MonoBehaviour, IPlayer
             yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * sensitivity * -1, Y_ANGLE_MIN, Y_ANGLE_MAX);
             playerCamera.transform.eulerAngles = new Vector3(yAngle, playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
         }
+        rb.MovePosition(transform.position + dir * Time.deltaTime * speed);
     }
 
     private void HandleUse()
