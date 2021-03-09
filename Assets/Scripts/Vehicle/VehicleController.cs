@@ -11,7 +11,7 @@ public class VehicleController : MonoBehaviour
     public float vehicleSteeringAngle = 50f;
 
 
-    bool isControlling = true;
+    bool isControlling = false;
 
     private void Start()
     {
@@ -50,6 +50,8 @@ public class VehicleController : MonoBehaviour
         }
     }
 
+
+
     void RunPlayerVehicleControl()
     {
         float driveInfluence = Input.GetAxis("Vertical");
@@ -68,7 +70,7 @@ public class VehicleController : MonoBehaviour
         }
 
         //Break force applied to all wheels
-        if (Input.GetButton("Breaks"))
+        if (Input.GetButton("Brakes"))
         {
             foreach (WheelCollider wc in powerWheelColliders)
             {
