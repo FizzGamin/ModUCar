@@ -23,7 +23,7 @@ public class BasicPauseMenuUI : MonoBehaviour, PauseMenuUI
 
         ResumeButton.onClick.AddListener(Close);
 
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     private Button GetButtonByName(string name)
