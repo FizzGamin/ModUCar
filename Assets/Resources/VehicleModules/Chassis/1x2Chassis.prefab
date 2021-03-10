@@ -60,6 +60,36 @@ Transform:
   m_Father: {fileID: 8474573306305822892}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6796674532432748779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210737470715399719}
+  m_Layer: 0
+  m_Name: CameraCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &210737470715399719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796674532432748779}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 250.10309, y: 100, z: -295.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8474573306305822892}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9137921467838470678
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +131,7 @@ Transform:
   - {fileID: 275456064190563761}
   - {fileID: 6985116747455290624}
   - {fileID: 9220880109063106778}
+  - {fileID: 210737470715399719}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -216,8 +247,10 @@ MonoBehaviour:
   powerWheelColliders:
   - {fileID: 7351366464515073183}
   - {fileID: 8719663697942563141}
+  cameraCenter: {fileID: 6796674532432748779}
   vehiclePower: 1000
   vehicleSteeringAngle: 50
+  cameraDistance: 10
 --- !u!114 &603847176407603088
 MonoBehaviour:
   m_ObjectHideFlags: 0
