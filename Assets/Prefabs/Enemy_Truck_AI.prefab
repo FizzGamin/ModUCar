@@ -90,12 +90,12 @@ WheelCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 473799147086358529}
-  m_Center: {x: -1, y: 0, z: 0}
+  m_Center: {x: -0.5, y: 0, z: 0}
   m_Radius: 1
   m_SuspensionSpring:
-    spring: 20000
-    damper: 5000
-    targetPosition: 0
+    spring: 100000
+    damper: 10000
+    targetPosition: 0.5
   m_SuspensionDistance: 1
   m_ForceAppPointDistance: 1
   m_Mass: 20
@@ -216,12 +216,12 @@ WheelCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2863258440551069105}
-  m_Center: {x: 1, y: 0, z: 0}
+  m_Center: {x: 0.5, y: 0, z: 0}
   m_Radius: 1
   m_SuspensionSpring:
-    spring: 20000
-    damper: 5000
-    targetPosition: 0
+    spring: 100000
+    damper: 10000
+    targetPosition: 0.5
   m_SuspensionDistance: 1
   m_ForceAppPointDistance: 1
   m_Mass: 20
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 3518063147708279227}
   - component: {fileID: 2339643013939162674}
   m_Layer: 0
-  m_Name: EnemyBot_DeathTruck
+  m_Name: Enemy_Truck_AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,6 +373,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f1ad74478f5d047b6d5e4bbb83ef93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
+  player: {fileID: 0}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 128
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 8
+  health: 100
+  walkPointRange: 100
+  timeBetweenAttacks: 5
+  sightRange: 1000
 --- !u!1 &3777494809799471811
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,12 +475,12 @@ WheelCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3777494809799471811}
-  m_Center: {x: -1, y: 0, z: 0}
+  m_Center: {x: -0.5, y: 0, z: 0}
   m_Radius: 1
   m_SuspensionSpring:
-    spring: 20000
-    damper: 5000
-    targetPosition: 0
+    spring: 100000
+    damper: 10000
+    targetPosition: 0.5
   m_SuspensionDistance: 1
   m_ForceAppPointDistance: 1
   m_Mass: 20
@@ -832,12 +844,12 @@ WheelCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4408830788538911026}
-  m_Center: {x: 1, y: 0, z: 0}
+  m_Center: {x: 0.5, y: 0, z: 0}
   m_Radius: 1
   m_SuspensionSpring:
-    spring: 20000
-    damper: 5000
-    targetPosition: 0
+    spring: 100000
+    damper: 10000
+    targetPosition: 0.5
   m_SuspensionDistance: 1
   m_ForceAppPointDistance: 1
   m_Mass: 20
@@ -958,12 +970,12 @@ WheelCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5702319928901436638}
-  m_Center: {x: -1, y: 0, z: 0}
+  m_Center: {x: -0.5, y: 0, z: 0}
   m_Radius: 1
   m_SuspensionSpring:
-    spring: 20000
-    damper: 5000
-    targetPosition: 0
+    spring: 100000
+    damper: 10000
+    targetPosition: 0.5
   m_SuspensionDistance: 1
   m_ForceAppPointDistance: 1
   m_Mass: 20
@@ -1332,12 +1344,12 @@ WheelCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730874004723925824}
-  m_Center: {x: 1, y: 0, z: 0}
+  m_Center: {x: 0.5, y: 0, z: 0}
   m_Radius: 1
   m_SuspensionSpring:
-    spring: 20000
-    damper: 5000
-    targetPosition: 0
+    spring: 100000
+    damper: 10000
+    targetPosition: 0.5
   m_SuspensionDistance: 1
   m_ForceAppPointDistance: 1
   m_Mass: 20
