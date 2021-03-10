@@ -167,9 +167,7 @@ public class CameraController : MonoBehaviour, IPlayer
         {
             if (isControlled)
             {
-                isControlled = false;
-                UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-                UnityEngine.Cursor.visible = true;
+                TakeControl();
                 currentlyOpen = pauseMenuUI;
                 pauseMenuUI.Open();
             } else
@@ -250,5 +248,17 @@ public class CameraController : MonoBehaviour, IPlayer
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
         isControlled = true;
+    }
+
+    public void TakeControl()
+    {
+        isControlled = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.visible = true;
+    }
+
+    public Camera GetCamera()
+    {
+        return gameObject.GetComponent<Camera>();
     }
 }

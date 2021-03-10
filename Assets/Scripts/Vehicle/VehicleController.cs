@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VehicleController : MonoBehaviour
+public class VehicleController : MonoBehaviour, IInteractable
 {
     public List<WheelCollider> steeringWheelColliders;
     public List<WheelCollider> powerWheelColliders;
+    public GameObject cameraCenter;
 
     public float vehiclePower = 10000f;
     public float vehicleSteeringAngle = 50f;
-
+    public float cameraDistance = 10f;
 
     bool isControlling = false;
+    private Camera playerCamera;
 
     private void Start()
     {
@@ -82,11 +84,31 @@ public class VehicleController : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GetOutOfVehicle();
+        }
+
         //DEV MODE FLIP KEY
         if (Input.GetKeyDown(KeyCode.F))
         {
             transform.position += new Vector3(0, 3, 0);
             transform.eulerAngles = Vector3.zero;
         }
+    }
+
+    private void GetOutOfVehicle()
+    {
+        GameManager.GetPlayer().PassControl();
+    }
+
+    public void Interact(IPlayer player)
+    {
+        player.TakeControl();
+    }
+
+    public string GetInteractionText()
+    {
+        return "Get in";
     }
 }

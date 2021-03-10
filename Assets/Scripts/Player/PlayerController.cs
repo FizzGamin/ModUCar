@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour, IPlayer
     private const float Y_ANGLE_MIN = -90;
     private const int INVENTORY_SIZE = 3;
 
-    [SerializeField] public int speed = default;
+    [SerializeField] public int walkSpeed = default;
+    public int sprintSpeed = 500;
     public float sensitivity = 3;
     public float maxInteractDistance = 5;
     public float dropDistance = 2;
 
+    private int speed;
     private float yAngle;
     private Camera playerCamera;
     private InteractionHud interactionHud;
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         inventory = new IItem[INVENTORY_SIZE];
         pauseMenuUI = UIManager.GetPauseMenuUI();
         rb = GetComponent<Rigidbody>();
+        speed = walkSpeed;
     }
 
     void Update()
@@ -70,6 +73,15 @@ public class PlayerController : MonoBehaviour, IPlayer
     private void HandleMovement()
     {
         Vector3 dir = Vector3.zero;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            speed = sprintSpeed;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = walkSpeed;
+        }
         //The player model is backwards..?
         if (Input.GetKey(KeyCode.W))
         {
@@ -96,7 +108,7 @@ public class PlayerController : MonoBehaviour, IPlayer
             yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * sensitivity * -1, Y_ANGLE_MIN, Y_ANGLE_MAX);
             playerCamera.transform.eulerAngles = new Vector3(yAngle, playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
         }
-        rb.MovePosition(transform.position + dir * Time.deltaTime * speed);
+        rb.MovePosition(transform.position + dir.normalized * Time.deltaTime * speed);
     }
 
     private void HandleUse()
@@ -115,7 +127,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         if (Input.GetKeyDown("f") && prevLookedAt != null)
         {
-            IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
+            IInteractable interactable = FindInteractableFromObject(prevLookedAt);
             if (interactable != null)
             {
                 //We are likely going to want this to be asynchronous in the future
@@ -131,7 +143,7 @@ public class PlayerController : MonoBehaviour, IPlayer
             if (hit.transform.gameObject != prevLookedAt)
             {
                 prevLookedAt = hit.transform.gameObject;
-                IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
+                IInteractable interactable = FindInteractableFromObject(prevLookedAt);
                 if (interactable != null)
                 {
                     interactionHud.Enable("(F) " + interactable.GetInteractionText());
@@ -147,6 +159,14 @@ public class PlayerController : MonoBehaviour, IPlayer
             prevLookedAt = null;
             interactionHud.Disable();
         }
+    }
+
+    private IInteractable FindInteractableFromObject(GameObject obj)
+    {
+        IInteractable ret = obj.GetComponent<IInteractable>();
+        if (ret != null) return ret;
+        ret = obj.GetComponentInParent<IInteractable>();
+        return ret;
     }
 
     private void HandleInventoryKeys()
@@ -172,17 +192,18 @@ public class PlayerController : MonoBehaviour, IPlayer
         {
             if (isControlled)
             {
-                isControlled = false;
-                UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-                UnityEngine.Cursor.visible = true;
+                TakeControl();
                 currentlyOpen = pauseMenuUI;
                 pauseMenuUI.Open();
             }
             else
             {
-                currentlyOpen.Close();
-                currentlyOpen = null;
-                PassControl();
+                if (currentlyOpen != null)
+                {
+                    currentlyOpen.Close();
+                    currentlyOpen = null;
+                    PassControl();
+                }
             }
         }
     }
@@ -257,5 +278,20 @@ public class PlayerController : MonoBehaviour, IPlayer
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
         isControlled = true;
+
+        //Set their speed back to normal
+        speed = walkSpeed;
+    }
+
+    public void TakeControl()
+    {
+        isControlled = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.visible = true;
+    }
+
+    public Camera GetCamera()
+    {
+        return playerCamera;
     }
 }
