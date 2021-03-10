@@ -89,7 +89,7 @@ public class TruckAI : IEnemy
         // chasing part
         //agent.SetDestination(player.position);
 
-        transform.LookAt(player); // WILL NEED TO CHANGE THIS. At least inverse it so it is not facing backwards.
+        //transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it only follows the up axis.
 
         if (!hitPlayer) // WILL NEED TO REFACTOR THIS STATEMENT TO CHECK IF THE TRUCK ACTUALLY HIT THE PLAYER
         {
