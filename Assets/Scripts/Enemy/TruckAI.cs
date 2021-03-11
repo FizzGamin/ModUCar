@@ -6,9 +6,9 @@ using UnityEngine.AI;
 public class TruckAI : IEnemy
 {
     public NavMeshAgent agent;
-    public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
-
+    Transform player;
+    
     public float health;
 
     // PATROL

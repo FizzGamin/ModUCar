@@ -479,10 +479,10 @@ GameObject:
   - component: {fileID: 1094866368929512036}
   - component: {fileID: 1094866368929512037}
   - component: {fileID: 1094866368929512038}
-  - component: {fileID: 1094866368929512039}
   - component: {fileID: 1094866368929512032}
+  - component: {fileID: 965422745}
   m_Layer: 0
-  m_Name: Enemy_Truck_AI_blend
+  m_Name: Enemy_Truck_AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -558,24 +558,11 @@ MonoBehaviour:
   - {fileID: 1756195513682929257}
   - {fileID: 832971736447279391}
   - {fileID: 8124952366426806020}
+  cameraCenter: {fileID: 0}
+  cameraOffset: {x: 0, y: 0, z: -10}
   vehiclePower: 2500
   vehicleSteeringAngle: 60
---- !u!114 &1094866368929512039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094866368929512033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78693b2eef47bc3429ac6e5e2406b357, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  naturalFrequency: 10
-  dampingRatio: 0.8
-  forceShift: 0
-  setSuspensionDistance: 1
+  cameraDistance: 10
 --- !u!114 &1094866368929512032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +576,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -599,7 +585,29 @@ MonoBehaviour:
   health: 100
   walkPointRange: 100
   timeBetweenAttacks: 5
-  sightRange: 1000
+  sightRange: 300
+--- !u!195 &965422745
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094866368929512033}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1756195513682929258
 GameObject:
   m_ObjectHideFlags: 0
