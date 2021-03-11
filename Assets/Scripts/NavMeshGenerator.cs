@@ -9,9 +9,13 @@ public class NavMeshGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        surface.BuildNavMesh();
+        Invoke(nameof(CalculateNavMesh), 2);
     }
 
+    private void CalculateNavMesh()
+    {
+        surface.BuildNavMesh();
+    }
     // Update is called once per frame
     void Update()
     {
