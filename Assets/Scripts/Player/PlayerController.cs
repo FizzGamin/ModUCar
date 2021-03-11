@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     private const float Y_ANGLE_MIN = -90;
     private const int INVENTORY_SIZE = 3;
 
-    [SerializeField] public int walkSpeed = default;
-    public int sprintSpeed = 500;
+    public int walkSpeed = 150;
+    public int sprintSpeed = 350;
     public float sensitivity = 3;
     public float maxInteractDistance = 5;
     public float dropDistance = 2;

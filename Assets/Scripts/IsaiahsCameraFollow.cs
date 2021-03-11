@@ -11,7 +11,7 @@ public class IsaiahsCameraFollow : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 desiredPosition = target.position + cameraOffset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothnessSpeed * Time.deltaTime);
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothnessSpeed * Time.deltaTime); //Change Lerp to SmoothDamp
         transform.position = smoothedPosition;
 
         transform.LookAt(target);
