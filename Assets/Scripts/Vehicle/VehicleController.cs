@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +6,18 @@ public class VehicleController : MonoBehaviour, IInteractable
     public List<WheelCollider> steeringWheelColliders;
     public List<WheelCollider> powerWheelColliders;
     public GameObject cameraCenter;
+    public Vector3 cameraOffset = new Vector3(0, 0, -10);
 
     public float vehiclePower = 10000f;
     public float vehicleSteeringAngle = 50f;
     public float cameraDistance = 10f;
 
     bool isControlling = false;
+
+    //Camera related
     private Camera playerCamera;
+    private Transform cameraOriginalParent = null;
+    private Vector3 origCameraOffset = new Vector3(0,0,0);
 
     private void Start()
     {
@@ -99,12 +103,22 @@ public class VehicleController : MonoBehaviour, IInteractable
 
     private void GetOutOfVehicle()
     {
+        isControlling = false;
+        playerCamera.transform.SetParent(cameraOriginalParent);
+        playerCamera.transform.position = origCameraOffset;
         GameManager.GetPlayer().PassControl();
     }
 
     public void Interact(IPlayer player)
     {
+        isControlling = true;
         player.TakeControl();
+        playerCamera = player.GetCamera();
+        cameraOriginalParent = playerCamera.transform.parent;
+        origCameraOffset = playerCamera.transform.localPosition;
+        playerCamera.transform.SetParent(cameraCenter.transform);
+        playerCamera.transform.localPosition = cameraOffset;
+        playerCamera.transform.LookAt(cameraCenter.transform);
     }
 
     public string GetInteractionText()
