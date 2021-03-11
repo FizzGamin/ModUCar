@@ -8,10 +8,12 @@ public class SpiderIKlegsBack : MonoBehaviour
     [SerializeField] Transform legRoot = default;
     [SerializeField] Transform body = default;
     [SerializeField] SpiderIKlegsBack otherFoot = default;
+
     float speed = 10f;
     float stepDistance = .2f;
     float stepLength = .2f;
     float stepHeight = .3f;
+
     Vector3 footOffset = default;
     float footSpacing;
     Vector3 oldPosition, currentPosition, newPosition;
@@ -79,5 +81,21 @@ public class SpiderIKlegsBack : MonoBehaviour
     public bool IsMoving()
     {
         return lerp < 1;
+    }
+
+    public void SpiderChaseSpeed()
+    {
+        speed = 30f;
+        stepDistance = 2f;
+        stepLength = 2f;
+        stepHeight = .3f;
+    }
+
+    public void SpiderPatrolSpeed()
+    {
+        speed = 10f;
+        stepDistance = .2f;
+        stepLength = .2f;
+        stepHeight = .3f;
     }
 }

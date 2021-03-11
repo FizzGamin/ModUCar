@@ -9,7 +9,7 @@ public class NavMeshGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke(nameof(CalculateNavMesh), 2);
+        Invoke(nameof(CalculateNavMesh), 2f);
     }
 
     private void CalculateNavMesh()

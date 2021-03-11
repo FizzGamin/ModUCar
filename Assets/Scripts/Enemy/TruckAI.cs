@@ -50,14 +50,16 @@ public class TruckAI : IEnemy
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
-        //agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // called every frame
     private void Patrol()
     {
         if (!walkPointSet)
-            SearchWalkPoint();
+        {
+            Invoke(nameof(SearchWalkPoint), 1f);
+        }
         if (walkPointSet)
         {
             // add code to look at that point and apply force to go there !!!
@@ -87,9 +89,9 @@ public class TruckAI : IEnemy
     private void AttackPlayer()
     {
         // chasing part
-        //agent.SetDestination(player.position);
+        agent.SetDestination(player.position);
 
-        //transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it only follows the up axis.
+        transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it only follows the up axis.
 
         if (!hitPlayer) // WILL NEED TO REFACTOR THIS STATEMENT TO CHECK IF THE TRUCK ACTUALLY HIT THE PLAYER
         {
