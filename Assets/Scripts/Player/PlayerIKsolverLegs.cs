@@ -8,11 +8,14 @@ public class PlayerIKsolverLegs: MonoBehaviour
     [SerializeField] Transform legRoot = default;
     [SerializeField] Transform body = default;
     [SerializeField] PlayerIKsolverLegs otherFoot = default;
+
+    // CHANGE THESE SETTINGS WHEN RUNNING AND WHEN WALKING
     float speed = 5f;
     //NOTE: stepDistance must be >= stepLength
     float stepDistance = 1.7f;
     float stepLength = 1.7f;
     float stepHeight = 1.5f;
+
     //if the foot for some reason goes into the ground, change this offset value
     Vector3 footOffset = new Vector3(-250f, 90, 0);
     float footSpacing;
@@ -110,5 +113,23 @@ public class PlayerIKsolverLegs: MonoBehaviour
     public bool IsMoving()
     {
         return lerp < 1;
+    }
+
+    public void playerRunning()
+    {
+        speed = 10f;
+        //NOTE: stepDistance must be >= stepLength
+        stepDistance = 3f;
+        stepLength = 3f;
+        stepHeight = 3f;
+    }
+
+    public void playerWalking()
+    {
+        speed = 5f;
+        //NOTE: stepDistance must be >= stepLength
+        stepDistance = 1.7f;
+        stepLength = 1.7f;
+        stepHeight = 1.5f;
     }
 }
