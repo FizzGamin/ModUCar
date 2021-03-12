@@ -5,16 +5,16 @@ public class CameraController : IPlayer
 {
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
-    private const int INVENTORY_SIZE = 3;
 
     public float speed = 10;
     public float sensitivity = 3;
-    public float maxInteractDistance = 5;
     public float dropDistance = 2;
 
+    private Camera playerCamera;
     private float yAngle;
     private InteractionHud interactionHud;
     private InventoryUI inventoryUI;
+    private int inventorySize;
     private PauseMenuUI pauseMenuUI;
     private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     private IItem[] inventory;
@@ -27,26 +27,30 @@ public class CameraController : IPlayer
     void Start()
     {
         GameManager.SetPlayer(this);
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        UnityEngine.Cursor.visible = false;
-        isControlled = true;
-        yAngle = transform.eulerAngles.x; //Up and down is somehow x but whatever
+        this.GiveControl();
+
+        //Camera
+        playerCamera = gameObject.GetComponentInChildren<Camera>();
+        yAngle = playerCamera.transform.eulerAngles.x; // Up and down is somehow x but whatever
+
+        //Interaction
         interactionHud = UIManager.GetInteractionHud();
+
+        //Inventory
         inventoryUI = UIManager.GetInventoryUI();
-        inventory = new IItem[INVENTORY_SIZE];
-        pauseMenuUI = UIManager.GetPauseMenuUI();
+        inventorySize = inventoryUI.GetSize();
+        inventory = new IItem[inventorySize];
     }
 
     void Update()
     {
-        HandlePause();
-
         if (isControlled)
         {
             HandleInteraction();
             HandleUse();
             HandleMovement();
             HandleInventoryKeys();
+            HandlePause();
 
             if (inventoryChanged)
             {
@@ -106,47 +110,9 @@ public class CameraController : IPlayer
         }
     }
 
-    private void HandleInteraction()
-    {
-        if (Input.GetKeyDown("f") && prevLookedAt != null)
-        {
-            IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
-            if (interactable != null)
-            {
-                //We are likely going to want this to be asynchronous in the future
-                interactable.Interact(this);
-                interactionHud.Enable("(F) " + interactable.GetInteractionText());
-            }
-        }
-
-        //Update the currently looked at thing
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxInteractDistance))
-        {
-            if (hit.transform.gameObject != prevLookedAt)
-            {
-                prevLookedAt = hit.transform.gameObject;
-                IInteractable interactable = prevLookedAt.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    interactionHud.Enable("(F) " + interactable.GetInteractionText());
-                }
-                else
-                {
-                    interactionHud.Disable();
-                }
-            }
-        }
-        else
-        {
-            prevLookedAt = null;
-            interactionHud.Disable();
-        }
-    }
-
     private void HandleInventoryKeys()
     {
-        for (int i = 0; i < INVENTORY_SIZE; i++)
+        for (int i = 0; i < inventorySize; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {

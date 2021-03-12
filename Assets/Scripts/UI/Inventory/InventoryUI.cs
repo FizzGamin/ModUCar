@@ -1,4 +1,5 @@
 public interface InventoryUI
 {
-    void UpdateInventory(IItem[] items, int selected);
+    public void UpdateInventory(IItem[] items, int selected);
+    public int GetSize();
 }

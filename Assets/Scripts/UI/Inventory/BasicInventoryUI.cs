@@ -11,6 +11,7 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
     private List<GameObject> slots;
     private Sprite missingSprite;
     private int currentSelected = 0;
+    private const int INVENTORY_SIZE = 3;
     void Start()
     {
         UIManager.SetInventoryUI(this);
@@ -76,5 +77,10 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
     private Sprite GetSpriteByName(string name)
     {
         return GameManager.GetSpriteService().GetSprite(name);
+    }
+
+    public int GetSize()
+    {
+        return 3;
     }
 }

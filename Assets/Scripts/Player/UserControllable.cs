@@ -21,21 +21,9 @@ public abstract class UserControllable : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isControlled)
-            {
-                ReleaseControl();
-                currentlyOpen = UIManager.GetPauseMenuUI();
-                currentlyOpen.Open(this);
-            }
-            else
-            {
-                if (currentlyOpen != null)
-                {
-                    currentlyOpen.Close();
-                    currentlyOpen = null;
-                    this.GiveControl();
-                }
-            }
+            ReleaseControl();
+            currentlyOpen = UIManager.GetPauseMenuUI();
+            currentlyOpen.Open(this);
         }
     }
 }

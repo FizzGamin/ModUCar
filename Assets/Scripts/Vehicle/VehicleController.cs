@@ -118,9 +118,7 @@ public class VehicleController : UserControllable, IInteractable
 
     private void GetOutOfVehicle()
     {
-        isControlling = false;
-        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-        UnityEngine.Cursor.visible = true;
+        this.ReleaseControl();
         playerCamera.transform.SetParent(cameraOriginalParent);
         playerCamera.transform.localPosition = origCameraOffset;
         GameManager.GetPlayer().GiveControl();
@@ -128,10 +126,8 @@ public class VehicleController : UserControllable, IInteractable
 
     public void Interact(IPlayer player)
     {
-        isControlling = true;
         player.ReleaseControl();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        this.GiveControl();
 
         //Move the camera to the car
         playerCamera = player.GetCamera();
@@ -152,11 +148,15 @@ public class VehicleController : UserControllable, IInteractable
 
     public override void GiveControl()
     {
-        throw new System.NotImplementedException();
+        isControlling = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public override void ReleaseControl()
     {
-        throw new System.NotImplementedException();
+        isControlling = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 }

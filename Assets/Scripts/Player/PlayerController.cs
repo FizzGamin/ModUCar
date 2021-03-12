@@ -5,12 +5,10 @@ public class PlayerController : IPlayer
 {
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
-    private const int INVENTORY_SIZE = 3;
 
     public int walkSpeed = 150;
     public int sprintSpeed = 350;
     public float sensitivity = 3;
-    public float maxInteractDistance = 15;
     public float dropDistance = 5;
 
     private int speed;
@@ -18,8 +16,8 @@ public class PlayerController : IPlayer
     private Camera playerCamera;
     private InteractionHud interactionHud;
     private InventoryUI inventoryUI;
-    private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     private IItem[] inventory;
+    private int inventorySize;
     private int slotSelected = 0;
     private bool inventoryChanged = false;
     private Rigidbody rb;
@@ -28,21 +26,26 @@ public class PlayerController : IPlayer
     void Start()
     {
         GameManager.SetPlayer(this);
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        UnityEngine.Cursor.visible = false;
-        isControlled = true;
+        this.GiveControl();
+
+        //Camera
         playerCamera = gameObject.GetComponentInChildren<Camera>();
         yAngle = playerCamera.transform.eulerAngles.x; // Up and down is somehow x but whatever
+
+        //Interaction
         interactionHud = UIManager.GetInteractionHud();
+
+        //Inventory
         inventoryUI = UIManager.GetInventoryUI();
-        inventory = new IItem[INVENTORY_SIZE];
+        inventorySize = inventoryUI.GetSize();
+        inventory = new IItem[inventorySize];
+
         rb = GetComponent<Rigidbody>();
         speed = walkSpeed;
     }
 
     void Update()
     {
-        HandlePause();
 
         if (isControlled)
         {
@@ -50,6 +53,7 @@ public class PlayerController : IPlayer
             HandleUse();
             HandleMovement();
             HandleInventoryKeys();
+            HandlePause();
 
             if (inventoryChanged)
             {
@@ -116,57 +120,9 @@ public class PlayerController : IPlayer
         }
     }
 
-    private void HandleInteraction()
-    {
-        Transform cameraTransform = GetCamera().transform;
-
-        if (Input.GetKeyDown("f") && prevLookedAt != null)
-        {
-            IInteractable interactable = FindInteractableFromObject(prevLookedAt);
-            if (interactable != null)
-            {
-                //We are likely going to want this to be asynchronous in the future
-                interactable.Interact(this);
-                interactionHud.Enable("(F) " + interactable.GetInteractionText());
-            }
-        }
-
-        //Update the currently looked at thing
-        RaycastHit hit;
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxInteractDistance))
-        {
-            if (hit.transform.gameObject != prevLookedAt)
-            {
-                prevLookedAt = hit.transform.gameObject;
-                IInteractable interactable = FindInteractableFromObject(prevLookedAt);
-                if (interactable != null)
-                {
-                    interactionHud.Enable("(F) " + interactable.GetInteractionText());
-                }
-                else
-                {
-                    interactionHud.Disable();
-                }
-            }
-        }
-        else
-        {
-            prevLookedAt = null;
-            interactionHud.Disable();
-        }
-    }
-
-    private IInteractable FindInteractableFromObject(GameObject obj)
-    {
-        IInteractable ret = obj.GetComponent<IInteractable>();
-        if (ret != null) return ret;
-        ret = obj.GetComponentInParent<IInteractable>();
-        return ret;
-    }
-
     private void HandleInventoryKeys()
     {
-        for (int i = 0; i < INVENTORY_SIZE; i++)
+        for (int i = 0; i < inventorySize; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {

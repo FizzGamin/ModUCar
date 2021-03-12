@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BasicPauseMenuUI : MonoBehaviour, PauseMenuUI
+public class BasicPauseMenuUI : PauseMenuUI
 {
     private const string PAUSE_SCREEN_NAME = "PauseScreen";
     private const string RESUME_NAME = "Resume";
@@ -12,7 +13,6 @@ public class BasicPauseMenuUI : MonoBehaviour, PauseMenuUI
     private Button OptionsButton;
     private Button QuitButton;
     private GameObject PauseScreen;
-    private UserControllable controller;
     void Start()
     {
         UIManager.SetPauseMenuUI(this);
@@ -27,21 +27,13 @@ public class BasicPauseMenuUI : MonoBehaviour, PauseMenuUI
         gameObject.SetActive(false);
     }
 
+    void Update()
+    {
+        CloseOnEscape();
+    }
+
     private Button GetButtonByName(string name)
     {
         return PauseScreen.transform.Find(name).GetComponent<Button>();
-    }
-
-    public void Open(UserControllable controller)
-    {
-        gameObject.SetActive(true);
-        this.controller = controller;
-    }
-
-    public void Close()
-    {
-        gameObject.SetActive(false);
-        controller.GiveControl();
-
     }
 }

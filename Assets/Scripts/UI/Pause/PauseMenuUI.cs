@@ -1,4 +1,4 @@
-public interface PauseMenuUI : ToggleableUI
+public abstract class PauseMenuUI : ToggleableUI
 {
 
 }
