@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CameraController : MonoBehaviour, IPlayer
+public class CameraController : IPlayer
 {
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
@@ -22,7 +22,6 @@ public class CameraController : MonoBehaviour, IPlayer
     private bool inventoryChanged = false;
 
     //This keeps track of whether or not the key-presses made are going to be handled by the camera or by something else, for example, being in menu
-    private bool isControlled = true;
     private ToggleableUI currentlyOpen = null;
 
     void Start()
@@ -30,6 +29,7 @@ public class CameraController : MonoBehaviour, IPlayer
         GameManager.SetPlayer(this);
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
+        isControlled = true;
         yAngle = transform.eulerAngles.x; //Up and down is somehow x but whatever
         interactionHud = UIManager.GetInteractionHud();
         inventoryUI = UIManager.GetInventoryUI();
@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour, IPlayer
 
     void Update()
     {
-        HandleEscape();
+        HandlePause();
 
         if (isControlled)
         {
@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour, IPlayer
         }
     }
 
-    public IItem GetItemInInventory(int i)
+    public override IItem GetItemInInventory(int i)
     {
         return inventory[i];
     }
@@ -161,24 +161,6 @@ public class CameraController : MonoBehaviour, IPlayer
         }
     }
 
-    private void HandleEscape()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isControlled)
-            {
-                TakeControl();
-                currentlyOpen = pauseMenuUI;
-                pauseMenuUI.Open();
-            } else
-            {
-                currentlyOpen.Close();
-                currentlyOpen = null;
-                PassControl();
-            }
-        }
-    }
-
     private void DropCurrentItem()
     {
         if (inventory[slotSelected] == null) return;
@@ -199,7 +181,7 @@ public class CameraController : MonoBehaviour, IPlayer
         inventoryChanged = true;
     }
 
-    public bool TakeItem(GameObject item)
+    public override bool TakeItem(GameObject item)
     {
         if (inventory[slotSelected] == null)
         {
@@ -238,26 +220,26 @@ public class CameraController : MonoBehaviour, IPlayer
         }*/
     }
 
-    public GameObject GetGameObject()
+    public override GameObject GetGameObject()
     {
         return gameObject;
     }
 
-    public void PassControl()
+    public override void GiveControl()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
         isControlled = true;
     }
 
-    public void TakeControl()
+    public override void ReleaseControl()
     {
         isControlled = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Confined;
         UnityEngine.Cursor.visible = true;
     }
 
-    public Camera GetCamera()
+    public override Camera GetCamera()
     {
         return gameObject.GetComponent<Camera>();
     }

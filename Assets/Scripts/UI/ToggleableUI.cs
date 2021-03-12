@@ -3,7 +3,7 @@ public interface ToggleableUI
     /// <summary>
     /// Opens the UI and passes control to the UI.
     /// </summary>
-    public void Open();
+    public void Open(UserControllable controller);
 
     /// <summary>
     /// Closes the UI and closes all child UIs opened by this UI, then optionally passes control to the player.

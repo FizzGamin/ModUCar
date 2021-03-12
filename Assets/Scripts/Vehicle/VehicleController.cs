@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VehicleController : MonoBehaviour, IInteractable
+public class VehicleController : UserControllable, IInteractable
 {
     public List<WheelCollider> steeringWheelColliders;
     public List<WheelCollider> powerWheelColliders;
     public GameObject cameraCenter;
-    public Vector3 cameraOffset = new Vector3(0, 0, -10);
 
     public float vehiclePower = 10000f;
     public float vehicleSteeringAngle = 50f;
@@ -17,7 +16,9 @@ public class VehicleController : MonoBehaviour, IInteractable
     //Camera related
     private Camera playerCamera;
     private Transform cameraOriginalParent = null;
-    private Vector3 origCameraOffset = new Vector3(0,0,0);
+    private Vector3 origCameraOffset = Vector3.zero;
+    private Vector3 cameraOffset = new Vector3(0, 10, -25);
+    private float mouseSensitivity = 3;
 
     private void Start()
     {
@@ -53,6 +54,8 @@ public class VehicleController : MonoBehaviour, IInteractable
         if (isControlling)
         {
             RunPlayerVehicleControl();
+            HandleMouseMovement();
+            HandlePause();
         }
     }
 
@@ -101,28 +104,59 @@ public class VehicleController : MonoBehaviour, IInteractable
         }
     }
 
+    private void HandleMouseMovement()
+    {
+        if (Input.GetAxis("Mouse X") != 0)
+        {
+            cameraCenter.transform.eulerAngles = cameraCenter.transform.eulerAngles + new Vector3(0, Input.GetAxis("Mouse X") * mouseSensitivity, 0);
+        }
+        if (Input.GetAxis("Mouse Y") != 0)
+        {
+            cameraCenter.transform.eulerAngles = new Vector3(cameraCenter.transform.eulerAngles.x + Input.GetAxis("Mouse Y") * mouseSensitivity * -1, cameraCenter.transform.eulerAngles.y, cameraCenter.transform.eulerAngles.z);
+        }
+    }
+
     private void GetOutOfVehicle()
     {
         isControlling = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.visible = true;
         playerCamera.transform.SetParent(cameraOriginalParent);
-        playerCamera.transform.position = origCameraOffset;
-        GameManager.GetPlayer().PassControl();
+        playerCamera.transform.localPosition = origCameraOffset;
+        GameManager.GetPlayer().GiveControl();
     }
 
     public void Interact(IPlayer player)
     {
         isControlling = true;
-        player.TakeControl();
+        player.ReleaseControl();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        //Move the camera to the car
         playerCamera = player.GetCamera();
         cameraOriginalParent = playerCamera.transform.parent;
         origCameraOffset = playerCamera.transform.localPosition;
         playerCamera.transform.SetParent(cameraCenter.transform);
         playerCamera.transform.localPosition = cameraOffset;
         playerCamera.transform.LookAt(cameraCenter.transform);
+
+        //Reset orientation of cameraCenter
+        cameraCenter.transform.eulerAngles = Vector3.zero;
     }
 
     public string GetInteractionText()
     {
         return "Get in";
+    }
+
+    public override void GiveControl()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void ReleaseControl()
+    {
+        throw new System.NotImplementedException();
     }
 }

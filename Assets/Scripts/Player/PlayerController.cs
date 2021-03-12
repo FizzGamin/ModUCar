@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PlayerController : MonoBehaviour, IPlayer
+public class PlayerController : IPlayer
 {
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
@@ -12,24 +10,19 @@ public class PlayerController : MonoBehaviour, IPlayer
     public int walkSpeed = 150;
     public int sprintSpeed = 350;
     public float sensitivity = 3;
-    public float maxInteractDistance = 5;
-    public float dropDistance = 2;
+    public float maxInteractDistance = 15;
+    public float dropDistance = 5;
 
     private int speed;
     private float yAngle;
     private Camera playerCamera;
     private InteractionHud interactionHud;
     private InventoryUI inventoryUI;
-    private PauseMenuUI pauseMenuUI;
     private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     private IItem[] inventory;
     private int slotSelected = 0;
     private bool inventoryChanged = false;
     private Rigidbody rb;
-
-    //This keeps track of whether or not the key-presses made are going to be handled by the player or by something else, for example, being in menu
-    private bool isControlled = true;
-    private ToggleableUI currentlyOpen = null;
 
     // Start is called before the first frame update
     void Start()
@@ -37,19 +30,19 @@ public class PlayerController : MonoBehaviour, IPlayer
         GameManager.SetPlayer(this);
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
+        isControlled = true;
         playerCamera = gameObject.GetComponentInChildren<Camera>();
         yAngle = playerCamera.transform.eulerAngles.x; // Up and down is somehow x but whatever
         interactionHud = UIManager.GetInteractionHud();
         inventoryUI = UIManager.GetInventoryUI();
         inventory = new IItem[INVENTORY_SIZE];
-        pauseMenuUI = UIManager.GetPauseMenuUI();
         rb = GetComponent<Rigidbody>();
         speed = walkSpeed;
     }
 
     void Update()
     {
-        HandleEscape();
+        HandlePause();
 
         if (isControlled)
         {
@@ -65,7 +58,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         }
     }
 
-    public IItem GetItemInInventory(int i)
+    public override IItem GetItemInInventory(int i)
     {
         return inventory[i];
     }
@@ -125,6 +118,8 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void HandleInteraction()
     {
+        Transform cameraTransform = GetCamera().transform;
+
         if (Input.GetKeyDown("f") && prevLookedAt != null)
         {
             IInteractable interactable = FindInteractableFromObject(prevLookedAt);
@@ -138,7 +133,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 
         //Update the currently looked at thing
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxInteractDistance))
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxInteractDistance))
         {
             if (hit.transform.gameObject != prevLookedAt)
             {
@@ -186,41 +181,20 @@ public class PlayerController : MonoBehaviour, IPlayer
         }
     }
 
-    private void HandleEscape()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isControlled)
-            {
-                TakeControl();
-                currentlyOpen = pauseMenuUI;
-                pauseMenuUI.Open();
-            }
-            else
-            {
-                if (currentlyOpen != null)
-                {
-                    currentlyOpen.Close();
-                    currentlyOpen = null;
-                    PassControl();
-                }
-            }
-        }
-    }
-
     private void DropCurrentItem()
     {
         if (inventory[slotSelected] == null) return;
 
         RaycastHit hit;
         Vector3 dropPoint;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, dropDistance))
+        Transform cameraTransform = GetCamera().transform;
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, dropDistance, ~(1 >> 3)))
         {
             dropPoint = hit.point;
         }
         else
         {
-            dropPoint = transform.position + transform.forward * dropDistance;
+            dropPoint = cameraTransform.position + cameraTransform.forward * dropDistance;
         }
         IItem cur = inventory[slotSelected];
         cur.gameObject.SetActive(true);
@@ -229,7 +203,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         inventoryChanged = true;
     }
 
-    public bool TakeItem(GameObject item)
+    public override bool TakeItem(GameObject item)
     {
         if (inventory[slotSelected] == null)
         {
@@ -268,12 +242,12 @@ public class PlayerController : MonoBehaviour, IPlayer
         }*/
     }
 
-    public GameObject GetGameObject()
+    public override GameObject GetGameObject()
     {
         return gameObject;
     }
 
-    public void PassControl()
+    public override void GiveControl()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
@@ -283,14 +257,14 @@ public class PlayerController : MonoBehaviour, IPlayer
         speed = walkSpeed;
     }
 
-    public void TakeControl()
+    public override void ReleaseControl()
     {
         isControlled = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Confined;
         UnityEngine.Cursor.visible = true;
     }
 
-    public Camera GetCamera()
+    public override Camera GetCamera()
     {
         return playerCamera;
     }

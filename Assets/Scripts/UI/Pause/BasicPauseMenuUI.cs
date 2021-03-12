@@ -12,6 +12,7 @@ public class BasicPauseMenuUI : MonoBehaviour, PauseMenuUI
     private Button OptionsButton;
     private Button QuitButton;
     private GameObject PauseScreen;
+    private UserControllable controller;
     void Start()
     {
         UIManager.SetPauseMenuUI(this);
@@ -31,14 +32,16 @@ public class BasicPauseMenuUI : MonoBehaviour, PauseMenuUI
         return PauseScreen.transform.Find(name).GetComponent<Button>();
     }
 
-    public void Open()
+    public void Open(UserControllable controller)
     {
         gameObject.SetActive(true);
+        this.controller = controller;
     }
 
     public void Close()
     {
         gameObject.SetActive(false);
-        GameManager.GetPlayer().PassControl();
+        controller.GiveControl();
+
     }
 }

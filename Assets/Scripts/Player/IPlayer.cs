@@ -2,21 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlayer
+public abstract class IPlayer : UserControllable
 {
-    public IItem GetItemInInventory(int i);
-    public bool TakeItem(GameObject item);
-    public GameObject GetGameObject();
+    public abstract IItem GetItemInInventory(int i);
+    public abstract bool TakeItem(GameObject item);
+    public abstract GameObject GetGameObject();
 
-    /// <summary>
-    /// A method to allow communication between the player and other objects that involve key bindings, gives control back to the player
-    /// </summary>
-    public void PassControl();
-
-    /// <summary>
-    /// Allows other scripts to take control from the player
-    /// </summary>
-    public void TakeControl();
-
-    public Camera GetCamera();
+    public abstract Camera GetCamera();
 }
