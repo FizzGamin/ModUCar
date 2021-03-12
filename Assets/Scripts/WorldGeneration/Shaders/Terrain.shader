@@ -56,6 +56,7 @@ Shader "Custom/Terrain"
 				float3 worldPos;
 				float3 worldNormal;
 				float2 uv_MainTex;
+				INTERNAL_DATA
 			};
 
 			half _Glossiness;
@@ -98,8 +99,7 @@ Shader "Custom/Terrain"
 
 				float3 dhA = UnpackDerivativeHeight(tex2D(_DerivHeightMap, uvwA.xy)) * (uvwA.z * finalHeightScale);
 				float3 dhB = UnpackDerivativeHeight(tex2D(_DerivHeightMap, uvwB.xy)) * (uvwB.z * finalHeightScale);
-				o.Normal = o.Normal;
-				normalize(float3(-(dhA.xy + dhB.xy), 1));
+				o.Normal = normalize(float3(-(dhA.xy + dhB.xy), 1));
 
 				fixed4 texA = tex2D(_MainTex, uvwA.xy) * uvwA.z;
 				fixed4 texB = tex2D(_MainTex, uvwB.xy) * uvwB.z;
@@ -114,8 +114,17 @@ Shader "Custom/Terrain"
 			void surf(Input IN, inout SurfaceOutputStandard o)
 			{
 				float heightPercent = inverseLerp(minHeight,maxHeight, IN.worldPos.y);
-				float3 blendAxes = abs(IN.worldNormal);
+				float3 blendAxes = abs(WorldNormalVector(IN, o.Normal));
 				blendAxes /= blendAxes.x + blendAxes.y + blendAxes.z;
+
+				SurfaceOutputStandard oldStandard = o;
+				fixed4 oldValue;
+				oldValue.a = o.Alpha;
+
+				o.Metallic = oldStandard.Metallic;
+				o.Smoothness = oldStandard.Smoothness;
+				o.Normal = oldStandard.Normal;
+
 
 				for (int i = 0; i < layerCount; i++)
 				{
