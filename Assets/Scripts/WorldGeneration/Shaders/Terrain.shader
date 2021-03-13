@@ -85,6 +85,9 @@ Shader "Custom/Terrain"
 
 			void createWaterTexture(Input IN,inout SurfaceOutputStandard o)
 			{
+
+				createWaterTexture(IN, o);
+
 				float3 flow = tex2D(_FlowMap, IN.uv_MainTex).rgb;
 				flow.xy = flow.xy * 2 - 1;
 				flow *= _FlowStrength;
@@ -129,7 +132,7 @@ Shader "Custom/Terrain"
 				for (int i = 0; i < layerCount; i++)
 				{
 					if (i == 0) {
-						createWaterTexture(IN,o);
+						
 					}
 					else {
 						float drawStrength = inverseLerp(-baseBlends[i] / 2 - epsilon, baseBlends[i] / 2, heightPercent - baseStartHeights[i]);
