@@ -44,24 +44,11 @@ Shader "Custom/Terrain"
 
 			UNITY_DECLARE_TEX2DARRAY(baseTextures);
 
-
-
-			#include "Flow.cginc"
-			sampler2D _MainTex, _FlowMap, _DerivHeightMap;
-			float _UJump, _VJump, _Tiling, _Speed, _FlowStrength, _FlowOffset;
-			float _HeightScale, _HeightScaleModulated;
-
 			struct Input
 			{
 				float3 worldPos;
 				float3 worldNormal;
-				float2 uv_MainTex;
-				INTERNAL_DATA
 			};
-
-			half _Glossiness;
-			half _Metallic;
-			fixed4 _Color;
 
 			float inverseLerp(float a, float b, float value)
 			{
@@ -77,72 +64,20 @@ Shader "Custom/Terrain"
 				return xProjection + yProjection + zProjection;
 			}
 
-			float3 UnpackDerivativeHeight(float4 textureData) {
-				float3 dh = textureData.agb;
-				dh.xy = dh.xy * 2 - 1;
-				return dh;
-			}
-
-			void createWaterTexture(Input IN,inout SurfaceOutputStandard o)
-			{
-
-				createWaterTexture(IN, o);
-
-				float3 flow = tex2D(_FlowMap, IN.uv_MainTex).rgb;
-				flow.xy = flow.xy * 2 - 1;
-				flow *= _FlowStrength;
-				float noise = tex2D(_FlowMap, IN.uv_MainTex).a;
-				float time = _Time.y * _Speed + noise;
-				float2 jump = float2(_UJump, _VJump);
-
-				float3 uvwA = FlowUVW(IN.uv_MainTex, flow.xy, jump,_FlowOffset, _Tiling, time, false);
-				float3 uvwB = FlowUVW(IN.uv_MainTex, flow.xy, jump,_FlowOffset, _Tiling, time, true);
-
-				float finalHeightScale = flow.z * _HeightScaleModulated + _HeightScale;
-
-				float3 dhA = UnpackDerivativeHeight(tex2D(_DerivHeightMap, uvwA.xy)) * (uvwA.z * finalHeightScale);
-				float3 dhB = UnpackDerivativeHeight(tex2D(_DerivHeightMap, uvwB.xy)) * (uvwB.z * finalHeightScale);
-				o.Normal = normalize(float3(-(dhA.xy + dhB.xy), 1));
-
-				fixed4 texA = tex2D(_MainTex, uvwA.xy) * uvwA.z;
-				fixed4 texB = tex2D(_MainTex, uvwB.xy) * uvwB.z;
-
-				fixed4 c = (texA + texB) * _Color;
-				o.Albedo = c.rgb;
-				o.Metallic = _Metallic;
-				o.Smoothness = _Glossiness;
-				o.Alpha = c.a;
-			}
-
 			void surf(Input IN, inout SurfaceOutputStandard o)
 			{
 				float heightPercent = inverseLerp(minHeight,maxHeight, IN.worldPos.y);
 				float3 blendAxes = abs(WorldNormalVector(IN, o.Normal));
 				blendAxes /= blendAxes.x + blendAxes.y + blendAxes.z;
 
-				SurfaceOutputStandard oldStandard = o;
-				fixed4 oldValue;
-				oldValue.a = o.Alpha;
-
-				o.Metallic = oldStandard.Metallic;
-				o.Smoothness = oldStandard.Smoothness;
-				o.Normal = oldStandard.Normal;
-
-
 				for (int i = 0; i < layerCount; i++)
 				{
-					if (i == 0) {
-						
-					}
-					else {
-						float drawStrength = inverseLerp(-baseBlends[i] / 2 - epsilon, baseBlends[i] / 2, heightPercent - baseStartHeights[i]);
+					float drawStrength = inverseLerp(-baseBlends[i] / 2 - epsilon, baseBlends[i] / 2, heightPercent - baseStartHeights[i]);
 
-						float3 baseColor = baseColors[i] * baseColorStrength[i];
-						float3 textureColor = triplanar(IN.worldPos, baseTextureScales[i], blendAxes, i) * (1 - baseColorStrength[i]);
+					float3 baseColor = baseColors[i] * baseColorStrength[i];
+					float3 textureColor = triplanar(IN.worldPos, baseTextureScales[i], blendAxes, i) * (1 - baseColorStrength[i]);
 
-						o.Albedo = o.Albedo * (1 - drawStrength) + (baseColor + textureColor) * drawStrength;
-					}
-
+					o.Albedo = o.Albedo * (1 - drawStrength) + (baseColor + textureColor) * drawStrength;
 				}
 
 
