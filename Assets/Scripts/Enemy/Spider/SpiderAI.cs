@@ -104,6 +104,11 @@ public class SpiderAI : IEnemy
         foreach (SpiderIKlegsBack leg in legs3)
             leg.SpiderChaseSpeed();
 
+        // look toward the player
+        float angle = Vector3.Angle(transform.forward, walkPoint);
+        if (angle > 40)
+            transform.LookAt(player.position); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
+
         agent.SetDestination(player.position);
 
         //transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
@@ -123,6 +128,22 @@ public class SpiderAI : IEnemy
     {
         hitPlayer = false;
     }
+
+
+    /*private void GoToPoint(Vector3 destination)
+    {
+        Vector3 direction = transform.TransformDirection(destination);
+
+        float distance = Vector3.Distance(destination, transform.position);
+
+        if (distance > 0.1)
+        {
+            transform.LookAt(destination);
+            //float distanceSpeedBasedModifier = agent.GetSpeedModifier(distance);
+            Vector3 movement = transform.forward * Time.deltaTime;// * distanceSpeedBasedModifier;
+            agent.Move(movement);
+        }
+    }*/
 
 
 

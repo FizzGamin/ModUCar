@@ -62,13 +62,12 @@ public class TruckAI : IEnemy
         }
         if (walkPointSet)
         {
-            // add code to look at that point and apply force to go there !!!
-            
-            agent.SetDestination(walkPoint); // THIS IS WHERE I MIGHT NEED TO CHANGE CODE IF I DO NOT USE A NAVEMESHAGENT
+                // IMPLEMENT CODE FROM THE ATTACKPLAYER METHOD WHEN IT WORKS
+                //agent.SetDestination(walkPoint);
         }
 
-        // check if we have reached the walkPoint
-        Vector3 distToWalkPoint = transform.position - walkPoint;
+            // check if we have reached the walkPoint
+            Vector3 distToWalkPoint = transform.position - walkPoint;
         if (distToWalkPoint.magnitude < 1f)
             walkPointSet = false;
     }
@@ -88,14 +87,27 @@ public class TruckAI : IEnemy
     // called every frame
     private void AttackPlayer()
     {
-        // chasing part
-        agent.SetDestination(player.position);
+        // turn the wheels toward the player
+        // IF THE ANGLE IS WITHIN A CERTAIN DEGREE, THEN THE TRUCK CAN ACCELERATE. 
+        // IF IT IS OUTSIDE THAT RANGE, THE TRUCK SHOULD TURN ITS WHEELS SHARP BUT HAVE A MAXIMUM TURN DEGREE AND NOT ACCELERATE BUT GO AT A CONSTANT SPEED.
+        float angle = Vector3.Angle(transform.forward, player.position); // changed walkPoint to player.position
+        if (angle > 45)
+        {
+            // turn wheels sharply and set speed to something slower
+
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(player.position - transform.position);
+        float str = Mathf.Min(.5f * Time.deltaTime, 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
+        // apply the appropriate speed to the wheels
+        //agent.SetDestination(player.position);
 
         //transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it only follows the up axis.
 
         if (!hitPlayer) // WILL NEED TO REFACTOR THIS STATEMENT TO CHECK IF THE TRUCK ACTUALLY HIT THE PLAYER
         {
-            // add attack code here (the charging attack for the truck). Chase the player until it hits or misses the player !!!
 
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
