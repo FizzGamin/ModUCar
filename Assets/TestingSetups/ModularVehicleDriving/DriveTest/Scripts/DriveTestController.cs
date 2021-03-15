@@ -34,23 +34,27 @@ public class DriveTestController : MonoBehaviour
         DestroyOldCar();
         curCar = Instantiate(_1x1CarPrefab, Vector3.zero, Quaternion.identity);
         CreateCamera();
+        curCar.GetComponent<VehicleController>().GiveControl();
     }
     public void Spawn2x1Car()
     {
         DestroyOldCar();
         curCar = Instantiate(_2x1CarPrefab, Vector3.zero, Quaternion.identity);
         CreateCamera();
+        curCar.GetComponent<VehicleController>().GiveControl();
     }
     public void Spawn3x1Car()
     {
         DestroyOldCar();
         curCar = Instantiate(_3x1CarPrefab, Vector3.zero, Quaternion.identity);
         CreateCamera();
+        curCar.GetComponent<VehicleController>().GiveControl();
     }
     public void Spawn4x1Car()
     {
         DestroyOldCar();
         curCar = Instantiate(_4x1CarPrefab, Vector3.zero, Quaternion.identity);
         CreateCamera();
+        curCar.GetComponent<VehicleController>().GiveControl();
     }
 }
