@@ -19,6 +19,9 @@ public class VehicleController : UserControllable, IInteractable
     private Vector3 origCameraOffset = Vector3.zero;
     private Vector3 cameraOffset = new Vector3(0, 10, -25);
     private float mouseSensitivity = 3;
+    private float yAngle = 0;
+    private const float Y_ANGLE_MAX = 90;
+    private const float Y_ANGLE_MIN = -90;
 
     private void Start()
     {
@@ -112,7 +115,8 @@ public class VehicleController : UserControllable, IInteractable
         }
         if (Input.GetAxis("Mouse Y") != 0)
         {
-            cameraCenter.transform.eulerAngles = new Vector3(cameraCenter.transform.eulerAngles.x + Input.GetAxis("Mouse Y") * mouseSensitivity * -1, cameraCenter.transform.eulerAngles.y, cameraCenter.transform.eulerAngles.z);
+            yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * mouseSensitivity * -1, Y_ANGLE_MIN, Y_ANGLE_MAX);
+            cameraCenter.transform.localEulerAngles = new Vector3(yAngle, cameraCenter.transform.localEulerAngles.y, cameraCenter.transform.localEulerAngles.z);
         }
     }
 
@@ -139,6 +143,7 @@ public class VehicleController : UserControllable, IInteractable
 
         //Reset orientation of cameraCenter
         cameraCenter.transform.eulerAngles = Vector3.zero;
+        yAngle = 0;
     }
 
     public string GetInteractionText()
