@@ -2,9 +2,6 @@ using UnityEngine;
 
 public static class Noise
 {
-
-    public enum NormalizeMode { Local, Global };
-
     public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings, Vector2 sampleCentre)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
@@ -59,22 +56,8 @@ public static class Noise
 
                 noiseMap[x, y] = noiseHeight;
 
-                if (settings.normalizeMode == NormalizeMode.Global)
-                {
-                    float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight / 0.9f);
-                    noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
-                }
-            }
-        }
-
-        if (settings.normalizeMode == NormalizeMode.Local)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                for (int x = 0; x < mapWidth; x++)
-                {
-                    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
-                }
+                float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight / 0.9f);
+                noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
             }
         }
         return noiseMap;
@@ -84,8 +67,6 @@ public static class Noise
 [System.Serializable]
 public class NoiseSettings
 {
-    public Noise.NormalizeMode normalizeMode;
-
     public float scale = 50;
 
     public int octaves = 6;
