@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2552727656829116531}
   - component: {fileID: 8104734879269598321}
   - component: {fileID: 201611796043340520}
+  - component: {fileID: 1445029891}
   m_Layer: 0
   m_Name: Wheel1
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3971333858325457901, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,6 +113,19 @@ WheelCollider:
     m_AsymptoteValue: 3
     m_Stiffness: 4
   m_Enabled: 1
+--- !u!114 &1445029891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201611796043340521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a02af58ccc3b3e42a6379d21357aa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideMultiplier: 1
 --- !u!1 &495922692545176330
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +185,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1663725011304419122, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: aa1dda9f60d9ac840ba00ea8c87d5e76, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -252,7 +266,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1380402831593303576, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 3e6d44c301d8fcb4a831d31116117f66, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -333,7 +347,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2164679301709635381, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 9b8141172467bf9458bc947b5cf2d6dd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -367,6 +381,7 @@ GameObject:
   - component: {fileID: 4494994410201739391}
   - component: {fileID: 2481098800258720557}
   - component: {fileID: 832971736447279391}
+  - component: {fileID: 1117336521}
   m_Layer: 0
   m_Name: Wheel5
   m_TagString: Untagged
@@ -415,7 +430,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3971333858325457901, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -467,6 +482,19 @@ WheelCollider:
     m_AsymptoteValue: 3
     m_Stiffness: 4
   m_Enabled: 1
+--- !u!114 &1117336521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832971736447279384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a02af58ccc3b3e42a6379d21357aa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideMultiplier: 1
 --- !u!1 &1094866368929512033
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,9 +506,7 @@ GameObject:
   - component: {fileID: 322692944595312859}
   - component: {fileID: 1094866368929512036}
   - component: {fileID: 1094866368929512037}
-  - component: {fileID: 1094866368929512038}
   - component: {fileID: 1094866368929512032}
-  - component: {fileID: 965422745}
   m_Layer: 0
   m_Name: Enemy_Truck_AI
   m_TagString: Untagged
@@ -538,31 +564,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10.173187, y: 8.158241, z: 20.92035}
   m_Center: {x: -0.040878296, y: 7.871086, z: -5.645401}
---- !u!114 &1094866368929512038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094866368929512033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d936539e0a9de1d4691f0add9ccac3e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  steeringWheelColliders:
-  - {fileID: 201611796043340520}
-  - {fileID: 4138897333228993497}
-  powerWheelColliders:
-  - {fileID: 6100829455641792666}
-  - {fileID: 1756195513682929257}
-  - {fileID: 832971736447279391}
-  - {fileID: 8124952366426806020}
-  cameraCenter: {fileID: 0}
-  cameraOffset: {x: 0, y: 0, z: -10}
-  vehiclePower: 2500
-  vehicleSteeringAngle: 60
-  cameraDistance: 10
 --- !u!114 &1094866368929512032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,7 +576,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f1ad74478f5d047b6d5e4bbb83ef93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  steeringWheelColliders:
+  - {fileID: 201611796043340520}
+  - {fileID: 4138897333228993497}
+  powerWheelColliders:
+  - {fileID: 6100829455641792666}
+  - {fileID: 1756195513682929257}
+  - {fileID: 832971736447279391}
+  - {fileID: 8124952366426806020}
+  vehiclePower: 10000
+  vehicleSteeringAngle: 50
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
@@ -586,28 +596,6 @@ MonoBehaviour:
   walkPointRange: 100
   timeBetweenAttacks: 5
   sightRange: 300
---- !u!195 &965422745
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094866368929512033}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &1756195513682929258
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +608,7 @@ GameObject:
   - component: {fileID: 8659565736284685146}
   - component: {fileID: 2119639074927043522}
   - component: {fileID: 1756195513682929257}
+  - component: {fileID: 2006443692}
   m_Layer: 0
   m_Name: Wheel4
   m_TagString: Untagged
@@ -668,7 +657,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3971333858325457901, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -720,6 +709,19 @@ WheelCollider:
     m_AsymptoteValue: 3
     m_Stiffness: 4
   m_Enabled: 1
+--- !u!114 &2006443692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756195513682929258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a02af58ccc3b3e42a6379d21357aa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideMultiplier: 1
 --- !u!1 &4138897333228993498
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +734,7 @@ GameObject:
   - component: {fileID: 3344159267742970644}
   - component: {fileID: 8318717355062029473}
   - component: {fileID: 4138897333228993497}
+  - component: {fileID: 1046687707}
   m_Layer: 0
   m_Name: Wheel2
   m_TagString: Untagged
@@ -780,7 +783,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3971333858325457901, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -832,6 +835,19 @@ WheelCollider:
     m_AsymptoteValue: 3
     m_Stiffness: 4
   m_Enabled: 1
+--- !u!114 &1046687707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4138897333228993498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a02af58ccc3b3e42a6379d21357aa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideMultiplier: 1
 --- !u!1 &6100829455641792667
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +860,7 @@ GameObject:
   - component: {fileID: 1685151890420270456}
   - component: {fileID: 407471970135929270}
   - component: {fileID: 6100829455641792666}
+  - component: {fileID: 148761108}
   m_Layer: 0
   m_Name: Wheel3
   m_TagString: Untagged
@@ -892,7 +909,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3971333858325457901, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -944,6 +961,19 @@ WheelCollider:
     m_AsymptoteValue: 3
     m_Stiffness: 4
   m_Enabled: 1
+--- !u!114 &148761108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100829455641792667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a02af58ccc3b3e42a6379d21357aa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideMultiplier: 1
 --- !u!1 &6288073343559745685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1033,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4343661809483039147, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 80da3e8634b7bc048bedea6df13ccd93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1089,7 +1119,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7044976539833778391, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 8108c410fa3a3bf4eb875f60f0c60c87, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1170,7 +1200,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 9176138355883244216, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: fa81236989334f34697b461ee577a338, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1204,6 +1234,7 @@ GameObject:
   - component: {fileID: 4302922839876364563}
   - component: {fileID: 4590096218598172615}
   - component: {fileID: 8124952366426806020}
+  - component: {fileID: 690857727}
   m_Layer: 0
   m_Name: Wheel6
   m_TagString: Untagged
@@ -1252,7 +1283,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3971333858325457901, guid: a515f27cfbc4d5d4bb6e133a4c2be0ab, type: 3}
+  - {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1304,3 +1335,16 @@ WheelCollider:
     m_AsymptoteValue: 3
     m_Stiffness: 4
   m_Enabled: 1
+--- !u!114 &690857727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124952366426806021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a02af58ccc3b3e42a6379d21357aa60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideMultiplier: 1
