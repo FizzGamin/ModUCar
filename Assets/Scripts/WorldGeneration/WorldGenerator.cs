@@ -25,7 +25,6 @@ public class WorldGenerator : UnitySingleton<WorldGenerator>
         Physics.Raycast(startPos, Vector3.down, out hit, 20000f);
         Debug.DrawLine(Vector3.one * 2 + hit.point, Vector3.one * -2 + hit.point);
         Debug.DrawLine(startPos, hit.point, Color.red, 10000f);
-        Debug.Log(hit.point.y);
         return hit.point.y;
     }
 }

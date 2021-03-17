@@ -14,7 +14,6 @@ public class PlayerController : IPlayer
     private int speed;
     private float yAngle;
     private Camera playerCamera;
-    private InteractionHud interactionHud;
     private InventoryUI inventoryUI;
     private IItem[] inventory;
     private int inventorySize;
@@ -31,9 +30,6 @@ public class PlayerController : IPlayer
         //Camera
         playerCamera = gameObject.GetComponentInChildren<Camera>();
         yAngle = playerCamera.transform.eulerAngles.x; // Up and down is somehow x but whatever
-
-        //Interaction
-        interactionHud = UIManager.GetInteractionHud();
 
         //Inventory
         inventoryUI = UIManager.GetInventoryUI();
@@ -223,5 +219,15 @@ public class PlayerController : IPlayer
     public override Camera GetCamera()
     {
         return playerCamera;
+    }
+
+    public override void Sit(GameObject seat)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void GetUp(Vector3 pos)
+    {
+        throw new System.NotImplementedException();
     }
 }

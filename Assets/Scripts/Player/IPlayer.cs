@@ -12,6 +12,9 @@ public abstract class IPlayer : UserControllable
     public abstract bool TakeItem(GameObject item);
     public abstract GameObject GetGameObject();
     public abstract Camera GetCamera();
+    public abstract void Sit(GameObject seat);
+    public abstract void GetUp(Vector3 pos);
+
 
     protected void HandleInteraction()
     {

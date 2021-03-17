@@ -17,7 +17,8 @@ public class VehicleController : UserControllable, IInteractable
     private Camera playerCamera;
     private Transform cameraOriginalParent = null;
     private Vector3 origCameraOffset = Vector3.zero;
-    private Vector3 cameraOffset = new Vector3(0, 10, -25);
+    private Quaternion origCameraRotation = Quaternion.identity;
+    private Vector3 cameraOffset = new Vector3(0, 0, -25);
     private float mouseSensitivity = 3;
     private float yAngle = 0;
     private const float Y_ANGLE_MAX = 90;
@@ -125,6 +126,7 @@ public class VehicleController : UserControllable, IInteractable
         this.ReleaseControl();
         playerCamera.transform.SetParent(cameraOriginalParent);
         playerCamera.transform.localPosition = origCameraOffset;
+        playerCamera.transform.localRotation = origCameraRotation;
         GameManager.GetPlayer().GiveControl();
     }
 
@@ -137,6 +139,7 @@ public class VehicleController : UserControllable, IInteractable
         playerCamera = player.GetCamera();
         cameraOriginalParent = playerCamera.transform.parent;
         origCameraOffset = playerCamera.transform.localPosition;
+        origCameraRotation = playerCamera.transform.localRotation;
         playerCamera.transform.SetParent(cameraCenter.transform);
         playerCamera.transform.localPosition = cameraOffset;
         playerCamera.transform.LookAt(cameraCenter.transform);

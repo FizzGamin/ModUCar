@@ -12,17 +12,11 @@ public class CameraController : IPlayer
 
     private Camera playerCamera;
     private float yAngle;
-    private InteractionHud interactionHud;
     private InventoryUI inventoryUI;
     private int inventorySize;
-    private PauseMenuUI pauseMenuUI;
-    private GameObject prevLookedAt; //This holds the current interactable object being looked at, null if not looking at an interactable
     private IItem[] inventory;
     private int slotSelected = 0;
     private bool inventoryChanged = false;
-
-    //This keeps track of whether or not the key-presses made are going to be handled by the camera or by something else, for example, being in menu
-    private ToggleableUI currentlyOpen = null;
 
     void Start()
     {
@@ -32,9 +26,6 @@ public class CameraController : IPlayer
         //Camera
         playerCamera = gameObject.GetComponentInChildren<Camera>();
         yAngle = playerCamera.transform.eulerAngles.x; // Up and down is somehow x but whatever
-
-        //Interaction
-        interactionHud = UIManager.GetInteractionHud();
 
         //Inventory
         inventoryUI = UIManager.GetInventoryUI();
@@ -208,5 +199,15 @@ public class CameraController : IPlayer
     public override Camera GetCamera()
     {
         return gameObject.GetComponent<Camera>();
+    }
+
+    public override void Sit(GameObject seat)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void GetUp(Vector3 pos)
+    {
+        throw new System.NotImplementedException();
     }
 }
