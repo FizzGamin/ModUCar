@@ -3,6 +3,42 @@ guid: a515f27cfbc4d5d4bb6e133a4c2be0ab
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: canister_Mat
+    second: {fileID: 2100000, guid: 3e6d44c301d8fcb4a831d31116117f66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: in_shades_mat
+    second: {fileID: 2100000, guid: fa81236989334f34697b461ee577a338, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: out_shades_mat
+    second: {fileID: 2100000, guid: 80da3e8634b7bc048bedea6df13ccd93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pipes_mat
+    second: {fileID: 2100000, guid: 9b8141172467bf9458bc947b5cf2d6dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: spikes
+    second: {fileID: 2100000, guid: aa1dda9f60d9ac840ba00ea8c87d5e76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: truck_body
+    second: {fileID: 2100000, guid: 8108c410fa3a3bf4eb875f60f0c60c87, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wheel_mat
+    second: {fileID: 2100000, guid: 0a763991783787f43b01ac86945dc0b3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
