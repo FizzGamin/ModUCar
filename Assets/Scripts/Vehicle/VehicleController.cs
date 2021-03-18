@@ -112,7 +112,7 @@ public class VehicleController : UserControllable, IInteractable
     {
         if (Input.GetAxis("Mouse X") != 0)
         {
-            cameraCenter.transform.eulerAngles = cameraCenter.transform.eulerAngles + new Vector3(0, Input.GetAxis("Mouse X") * mouseSensitivity, 0);
+            cameraCenter.transform.localEulerAngles = cameraCenter.transform.localEulerAngles + new Vector3(0, Input.GetAxis("Mouse X") * mouseSensitivity, 0);
         }
         if (Input.GetAxis("Mouse Y") != 0)
         {
@@ -127,31 +127,44 @@ public class VehicleController : UserControllable, IInteractable
         playerCamera.transform.SetParent(cameraOriginalParent);
         playerCamera.transform.localPosition = origCameraOffset;
         playerCamera.transform.localRotation = origCameraRotation;
+        GameManager.GetPlayer().GetUp(GetControlModule().GetSeat().transform.position);
         GameManager.GetPlayer().GiveControl();
     }
 
     public void Interact(IPlayer player)
     {
-        player.ReleaseControl();
-        this.GiveControl();
+        ControlModule controlModule = GetControlModule();
+        if (controlModule != null)
+        {
+            player.ReleaseControl();
+            this.GiveControl();
 
-        //Move the camera to the car
-        playerCamera = player.GetCamera();
-        cameraOriginalParent = playerCamera.transform.parent;
-        origCameraOffset = playerCamera.transform.localPosition;
-        origCameraRotation = playerCamera.transform.localRotation;
-        playerCamera.transform.SetParent(cameraCenter.transform);
-        playerCamera.transform.localPosition = cameraOffset;
-        playerCamera.transform.LookAt(cameraCenter.transform);
+            //Move the camera to the car
+            playerCamera = player.GetCamera();
+            cameraOriginalParent = playerCamera.transform.parent;
+            origCameraOffset = playerCamera.transform.localPosition;
+            origCameraRotation = playerCamera.transform.localRotation;
+            playerCamera.transform.SetParent(cameraCenter.transform);
+            playerCamera.transform.localPosition = cameraOffset;
+            playerCamera.transform.LookAt(cameraCenter.transform);
+            playerCamera.transform.eulerAngles = new Vector3(playerCamera.transform.eulerAngles.x, playerCamera.transform.eulerAngles.y, transform.eulerAngles.z);
+            player.Sit(controlModule.GetSeat());
 
-        //Reset orientation of cameraCenter
-        cameraCenter.transform.eulerAngles = Vector3.zero;
-        yAngle = 0;
+            //Reset orientation of cameraCenter
+            cameraCenter.transform.eulerAngles = Vector3.zero;
+            yAngle = 0;
+        }
     }
 
     public string GetInteractionText()
     {
-        return "Get in";
+        if (GetControlModule() != null)
+        {
+            return "Get in";
+        } else
+        {
+            return "This vehicle needs a control module!";
+        }
     }
 
     public override void GiveControl()
@@ -166,5 +179,10 @@ public class VehicleController : UserControllable, IInteractable
         isControlling = false;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+    }
+
+    private ControlModule GetControlModule()
+    {
+        return gameObject.GetComponentInChildren<ControlModule>();
     }
 }

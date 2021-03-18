@@ -1,3 +1,4 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,6 +21,7 @@ public class PlayerController : IPlayer
     private int slotSelected = 0;
     private bool inventoryChanged = false;
     private Rigidbody rb;
+    private Vector3 resetRotation = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,7 @@ public class PlayerController : IPlayer
 
         rb = GetComponent<Rigidbody>();
         speed = walkSpeed;
+        resetRotation = transform.eulerAngles;
     }
 
     void Update()
@@ -45,11 +48,11 @@ public class PlayerController : IPlayer
 
         if (isControlled)
         {
-            HandleInteraction();
             HandleUse();
             HandleMovement();
             HandleInventoryKeys();
             HandlePause();
+            HandleInteraction();
 
             if (inventoryChanged)
             {
@@ -223,11 +226,17 @@ public class PlayerController : IPlayer
 
     public override void Sit(GameObject seat)
     {
-        throw new System.NotImplementedException();
+        transform.SetParent(seat.transform);
+        transform.localPosition = Vector3.zero;
+        transform.up = seat.transform.forward * -1;
+        transform.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public override void GetUp(Vector3 pos)
     {
-        throw new System.NotImplementedException();
+        transform.SetParent(null);
+        transform.position = pos + new Vector3(0, 4, 0);
+        transform.GetComponent<Rigidbody>().isKinematic = false;
+        transform.eulerAngles = resetRotation;
     }
 }

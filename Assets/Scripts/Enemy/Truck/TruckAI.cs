@@ -160,7 +160,6 @@ public class TruckAI : IEnemy
             }
             power = vehiclePower / 2;
         }
-        Debug.Log(angle);
         Drive(angle * turnDir, power);
 
         if (!hitPlayer) // WILL NEED TO REFACTOR THIS STATEMENT TO CHECK IF THE TRUCK ACTUALLY HIT THE PLAYER
