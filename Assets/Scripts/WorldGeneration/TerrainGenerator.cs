@@ -87,7 +87,13 @@ public class TerrainGenerator : MonoBehaviour
                         newChunk.Load();
 
                         //Generate buildings in the chunk
-                        WorldGenerator.instance.SpawnBuilding(new Vector3(100, 0, 100), Quaternion.identity);
+                        Random.InitState((int)(newChunk.bounds.center.x + newChunk.bounds.center.z));
+                        GameObject building = WorldGenerator.instance.SpawnBuilding(new Vector3(
+                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.x,
+                                0,
+                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z)
+                            , Quaternion.Euler(0,Random.Range(0,360),0));
+                        building.transform.SetParent(newChunk.GetTerrainObject().transform);
                     }
                 }
 

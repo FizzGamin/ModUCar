@@ -9,7 +9,7 @@ public class TerrainChunk
 
     GameObject meshObject;
     Vector2 sampleCentre;
-    Bounds bounds { get; set; }
+    public Bounds bounds { get; set; }
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
@@ -48,6 +48,7 @@ public class TerrainChunk
         meshRenderer = meshObject.AddComponent<MeshRenderer>();
         meshFilter = meshObject.AddComponent<MeshFilter>();
         meshCollider = meshObject.AddComponent<MeshCollider>();
+        meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
 
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
@@ -159,6 +160,11 @@ public class TerrainChunk
     public bool IsVisible()
     {
         return meshObject.activeSelf;
+    }
+
+    public GameObject GetTerrainObject()
+    {
+        return meshObject;
     }
 
 }

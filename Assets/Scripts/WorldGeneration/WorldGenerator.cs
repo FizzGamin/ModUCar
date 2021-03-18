@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class WorldGenerator : UnitySingleton<WorldGenerator>
 {
-    public GameObject smallBuilding;
+    public List<GameObject> allBuildings;
 
     private void Update()
     {
 
     }
 
-    public void SpawnBuilding(Vector3 pos, Quaternion rot)
+    public GameObject SpawnBuilding(Vector3 pos, Quaternion rot)
     {
         float y = GetLandHeight(pos);
-        GameObject building = Instantiate(smallBuilding, new Vector3(pos.x, y, pos.z), rot);
+        int buildingIndex =  UnityEngine.Random.Range(0, allBuildings.Count);
+        GameObject building = Instantiate(allBuildings[buildingIndex], new Vector3(pos.x, y, pos.z), rot);
+        return building;
     }
 
     public float GetLandHeight(Vector3 worldPos)
