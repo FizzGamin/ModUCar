@@ -3,6 +3,7 @@ public class UIManager : UnitySingleton<UIManager>
     private InventoryUI inventoryUI;
     private PauseMenuUI pauseMenuUI;
     private InteractionHud interactionHud;
+    private InteractionHud vehicleInteractionHud;
 
     public static InventoryUI GetInventoryUI()
     {
@@ -32,5 +33,15 @@ public class UIManager : UnitySingleton<UIManager>
     public static void SetInteractionHud(InteractionHud interactionHud)
     {
         instance.interactionHud = interactionHud;
+    }
+
+    public static InteractionHud GetVehicleInteractionHud()
+    {
+        return instance.vehicleInteractionHud;
+    }
+
+    public static void SetVehicleInteractionHud(VehicleInteractionHud vehicleInteractionHud)
+    {
+        instance.vehicleInteractionHud = vehicleInteractionHud;
     }
 }

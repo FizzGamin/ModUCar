@@ -133,6 +133,11 @@ public class VehicleController : UserControllable, IInteractable
 
     public void Interact(IPlayer player)
     {
+        //Currently does nothing
+    }
+
+    public void GetIn(IPlayer player)
+    {
         ControlModule controlModule = GetControlModule();
         if (controlModule != null)
         {
@@ -158,10 +163,16 @@ public class VehicleController : UserControllable, IInteractable
 
     public string GetInteractionText()
     {
+        return "Open Module Menu";
+    }
+
+    public string GetVehicleInteractionText()
+    {
         if (GetControlModule() != null)
         {
             return "Get in";
-        } else
+        }
+        else
         {
             return "This vehicle needs a control module!";
         }

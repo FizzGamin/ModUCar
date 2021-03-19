@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class TextInteractionHud : MonoBehaviour, InteractionHud
 {
-    private Text interactionText;
+    public Text interactionText;
     void Start()
     {
         UIManager.SetInteractionHud(this);
-        interactionText = gameObject.GetComponent<Text>();
     }
+
     public void Disable()
     {
         interactionText.text = "";

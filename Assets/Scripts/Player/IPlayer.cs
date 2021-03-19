@@ -31,6 +31,16 @@ public abstract class IPlayer : UserControllable
             }
         }
 
+        if (Input.GetKeyDown("e") && prevLookedAt != null)
+        {
+            VehicleController vehicleController = prevLookedAt.GetComponent<VehicleController>();
+            if (vehicleController != null)
+            {
+                vehicleController.GetIn(this);
+                UIManager.GetVehicleInteractionHud().Enable("(F) " + vehicleController.GetVehicleInteractionText());
+            }
+        }
+
         //Update the currently looked at thing
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxInteractDistance))
@@ -38,6 +48,14 @@ public abstract class IPlayer : UserControllable
             if (hit.transform.gameObject != prevLookedAt)
             {
                 prevLookedAt = hit.transform.gameObject;
+                VehicleController vehicleController = prevLookedAt.GetComponent<VehicleController>();
+                if (vehicleController != null)
+                {
+                    UIManager.GetVehicleInteractionHud().Enable("(E) " + vehicleController.GetVehicleInteractionText());
+                } else
+                {
+                    UIManager.GetVehicleInteractionHud().Disable();
+                }
                 IInteractable interactable = FindInteractableFromObject(prevLookedAt);
                 if (interactable != null)
                 {
@@ -53,6 +71,7 @@ public abstract class IPlayer : UserControllable
         {
             prevLookedAt = null;
             UIManager.GetInteractionHud().Disable();
+            UIManager.GetVehicleInteractionHud().Disable();
         }
     }
 

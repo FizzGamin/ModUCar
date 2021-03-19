@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpriteService : UnitySingleton<SpriteService>
 {
+    private const string MISSING_SPRITE_NAME = "MissingSprite";
+
     //Might want to init every sprite and store them
     Dictionary<string, Texture2D> textureDict = new Dictionary<string, Texture2D>();
     void Start()
@@ -22,5 +24,10 @@ public class SpriteService : UnitySingleton<SpriteService>
         if (name == null || !textureDict.ContainsKey(name)) return null;
         Texture2D texture = textureDict[name];
         return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(.5f, .5f));
+    }
+
+    public Sprite GetMissingSprite()
+    {
+        return GetSprite(MISSING_SPRITE_NAME);
     }
 }

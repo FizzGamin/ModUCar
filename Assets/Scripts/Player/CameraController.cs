@@ -13,10 +13,6 @@ public class CameraController : IPlayer
     private Camera playerCamera;
     private float yAngle;
     private InventoryUI inventoryUI;
-    private int inventorySize;
-    private IItem[] inventory;
-    private int slotSelected = 0;
-    private bool inventoryChanged = false;
 
     void Start()
     {
@@ -29,8 +25,6 @@ public class CameraController : IPlayer
 
         //Inventory
         inventoryUI = UIManager.GetInventoryUI();
-        inventorySize = inventoryUI.GetSize();
-        inventory = new IItem[inventorySize];
     }
 
     void Update()
@@ -42,17 +36,12 @@ public class CameraController : IPlayer
             HandleMovement();
             HandleInventoryKeys();
             HandlePause();
-
-            if (inventoryChanged)
-            {
-                InventoryUpdated();
-            }
         }
     }
 
     public override IItem GetItemInInventory(int i)
     {
-        return inventory[i];
+        return inventoryUI.GetItem(i);
     }
 
     private void MoveInDirection(Vector3 vector)
@@ -91,9 +80,9 @@ public class CameraController : IPlayer
 
     private void HandleUse()
     {
-        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && inventory[slotSelected] != null)
+        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && inventoryUI.GetSelectedItem() != null)
         {
-            IEquippable equipped = inventory[slotSelected].GetComponent<IEquippable>();
+            IEquippable equipped = inventoryUI.GetSelectedItem().GetComponent<IEquippable>();
             if (equipped != null)
             {
                 equipped.Use(this);
@@ -103,12 +92,11 @@ public class CameraController : IPlayer
 
     private void HandleInventoryKeys()
     {
-        for (int i = 0; i < inventorySize; i++)
+        for (int i = 0; i < inventoryUI.GetSize(); i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {
-                slotSelected = i;
-                inventoryChanged = true;
+                inventoryUI.Select(i);
             }
         }
 
@@ -120,61 +108,35 @@ public class CameraController : IPlayer
 
     private void DropCurrentItem()
     {
-        if (inventory[slotSelected] == null) return;
+        if (inventoryUI.GetSelectedItem() == null) return;
 
         RaycastHit hit;
         Vector3 dropPoint;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, dropDistance))
+        Transform cameraTransform = GetCamera().transform;
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, dropDistance, ~(1 >> 3)))
         {
             dropPoint = hit.point;
-        } else
-        {
-            dropPoint = transform.position + transform.forward * dropDistance;
         }
-        IItem cur = inventory[slotSelected];
+        else
+        {
+            dropPoint = cameraTransform.position + cameraTransform.forward * dropDistance;
+        }
+        IItem cur = inventoryUI.GetSelectedItem();
         cur.gameObject.SetActive(true);
         cur.transform.position = dropPoint;
-        inventory[slotSelected] = null;
-        inventoryChanged = true;
+        inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), null);
     }
 
     public override bool TakeItem(GameObject item)
     {
-        if (inventory[slotSelected] == null)
+        if (inventoryUI.GetSelectedItem() == null)
         {
             item.SetActive(false);
-            inventory[slotSelected] = item.GetComponent<IItem>();
-            inventoryChanged = true;
+            inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), item.GetComponent<IItem>());
             return true;
         }
 
         return false;
-    }
-
-    private void InventoryUpdated()
-    {
-        inventoryChanged = false;
-        inventoryUI.UpdateInventory(inventory, slotSelected);
-
-        //Temporary inventory viewing code, should only run when the inventory is modified
-        //Will eventually be placed with whatever UI code is necessary
-        /*Debug.Log("Inventory:\n\n");
-        for (int i = 0; i < INVENTORY_SIZE; i++)
-        {
-            string line = "\n[" + i + "]: ";
-            if (inventory[i] != null)
-            {
-                line += inventory[i].GetName();
-            } else+
-            {
-                line += "Empty";
-            }
-            if (slotSelected == i)
-            {
-                line += " <-- SELECTED";
-            }
-            Debug.Log(line + "\n\n");
-        }*/
     }
 
     public override GameObject GetGameObject()

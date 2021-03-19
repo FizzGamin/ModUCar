@@ -6,12 +6,8 @@ using UnityEngine.UI;
 
 public class BasicInventoryUI : MonoBehaviour, InventoryUI
 {
-    private const string MISSING_SPRITE_NAME = "MissingSprite";
-
-    private List<GameObject> slots;
-    private Sprite missingSprite;
-    private int currentSelected = 0;
-    private const int INVENTORY_SIZE = 3;
+    private List<ItemSlot> slots;
+    private int currentlySelected = 0;
     void Start()
     {
         UIManager.SetInventoryUI(this);
@@ -21,66 +17,46 @@ public class BasicInventoryUI : MonoBehaviour, InventoryUI
         {
             temp.Add(child.gameObject);
         }
-        slots = temp.OrderBy(o => o.transform.position.x).ToList();
-        Select(0);
-
-        missingSprite = GetSpriteByName(MISSING_SPRITE_NAME);
-    }
-
-    public void UpdateInventory(IItem[] items, int selected)
-    {
-        if (items.Length != slots.Count)
+        slots = temp.OrderBy(o => o.transform.position.x).ToList().ConvertAll<ItemSlot>((obj) =>
         {
-            throw new ArgumentException("Basic inventory UI holds " + slots.Count + " objects");
-        }
+            return obj.GetComponent<ItemSlot>();
+        });
 
-        for (int i = 0; i < slots.Count; i++)
+        slots[0].Select();
+    }
+
+    public void SetItem(int slot, IItem item)
+    {
+        slots[slot].SetItem(item);
+    }
+
+    public IItem GetItem(int slot)
+    {
+        return slots[slot].GetItem();
+    }
+
+    public void Select(int slot)
+    {
+        if (currentlySelected != slot)
         {
-            Image slotImage = slots[i].GetComponentsInChildren<Image>(true).Where((img) => img.gameObject != slots[i]).First();
-            if (items[i] != null)
-            {
-                Sprite itemSprite = GetSpriteByName(items[i].GetSpriteName());
-                if (itemSprite != null)
-                {
-                    slotImage.sprite = itemSprite;
-                }
-                else
-                {
-                    slotImage.sprite = missingSprite;
-                }
-                slotImage.gameObject.SetActive(true);
-            } else
-            {
-                slotImage.sprite = null;
-                slotImage.gameObject.SetActive(false);
-            }
+            slots[currentlySelected].Deselect();
+            slots[slot].Select();
+            currentlySelected = slot;
         }
-
-        if (currentSelected != selected)
-        {
-            Deselect(currentSelected);
-            Select(selected);
-            currentSelected = selected;
-        }
-    }
-
-    private void Select(int i)
-    {
-        slots[i].transform.localScale = new Vector3(.95f, .95f, .95f);
-    }
-
-    private void Deselect(int i)
-    {
-        slots[i].transform.localScale = new Vector3(.9f, .9f, .9f);
-    }
-
-    private Sprite GetSpriteByName(string name)
-    {
-        return GameManager.GetSpriteService().GetSprite(name);
     }
 
     public int GetSize()
     {
         return 3;
+    }
+
+    public IItem GetSelectedItem()
+    {
+        return slots[currentlySelected].GetItem();
+    }
+
+    public int GetSelectedIndex()
+    {
+        return currentlySelected;
     }
 }
