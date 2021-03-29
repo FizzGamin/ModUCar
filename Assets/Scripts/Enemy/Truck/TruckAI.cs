@@ -88,10 +88,9 @@ public class TruckAI : IEnemy
             Vector3 walkpointPosVector = (new Vector3(walkPoint.x, 0, walkPoint.z)) - transform.position;
             Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
 
-            float angle = Vector3.SignedAngle(truckDirVector, walkpointPosVector, transform.position);
-            //float angle = Vector3.Angle(truckDirVector, walkpointPosVector);
-            //var cross = Vector3.Cross(walkpointPosVector, truckDirVector);
-            //if (cross.y > 0) angle = -angle;
+            float angle = Vector3.Angle(truckDirVector, walkpointPosVector);
+            var cross = Vector3.Cross(walkpointPosVector, truckDirVector);
+            if (cross.y > 0) angle = -angle;
             float turnDir = 1;
             float power = vehiclePower;
             if (angle > MAXTURNANGLE || angle < -MAXTURNANGLE)
