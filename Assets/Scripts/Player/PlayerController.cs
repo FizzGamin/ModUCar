@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,9 +21,18 @@ public class PlayerController : IPlayer
     private Rigidbody rb;
     private Vector3 resetRotation = Vector3.zero;
 
+    public List<PlayerIKsolverLegs> legScripts;
+    public List<PlayerIKArms> armScripts;
+    public List<GameObject> legs;
+    public Transform legRoot;
+    public List<GameObject> arms;
+    public Transform armRoot;
+
+
     // Start is called before the first frame update
     void Start()
     {
+
         GameManager.SetPlayer(this);
         this.GiveControl();
 
@@ -190,6 +201,30 @@ public class PlayerController : IPlayer
         transform.localPosition = Vector3.zero;
         transform.up = seat.transform.forward * -1;
         transform.GetComponent<Rigidbody>().isKinematic = true;
+
+        //disable procedural movement scripts
+        foreach (PlayerIKsolverLegs p in legScripts)
+        {
+            p.Disable();
+        }
+        foreach (PlayerIKArms p in armScripts)
+        {
+            p.Disable();
+        }
+
+        //move legs to driving position
+        int i = -1;
+        foreach (GameObject o in legs)
+        {
+            float footSpacing = 1.5f * i;
+            o.transform.position = new Vector3(legRoot.position.x + footSpacing, legRoot.position.y + 1.8f, legRoot.position.z + 2);
+            i = i * -1;
+        }
+        //move and rotate arms into driving position
+        foreach (GameObject o in arms)
+        {
+
+        }
     }
 
     public override void GetUp(Vector3 pos)
@@ -198,5 +233,18 @@ public class PlayerController : IPlayer
         transform.position = pos + new Vector3(0, 4, 0);
         transform.GetComponent<Rigidbody>().isKinematic = false;
         transform.eulerAngles = resetRotation;
+
+        //enable procedural movement scripts
+        foreach (PlayerIKsolverLegs p in legScripts)
+        {
+            p.Enable();
+        }
+        foreach (PlayerIKArms p in armScripts)
+        {
+            p.Enable();
+        }
+
+        //reset the legs and arm positions somehow??
+
     }
 }

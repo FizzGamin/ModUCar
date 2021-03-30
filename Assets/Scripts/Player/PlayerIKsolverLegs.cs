@@ -24,6 +24,7 @@ public class PlayerIKsolverLegs: MonoBehaviour
     float lerp; // >= 1 means leg is not moving, otherwise it is
     float timeSinceLastMove = 0;
     bool legReset = true;
+    bool active = true;
    
     // Start is called before the first frame update
     void Start()
@@ -37,70 +38,73 @@ public class PlayerIKsolverLegs: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //need to change direction foot is pointing to the same direction the body is pointing
-        transform.position = currentPosition;
-        transform.eulerAngles = currentNormal;
-        transform.eulerAngles = new Vector3(currentNormal.x, body.eulerAngles.y, currentNormal.z);
-
-        // create the raycast Ray
-        Ray ray = new Ray(legRoot.position + (legRoot.right * footSpacing), Vector3.down);
-
-        // this is where the actual raycast is made, raycast information stored in info. Executes if statement on a successful raycast
-        if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
+        if (active == true)
         {
-            timeSinceLastMove = timeSinceLastMove + Time.deltaTime;
-            // checks if distance is big enough to move, the other leg is not moving, and this foot is not moving 
-            if (Vector3.Distance(newPosition, info.point) > stepDistance && !otherFoot.IsMoving() && lerp >= 1)
+            //need to change direction foot is pointing to the same direction the body is pointing
+            transform.position = currentPosition;
+            transform.eulerAngles = currentNormal;
+            transform.eulerAngles = new Vector3(currentNormal.x, body.eulerAngles.y, currentNormal.z);
+
+            // create the raycast Ray
+            Ray ray = new Ray(legRoot.position + (legRoot.right * footSpacing), Vector3.down);
+
+            // this is where the actual raycast is made, raycast information stored in info. Executes if statement on a successful raycast
+            if (Physics.Raycast(ray, out RaycastHit info, 10, terrainLayer.value))
             {
-                timeSinceLastMove = 0;
-                lerp = 0;
-                // checks if the leg should be moving forwards or backwards
-                int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
-                /*int swayDir = 0;
-                if (legRoot.InverseTransformPoint(info.point).x > legRoot.InverseTransformPoint(newPosition).x) swayDir = 1;
-                if (legRoot.InverseTransformPoint(info.point).x < legRoot.InverseTransformPoint(newPosition).x) swayDir = -1;*/
-                int swayDir = 0;
-                if (Input.GetKey(KeyCode.A))
+                timeSinceLastMove = timeSinceLastMove + Time.deltaTime;
+                // checks if distance is big enough to move, the other leg is not moving, and this foot is not moving 
+                if (Vector3.Distance(newPosition, info.point) > stepDistance && !otherFoot.IsMoving() && lerp >= 1)
                 {
-                    swayDir = -1;
-                    direction = 0;
+                    timeSinceLastMove = 0;
+                    lerp = 0;
+                    // checks if the leg should be moving forwards or backwards
+                    int direction = legRoot.InverseTransformPoint(info.point).z > legRoot.InverseTransformPoint(newPosition).z ? 1 : -1;
+                    /*int swayDir = 0;
+                    if (legRoot.InverseTransformPoint(info.point).x > legRoot.InverseTransformPoint(newPosition).x) swayDir = 1;
+                    if (legRoot.InverseTransformPoint(info.point).x < legRoot.InverseTransformPoint(newPosition).x) swayDir = -1;*/
+                    int swayDir = 0;
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        swayDir = -1;
+                        direction = 0;
+                    }
+                    if (Input.GetKey(KeyCode.D))
+                    {
+                        swayDir = 1;
+                        direction = 0;
+                    }
+                    newPosition = info.point + (body.up * stepLength * direction) + (body.right * stepLength * swayDir); // + (legRoot.forward * stepLength * direction) + footOffset;
+                    newNormal = info.normal + footOffset;
+                    legReset = false;
                 }
-                if (Input.GetKey(KeyCode.D))
+                // OR enough time has passed and the foot location is different than the racast location
+                else if (timeSinceLastMove > 0.5 && Vector3.Distance(newPosition, info.point) > 0 && legReset == false)
                 {
-                    swayDir = 1;
-                    direction = 0;
+                    timeSinceLastMove = 0;
+                    lerp = 0;
+                    newPosition = info.point;
+                    newNormal = info.normal + footOffset;
+                    legReset = true;
                 }
-                newPosition = info.point + (body.up * stepLength * direction) + (body.right * stepLength * swayDir); // + (legRoot.forward * stepLength * direction) + footOffset;
-                newNormal = info.normal + footOffset;
-                legReset = false;
             }
-            // OR enough time has passed and the foot location is different than the racast location
-            else if (timeSinceLastMove > 0.5 && Vector3.Distance(newPosition, info.point) > 0 && legReset == false)
+
+            // if we are within our movement cycle
+            if (lerp < 1)
             {
-                timeSinceLastMove = 0;
-                lerp = 0;
-                newPosition = info.point;
-                newNormal = info.normal + footOffset;
-                legReset = true;
+                // interpolates between 2 points, lerp is the percentage of completion.
+                Vector3 tempPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
+                // make an arc in the movement
+                tempPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
+
+                currentPosition = tempPosition;
+                currentNormal = Vector3.Lerp(oldNormal, newNormal, lerp);
+                lerp += Time.deltaTime * speed;
             }
-        }
-
-        // if we are within our movement cycle
-        if (lerp < 1)
-        {
-            // interpolates between 2 points, lerp is the percentage of completion.
-            Vector3 tempPosition = Vector3.Lerp(oldPosition, newPosition, lerp);
-            // make an arc in the movement
-            tempPosition.y += Mathf.Sin(lerp * Mathf.PI) * stepHeight;
-
-            currentPosition = tempPosition;
-            currentNormal = Vector3.Lerp(oldNormal, newNormal, lerp);
-            lerp += Time.deltaTime * speed;
-        }
-        else
-        {
-            oldPosition = newPosition;
-            oldNormal = newNormal;
+            else
+            {
+                oldPosition = newPosition;
+                oldNormal = newNormal;
+            }
         }
     }
 
@@ -131,5 +135,15 @@ public class PlayerIKsolverLegs: MonoBehaviour
         stepDistance = 1.7f;
         stepLength = 1.7f;
         stepHeight = 1.5f;
+    }
+
+    public void Enable()
+    {
+        active = true;
+    }
+
+    public void Disable()
+    {
+        active = false;
     }
 }

@@ -21,6 +21,7 @@ public class PlayerIKArms : MonoBehaviour
     float lerp; // >= 1 means arm is not moving, otherwise it is
     float timeSinceLastMove;
     bool armReset = true;
+    bool active = true;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,8 @@ public class PlayerIKArms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (active == true)
+        {
             transform.position = currentPosition;
             transform.eulerAngles = armOffset;
 
@@ -89,6 +92,7 @@ public class PlayerIKArms : MonoBehaviour
                 oldPosition = newPosition;
                 oldNormal = newNormal;
             }
+        }
     }
     
     private void OnDrawGizmos()
@@ -100,5 +104,15 @@ public class PlayerIKArms : MonoBehaviour
     public bool IsMoving()
     {
         return lerp < 1;
+    }
+
+    public void Enable()
+    {
+        active = true;
+    }
+
+    public void Disable()
+    {
+        active = false;
     }
 }
