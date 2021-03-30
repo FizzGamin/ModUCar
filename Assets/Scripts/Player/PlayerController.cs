@@ -4,7 +4,7 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PlayerController : IPlayer
+public class PlayerController : IPlayer, IDamageable
 {
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
@@ -28,6 +28,16 @@ public class PlayerController : IPlayer
     public List<GameObject> arms;
     public Transform armRoot;
 
+    public float maxHP;
+    private float curHP;
+    public void TakeDamage(float damage)
+    {
+        curHP = curHP - damage;
+        if (curHP <= 0)
+        {
+            //bring up an end/restart screen
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +56,8 @@ public class PlayerController : IPlayer
         rb = GetComponent<Rigidbody>();
         speed = walkSpeed;
         resetRotation = transform.eulerAngles;
+
+        curHP = maxHP;
     }
 
     void Update()
@@ -59,6 +71,11 @@ public class PlayerController : IPlayer
             HandlePause();
             HandleInteraction();
         }
+
+        // Update the Player health bar visual
+        TakeDamage(0.05f); //TEST CODE
+        RectTransform rt = GameObject.Find("Health").GetComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(curHP * 6.4f, 80);
     }
 
     public override IItem GetItemInInventory(int i)
@@ -223,7 +240,11 @@ public class PlayerController : IPlayer
         //move and rotate arms into driving position
         foreach (GameObject o in arms)
         {
-
+            float armSpacing = 1.5f * i;
+            o.transform.position = new Vector3(armRoot.position.x + armSpacing, armRoot.position.y + 0.7f, armRoot.position.z + 3);
+            Vector3 rot = new Vector3(-90, 270, 270);
+            o.transform.rotation = Quaternion.Euler(rot);
+            i = i * -1;
         }
     }
 
@@ -245,6 +266,6 @@ public class PlayerController : IPlayer
         }
 
         //reset the legs and arm positions somehow??
-
+        
     }
 }
