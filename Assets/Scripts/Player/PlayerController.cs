@@ -35,7 +35,7 @@ public class PlayerController : IPlayer, IDamageable
         curHP = curHP - damage;
         if (curHP <= 0)
         {
-            //bring up an end/restart screen
+            //BRING UP AN END/RESTART SCREEN
         }
     }
 
