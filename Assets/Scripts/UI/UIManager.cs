@@ -1,9 +1,16 @@
+using UnityEngine;
+
 public class UIManager : UnitySingleton<UIManager>
 {
     private InventoryUI inventoryUI;
     private PauseMenuUI pauseMenuUI;
     private InteractionHud interactionHud;
     private InteractionHud vehicleInteractionHud;
+
+    public static GameObject GetUIBase()
+    {
+        return instance.gameObject;
+    }
 
     public static InventoryUI GetInventoryUI()
     {

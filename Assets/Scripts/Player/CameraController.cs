@@ -165,11 +165,11 @@ public class CameraController : IPlayer
 
     public override void Sit(GameObject seat)
     {
-        throw new System.NotImplementedException();
+        //Do nothing since just a camera
     }
 
     public override void GetUp(Vector3 pos)
     {
-        throw new System.NotImplementedException();
+        transform.position = pos + new Vector3(0, 4, 0);
     }
 }

@@ -133,7 +133,9 @@ public class VehicleController : UserControllable, IInteractable
 
     public void Interact(IPlayer player)
     {
-        //Currently does nothing
+        player.ReleaseControl();
+        ModuleUI newModuleUI = ModuleUI.CreateModuleUI(3);
+        newModuleUI.Open(player);
     }
 
     public void GetIn(IPlayer player)

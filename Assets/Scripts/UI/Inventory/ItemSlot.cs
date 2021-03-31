@@ -1,10 +1,18 @@
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using System.Reflection;
 
-public class ItemSlot : MonoBehaviour
+public class ItemSlot : MonoBehaviour, IDragHandler
 {
     private IItem currentItem;
+    private Image slotImage;
+
+    public void Start()
+    {
+        slotImage = gameObject.GetComponentsInChildren<Image>(true).Where((img) => img.gameObject != gameObject).First();
+    }
 
     public IItem GetItem()
     {
@@ -14,7 +22,6 @@ public class ItemSlot : MonoBehaviour
     public void SetItem(IItem item)
     {
         currentItem = item;
-        Image slotImage = gameObject.GetComponentsInChildren<Image>(true).Where((img) => img.gameObject != gameObject).First();
         if (item != null)
         {
             Sprite itemSprite = GetSpriteByName(item.GetSpriteName());
@@ -48,5 +55,15 @@ public class ItemSlot : MonoBehaviour
     private Sprite GetSpriteByName(string name)
     {
         return GameManager.GetSpriteService().GetSprite(name);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        slotImage.transform.position = Input.mousePosition;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        slotImage.transform.localPosition = Vector3.zero;
     }
 }
