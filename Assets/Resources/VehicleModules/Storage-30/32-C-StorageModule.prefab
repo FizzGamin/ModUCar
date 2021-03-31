@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6461991807400215257}
   - component: {fileID: 9099923295767361043}
   m_Layer: 0
-  m_Name: C-StorageModule
+  m_Name: 32-C-StorageModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

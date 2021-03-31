@@ -92,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 8267606392924593330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 7130096711970212193}
   - {fileID: 2271662350776952094}
@@ -200,7 +200,7 @@ MonoBehaviour:
   - {fileID: 1647941399780796766}
   - {fileID: 3341774185172422146}
   cameraCenter: {fileID: 6873789376306583936}
-  vehiclePower: 500
+  vehiclePower: 550
   vehicleSteeringAngle: 30
   cameraDistance: 10
 --- !u!114 &-4608020119721493560

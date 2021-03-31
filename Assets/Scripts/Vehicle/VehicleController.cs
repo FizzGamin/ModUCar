@@ -41,9 +41,16 @@ public class VehicleController : UserControllable, IInteractable
     void Update()
     {
         //Reset each wheels break forces and torques back to 0
+        
+            
         foreach (WheelCollider wc in powerWheelColliders)
         {
-            wc.brakeTorque = 0;
+            //IF ther eis no player in car, use breaks
+            if (!isControlling)
+                wc.brakeTorque = vehiclePower * 3;
+            else
+                wc.brakeTorque = 0;
+
             wc.motorTorque = 0;
         }
 

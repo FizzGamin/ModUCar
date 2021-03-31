@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 790212873503367134}
   - component: {fileID: 3248099331949669140}
   m_Layer: 0
-  m_Name: D-StorageModule
+  m_Name: 31-D-StorageModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4681783309412190783}
   m_Layer: 0
-  m_Name: C-FuelTankModule
+  m_Name: 22-C-FuelTankModule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

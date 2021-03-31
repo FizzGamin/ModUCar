@@ -126,7 +126,7 @@ public class PlayerController : IPlayer, IDamageable
         Vector3 newVel = dir.normalized * speed;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector3.up * jumpHeight*5f, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpHeight*rb.mass, ForceMode.Impulse);
         }
 
         rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
