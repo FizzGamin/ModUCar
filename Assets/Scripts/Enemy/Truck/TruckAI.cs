@@ -14,6 +14,7 @@ public class TruckAI : IEnemy
 
     public LayerMask whatIsGround, whatIsPlayer;
     Transform player;
+    GameObject playerObj;
     private static int MAXTURNANGLE = 50;
 
     public float health;
@@ -72,6 +73,7 @@ public class TruckAI : IEnemy
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
+        playerObj = GameObject.Find("Player");
         //driveInfluence = Input.GetAxis("Vertical");
         //steeringInfluence = Input.GetAxis("Horizontal");
     }
@@ -138,9 +140,6 @@ public class TruckAI : IEnemy
         // IF IT IS OUTSIDE THAT RANGE, THE TRUCK SHOULD TURN ITS WHEELS SHARP BUT HAVE A MAXIMUM TURN DEGREE AND NOT ACCELERATE BUT GO AT A CONSTANT SPEED.
         Vector3 playerPosVector = (new Vector3(player.position.x, 0, player.position.z)) - transform.position;
         Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
-
-        Debug.DrawLine(Vector3.zero, playerPosVector, Color.green, 10f);
-        Debug.DrawLine(Vector3.zero, truckDirVector, Color.red, 10f);
         
         float angle = Vector3.Angle(truckDirVector, playerPosVector);
         var cross = Vector3.Cross(playerPosVector, truckDirVector);
@@ -162,20 +161,37 @@ public class TruckAI : IEnemy
             power = vehiclePower / 2;
         }
         Drive(angle * turnDir, power);
+    }
 
-        if (!hitPlayer) // WILL NEED TO REFACTOR THIS STATEMENT TO CHECK IF THE TRUCK ACTUALLY HIT THE PLAYER
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("You have been hit by " + this.name);
+
+        if (other.gameObject.name == "Player" && !hitPlayer)
         {
-
+            playerObj.GetComponent<PlayerController>().TakeDamage(10);
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
+        if (other.gameObject.tag == "Enemy")
+        {
+            if (other.gameObject.name == "Enemy_Spider")
+            {
+                other.transform.parent.GetComponent<SpiderAI>().TakeDamage(10);
+                hitPlayer = true;
+                Invoke(nameof(ResetAttack), 0.5f);
+            }
+        }
+        /*
+        if (!hitPlayer)
+        {
+            playerObj.GetComponent<PlayerController>().TakeDamage(10);
+            hitPlayer = true;
+            Invoke(nameof(ResetAttack), 0.5f);
+        }*/
     }
-
     private void ResetAttack()
     {
-        // add code here for going away from the player to then be able to charge the player !!!
-
-
         hitPlayer = false;
     }
 

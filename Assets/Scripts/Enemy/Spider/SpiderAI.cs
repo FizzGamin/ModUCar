@@ -12,7 +12,9 @@ public class SpiderAI : IEnemy
     public List<SpiderIKlegsSecond> legs2; 
     public List<SpiderIKlegsBack> legs3;
     public float health;
+
     Transform player;
+    GameObject playerObj;
 
     // PATROL
     Vector3 walkPoint;
@@ -43,6 +45,7 @@ public class SpiderAI : IEnemy
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        playerObj = GameObject.Find("Player");
     }
 
     void Update()
@@ -105,25 +108,39 @@ public class SpiderAI : IEnemy
             leg.SpiderChaseSpeed();
 
         // look toward the player
-        float angle = Vector3.Angle(transform.forward, walkPoint);
-        if (angle > 40)
+        float angle = Vector3.Angle(transform.forward, player.position); //changed walkPoint to player.position
+
+        Debug.DrawLine(Vector3.zero, transform.forward, Color.green, 10f);
+        Debug.DrawLine(Vector3.zero, player.position, Color.red, 10f);
+
+        if (angle > 20)
             transform.LookAt(player.position); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
 
         agent.SetDestination(player.position);
 
         //transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
+    }
 
-        if (!hitPlayer) // WILL NEED TO REFACTOR THIS STATEMENT TO CHECK IF THE TRUCK ACTUALLY HIT THE PLAYER
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("You have been hit by " + this.name);
+
+        if (other.gameObject.name == "Player" && !hitPlayer)
         {
-            // This is the actual attack code
-
-
-            // This code just makes sure the spider can only attack every # seconds.
+            playerObj.GetComponent<PlayerController>().TakeDamage(10);
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
+        if (other.gameObject.tag == "Enemy")
+        {
+            if (other.gameObject.name == "Enemy_Spider")
+            {
+                other.transform.parent.GetComponent<SpiderAI>().TakeDamage(10);
+                hitPlayer = true;
+                Invoke(nameof(ResetAttack), 0.5f);
+            }
+        }
     }
-
     private void ResetAttack()
     {
         hitPlayer = false;

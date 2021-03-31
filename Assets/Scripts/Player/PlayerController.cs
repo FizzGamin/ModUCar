@@ -33,10 +33,12 @@ public class PlayerController : IPlayer, IDamageable
     private float curHP;
     public void TakeDamage(float damage)
     {
-        curHP = curHP - damage;
+        curHP -= damage;
         if (curHP <= 0)
         {
             //BRING UP AN END/RESTART SCREEN
+            Debug.Log("You died");
+            //for now just drop items and respawn
         }
     }
 
@@ -74,7 +76,6 @@ public class PlayerController : IPlayer, IDamageable
         }
 
         // Update the Player health bar visual
-        TakeDamage(0.05f); //TEST CODE
         RectTransform rt = GameObject.Find("Health").GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(curHP * 6.4f, 80);
     }

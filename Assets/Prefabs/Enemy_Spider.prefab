@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 7033551337668328777}
   m_Layer: 0
   m_Name: Enemy_Spider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -270,11 +270,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7033551337668328780}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6.0908475, y: 3.5774918, z: 4.851414}
-  m_Center: {x: 0.015229937, y: 1.8661766, z: -0.39638448}
+  m_Size: {x: 0.8673022, y: 0.845253, z: 0.39905018}
+  m_Center: {x: -0.013795367, y: 1.6593399, z: 3.1790736}
 --- !u!1 &7033551337780479247
 GameObject:
   m_ObjectHideFlags: 0
