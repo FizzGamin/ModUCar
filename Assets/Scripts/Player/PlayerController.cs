@@ -9,8 +9,9 @@ public class PlayerController : IPlayer, IDamageable
     private const float Y_ANGLE_MAX = 90;
     private const float Y_ANGLE_MIN = -90;
 
-    public int walkSpeed = 150;
-    public int sprintSpeed = 350;
+    public int walkSpeed = 20;
+    public int sprintSpeed = 30;
+    public int jumpHeight = 10;
     public float sensitivity = 3;
     public float dropDistance = 5;
 
@@ -121,7 +122,14 @@ public class PlayerController : IPlayer, IDamageable
             yAngle = Mathf.Clamp(yAngle + Input.GetAxis("Mouse Y") * sensitivity * -1, Y_ANGLE_MIN, Y_ANGLE_MAX);
             playerCamera.transform.eulerAngles = new Vector3(yAngle, playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
         }
-        rb.MovePosition(transform.position + dir.normalized * Time.deltaTime * speed);
+
+        Vector3 newVel = dir.normalized * speed;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpHeight*5f, ForceMode.Impulse);
+        }
+
+        rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
     }
 
     private void HandleUse()
