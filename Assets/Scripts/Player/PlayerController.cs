@@ -157,13 +157,13 @@ public class PlayerController : IPlayer, IDamageable
 
         if (Input.GetKeyDown("q"))
         {
-            DropCurrentItem();
+            DropItem(inventoryUI.GetSelectedIndex());
         }
     }
 
-    private void DropCurrentItem()
+    private void DropItem(int index)
     {
-        if (inventoryUI.GetSelectedItem() == null) return;
+        if (inventoryUI.GetItem(index) == null) return;
 
         RaycastHit hit;
         Vector3 dropPoint;
@@ -176,10 +176,10 @@ public class PlayerController : IPlayer, IDamageable
         {
             dropPoint = cameraTransform.position + cameraTransform.forward * dropDistance;
         }
-        IItem cur = inventoryUI.GetSelectedItem();
+        IItem cur = inventoryUI.GetItem(index);
         cur.gameObject.SetActive(true);
         cur.transform.position = dropPoint;
-        inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), null);
+        inventoryUI.SetItem(index, null);
     }
 
     public override bool TakeItem(GameObject item)
