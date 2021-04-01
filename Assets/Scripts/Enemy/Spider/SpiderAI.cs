@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SpiderAI : IEnemy
+public class SpiderAI : IEnemy 
 {
     public NavMeshAgent agent;
     
@@ -36,7 +36,7 @@ public class SpiderAI : IEnemy
             Invoke(nameof(OnDeath), .5f);
     }
 
-    private void OnDeath()
+    public override void OnDeath()
     {
         Destroy(gameObject);
     }

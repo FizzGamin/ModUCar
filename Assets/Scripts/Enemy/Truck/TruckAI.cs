@@ -39,7 +39,7 @@ public class TruckAI : IEnemy
             Invoke(nameof(OnDeath), .5f);
     }
 
-    private void OnDeath()
+    public override void OnDeath()
     {
         Destroy(gameObject);
     }

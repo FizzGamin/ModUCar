@@ -28,4 +28,8 @@ public class TestEnemy : IEnemy
             Destroy(gameObject);
         }
     }
+    public override void OnDeath()
+    {
+        
+    }
 }

@@ -16,6 +16,10 @@ public class EvilBlock : MonoBehaviour, IDamageable
             died = true;
         }
     }
+    public void OnDeath()
+    {
+
+    }
 
     void OnDestroy()
     {
