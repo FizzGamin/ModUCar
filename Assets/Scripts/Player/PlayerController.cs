@@ -29,6 +29,8 @@ public class PlayerController : IPlayer, IDamageable
     public List<GameObject> arms;
     public Transform armRoot;
 
+    public Vector3 playerStartPos;
+
     public float maxHP;
     private float curHP;
     public void TakeDamage(float damage)
@@ -37,14 +39,22 @@ public class PlayerController : IPlayer, IDamageable
         if (curHP <= 0)
         {
             //BRING UP AN END/RESTART SCREEN
-            Debug.Log("You died");
-            //for now just drop items and respawn
+            Invoke(nameof(OnDeath), .5f);
         }
+    }
+    public void OnDeath()
+    {
+        Debug.Log("You died");
+        //for now just drop items and respawn
+        for (int i = 0; i < inventoryUI.GetSize(); i++)
+            DropItem(i);
+        this.transform.position = playerStartPos;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        playerStartPos = this.transform.position;
 
         GameManager.SetPlayer(this);
         this.GiveControl();

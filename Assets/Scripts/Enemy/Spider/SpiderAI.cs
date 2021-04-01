@@ -33,10 +33,10 @@ public class SpiderAI : IEnemy
     {
         health -= damage;
         if (health <= 0)
-            Invoke(nameof(DestroyEnemy), .5f);
+            Invoke(nameof(OnDeath), .5f);
     }
 
-    private void DestroyEnemy()
+    private void OnDeath()
     {
         Destroy(gameObject);
     }
