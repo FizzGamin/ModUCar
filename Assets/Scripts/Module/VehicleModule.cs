@@ -2,7 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VehicleModule : MonoBehaviour
+public abstract class VehicleModule : IItem, IInteractable
 {
-    //Just a base class at the moment so we can get all VehicleModules eventually with this
+    [SerializeField]
+    protected bool isEquipped = false;
+
+    public string GetInteractionText()
+    {
+        if (!isEquipped) return "Pick up " + GetName();
+        else return null;
+    }
+
+    public void Interact(IPlayer player)
+    {
+        if (!isEquipped) player.TakeItem(gameObject);
+    }
+
+    public abstract void Equip(VehicleController vehicle);
+
+    public abstract void Unequip(VehicleController vehicle);
 }

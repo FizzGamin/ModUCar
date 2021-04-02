@@ -7,4 +7,9 @@ public class VehicleInteractionHud : TextInteractionHud
     {
         UIManager.SetVehicleInteractionHud(this);
     }
+
+    protected override string GetTextPrefix()
+    {
+        return "(E) ";
+    }
 }

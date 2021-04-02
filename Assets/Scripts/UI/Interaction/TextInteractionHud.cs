@@ -17,10 +17,20 @@ public class TextInteractionHud : MonoBehaviour, InteractionHud
 
     public void Enable(string text)
     {
+        if (text == null)
+        {
+            Disable();
+            return;
+        }
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
         }
-        interactionText.text = text;
+        interactionText.text = GetTextPrefix() + text;
+    }
+
+    protected virtual string GetTextPrefix()
+    {
+        return "(F) ";
     }
 }

@@ -27,7 +27,7 @@ public abstract class IPlayer : UserControllable
             {
                 //We are likely going to want this to be asynchronous in the future
                 interactable.Interact(this);
-                UIManager.GetInteractionHud().Enable("(F) " + interactable.GetInteractionText());
+                UIManager.GetInteractionHud().Enable(interactable.GetInteractionText());
             }
         }
 
@@ -37,7 +37,7 @@ public abstract class IPlayer : UserControllable
             if (vehicleController != null)
             {
                 vehicleController.GetIn(this);
-                UIManager.GetVehicleInteractionHud().Enable("(F) " + vehicleController.GetVehicleInteractionText());
+                UIManager.GetVehicleInteractionHud().Enable(vehicleController.GetVehicleInteractionText());
             }
         }
 
@@ -51,7 +51,7 @@ public abstract class IPlayer : UserControllable
                 VehicleController vehicleController = prevLookedAt.GetComponent<VehicleController>();
                 if (vehicleController != null)
                 {
-                    UIManager.GetVehicleInteractionHud().Enable("(E) " + vehicleController.GetVehicleInteractionText());
+                    UIManager.GetVehicleInteractionHud().Enable(vehicleController.GetVehicleInteractionText());
                 } else
                 {
                     UIManager.GetVehicleInteractionHud().Disable();
@@ -59,7 +59,7 @@ public abstract class IPlayer : UserControllable
                 IInteractable interactable = FindInteractableFromObject(prevLookedAt);
                 if (interactable != null)
                 {
-                    UIManager.GetInteractionHud().Enable("(F) " + interactable.GetInteractionText());
+                    UIManager.GetInteractionHud().Enable(interactable.GetInteractionText());
                 }
                 else
                 {
@@ -78,6 +78,7 @@ public abstract class IPlayer : UserControllable
     private IInteractable FindInteractableFromObject(GameObject obj)
     {
         IInteractable ret = obj.GetComponent<IInteractable>();
+        Debug.Log(obj.name);
         if (ret != null) return ret;
         ret = obj.GetComponentInParent<IInteractable>();
         return ret;
