@@ -94,6 +94,16 @@ public class TerrainGenerator : MonoBehaviour
                                 Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z)
                             , Quaternion.Euler(0,Random.Range(0,360),0));
                         building.transform.SetParent(newChunk.GetTerrainObject().transform);
+
+                        //Generate Trees in the chunk
+                        List<GameObject> trees = WorldGenerator.instance.SpawnTrees(new Vector3(
+                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.x,
+                                0,
+                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z));
+                        foreach(GameObject tree in trees)
+                        {
+                            tree.transform.SetParent(newChunk.GetTerrainObject().transform);
+                        }
                     }
                 }
 
