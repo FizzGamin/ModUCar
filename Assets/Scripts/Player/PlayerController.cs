@@ -38,13 +38,13 @@ public class PlayerController : IPlayer, IDamageable
         curHP -= damage;
         if (curHP <= 0)
         {
-            //BRING UP END/RESTART SCREEN
             Invoke(nameof(OnDeath), .5f);
         }
     }
     public void OnDeath()
     {
         Debug.Log("You died");
+        //BRING UP END/RESTART SCREEN
         //for now just drop items and respawn
         Respawn();
     }
