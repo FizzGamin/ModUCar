@@ -38,7 +38,6 @@ public class PlayerController : IPlayer, IDamageable
         curHP -= damage;
         if (curHP <= 0)
         {
-            //BRING UP AN END/RESTART SCREEN
             Invoke(nameof(OnDeath), .5f);
         }
     }
@@ -46,9 +45,14 @@ public class PlayerController : IPlayer, IDamageable
     {
         Debug.Log("You died");
         //for now just drop items and respawn
+        Respawn();
+    }
+    public void Respawn()
+    {
         for (int i = 0; i < inventoryUI.GetSize(); i++)
             DropItem(i);
         this.transform.position = playerStartPos;
+
     }
 
     // Start is called before the first frame update

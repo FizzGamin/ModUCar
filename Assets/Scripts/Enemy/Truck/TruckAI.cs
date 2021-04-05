@@ -140,13 +140,18 @@ public class TruckAI : IEnemy
         // IF IT IS OUTSIDE THAT RANGE, THE TRUCK SHOULD TURN ITS WHEELS SHARP BUT HAVE A MAXIMUM TURN DEGREE AND NOT ACCELERATE BUT GO AT A CONSTANT SPEED.
         Vector3 playerPosVector = (new Vector3(player.position.x, 0, player.position.z)) - transform.position;
         Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
-        
+
+        float angle = Vector3.SignedAngle(truckDirVector, playerPosVector, transform.position);
+        /*
         float angle = Vector3.Angle(truckDirVector, playerPosVector);
         var cross = Vector3.Cross(playerPosVector, truckDirVector);
         if (cross.y > 0) angle = -angle;
+        */
         float turnDir = 1;
         float power = vehiclePower;
-        if (angle > MAXTURNANGLE || angle < -MAXTURNANGLE)
+        if (this.GetComponent<Rigidbody>().velocity.magnitude > 50 && (angle > MAXTURNANGLE || angle < -MAXTURNANGLE))
+            BrakeToStop();
+        else if (angle > MAXTURNANGLE || angle < -MAXTURNANGLE)
         {
             if (angle > 0)
             {
@@ -167,6 +172,7 @@ public class TruckAI : IEnemy
     {
         Debug.Log("You have been hit by " + this.name);
 
+        //truck can damage either the spider or the player
         if (other.gameObject.name == "Player" && !hitPlayer)
         {
             playerObj.GetComponent<PlayerController>().TakeDamage(10);
@@ -177,18 +183,11 @@ public class TruckAI : IEnemy
         {
             if (other.gameObject.name == "Enemy_Spider")
             {
-                other.transform.parent.GetComponent<SpiderAI>().TakeDamage(10);
+                other.gameObject.GetComponent<SpiderAI>().TakeDamage(10);
                 hitPlayer = true;
                 Invoke(nameof(ResetAttack), 0.5f);
             }
         }
-        /*
-        if (!hitPlayer)
-        {
-            playerObj.GetComponent<PlayerController>().TakeDamage(10);
-            hitPlayer = true;
-            Invoke(nameof(ResetAttack), 0.5f);
-        }*/
     }
     private void ResetAttack()
     {
@@ -220,6 +219,7 @@ public class TruckAI : IEnemy
         }
     }
 
+    /* Creates a gizmo showing the sight range of the truck */
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

@@ -46,6 +46,8 @@ public class SpiderAI : IEnemy
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         playerObj = GameObject.Find("Player");
+        //give acceleraction a random value
+        //agent.acceleration = 
     }
 
     void Update()
@@ -110,21 +112,27 @@ public class SpiderAI : IEnemy
         // look toward the player
         float angle = Vector3.Angle(transform.forward, player.position); //changed walkPoint to player.position
 
-        Debug.DrawLine(Vector3.zero, transform.forward, Color.green, 10f);
-        Debug.DrawLine(Vector3.zero, player.position, Color.red, 10f);
+        //Debug.DrawLine(Vector3.zero, transform.forward, Color.green, 10f);
+        //Debug.DrawLine(Vector3.zero, player.position, Color.red, 10f);
+
+        if (agent.pathPending == true)
+        {
+            agent.speed = 0;
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+        }
 
         if (angle > 20)
             transform.LookAt(player.position); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
 
         agent.SetDestination(player.position);
-
-        //transform.LookAt(player); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
     }
 
     private void OnTriggerStay(Collider other)
     {
         Debug.Log("You have been hit by " + this.name);
 
+        //Spider can damage either the truck of the player
         if (other.gameObject.name == "Player" && !hitPlayer)
         {
             playerObj.GetComponent<PlayerController>().TakeDamage(10);
@@ -133,38 +141,21 @@ public class SpiderAI : IEnemy
         }
         if (other.gameObject.tag == "Enemy")
         {
-            if (other.gameObject.name == "Enemy_Spider")
+            if (other.gameObject.name == "Enemy_Truck_AI")
             {
-                other.transform.parent.GetComponent<SpiderAI>().TakeDamage(10);
+                other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
                 hitPlayer = true;
                 Invoke(nameof(ResetAttack), 0.5f);
             }
         }
     }
+
     private void ResetAttack()
     {
         hitPlayer = false;
     }
 
-
-    /*private void GoToPoint(Vector3 destination)
-    {
-        Vector3 direction = transform.TransformDirection(destination);
-
-        float distance = Vector3.Distance(destination, transform.position);
-
-        if (distance > 0.1)
-        {
-            transform.LookAt(destination);
-            //float distanceSpeedBasedModifier = agent.GetSpeedModifier(distance);
-            Vector3 movement = transform.forward * Time.deltaTime;// * distanceSpeedBasedModifier;
-            agent.Move(movement);
-        }
-    }*/
-
-
-
-
+    /* Creates a gizmo showing the sight range of the spider */
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -172,11 +163,7 @@ public class SpiderAI : IEnemy
     }
 
 
-
-
-
-
-
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -189,5 +176,5 @@ public class SpiderAI : IEnemy
         agent.SetDestination(new Vector3(Random.Range(25f, 100f), 0, Random.Range(25f, 100f)));
         transform.eulerAngles = new Vector3(0, 180, 0);
     }
-    
+    */
 }
