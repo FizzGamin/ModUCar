@@ -46,8 +46,9 @@ public class SpiderAI : IEnemy
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         playerObj = GameObject.Find("Player");
-        //give acceleraction a random value
-        //agent.acceleration = 
+        //give acceleraction a random value between a range (15, 50)
+        int randInt = Random.Range(15, 51);
+        agent.acceleration = randInt;
     }
 
     void Update()

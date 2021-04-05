@@ -141,15 +141,15 @@ public class TruckAI : IEnemy
         Vector3 playerPosVector = (new Vector3(player.position.x, 0, player.position.z)) - transform.position;
         Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
 
-        float angle = Vector3.SignedAngle(truckDirVector, playerPosVector, transform.position);
-        /*
+        //float angle = Vector3.SignedAngle(truckDirVector, playerPosVector, transform.position);
+        
         float angle = Vector3.Angle(truckDirVector, playerPosVector);
         var cross = Vector3.Cross(playerPosVector, truckDirVector);
         if (cross.y > 0) angle = -angle;
-        */
+        
         float turnDir = 1;
         float power = vehiclePower;
-        if (this.GetComponent<Rigidbody>().velocity.magnitude > 50 && (angle > MAXTURNANGLE || angle < -MAXTURNANGLE))
+        if (this.GetComponent<Rigidbody>().velocity.magnitude > 40 && (angle > MAXTURNANGLE || angle < -MAXTURNANGLE))
             BrakeToStop();
         else if (angle > MAXTURNANGLE || angle < -MAXTURNANGLE)
         {
@@ -165,7 +165,7 @@ public class TruckAI : IEnemy
             }
             power = vehiclePower / 2;
         }
-        Drive(angle * turnDir, power);
+        Drive(angle, power);
     }
 
     private void OnTriggerStay(Collider other)
