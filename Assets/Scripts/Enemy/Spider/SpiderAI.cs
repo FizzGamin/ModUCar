@@ -115,13 +115,13 @@ public class SpiderAI : IEnemy
 
         //Debug.DrawLine(Vector3.zero, transform.forward, Color.green, 10f);
         //Debug.DrawLine(Vector3.zero, player.position, Color.red, 10f);
-
+        /*
         if (agent.pathPending == true)
         {
             agent.speed = 0;
             agent.velocity = Vector3.zero;
             agent.isStopped = true;
-        }
+        }*/
 
         if (angle > 20)
             transform.LookAt(player.position); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.

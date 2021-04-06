@@ -90,10 +90,11 @@ public class TruckAI : IEnemy
             Vector3 walkpointPosVector = (new Vector3(walkPoint.x, 0, walkPoint.z)) - transform.position;
             Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
 
-            float angle = Vector3.SignedAngle(truckDirVector, walkpointPosVector, transform.position);
-            //float angle = Vector3.Angle(truckDirVector, walkpointPosVector);
-            //var cross = Vector3.Cross(walkpointPosVector, truckDirVector);
-            //if (cross.y > 0) angle = -angle;
+            //float angle = Vector3.SignedAngle(truckDirVector, walkpointPosVector, transform.position);
+
+            float angle = Vector3.Angle(truckDirVector, walkpointPosVector);
+            var cross = Vector3.Cross(walkpointPosVector, truckDirVector);
+            if (cross.y > 0) angle = -angle;
             float turnDir = 1;
             float power = vehiclePower;
             if (angle > MAXTURNANGLE || angle < -MAXTURNANGLE)
@@ -116,7 +117,7 @@ public class TruckAI : IEnemy
 
             // check if we have reached the walkPoint
             Vector3 distToWalkPoint = transform.position - walkPoint;
-        if (distToWalkPoint.magnitude < 1f)
+        if (distToWalkPoint.magnitude < 20f)
             walkPointSet = false;
     }
 
@@ -132,12 +133,14 @@ public class TruckAI : IEnemy
             walkPointSet = true;
     }
 
-    // called every frame
+    /*
+     *  turn the wheels toward the player
+     *  IF THE ANGLE IS WITHIN A CERTAIN DEGREE, THEN THE TRUCK CAN ACCELERATE. 
+     *  IF IT IS OUTSIDE THAT RANGE, THE TRUCK SHOULD TURN ITS WHEELS SHARP BUT HAVE A MAXIMUM TURN DEGREE AND NOT ACCELERATE BUT GO AT A CONSTANT SPEED.
+    */
     private void AttackPlayer()
     {
-        // turn the wheels toward the player
-        // IF THE ANGLE IS WITHIN A CERTAIN DEGREE, THEN THE TRUCK CAN ACCELERATE. 
-        // IF IT IS OUTSIDE THAT RANGE, THE TRUCK SHOULD TURN ITS WHEELS SHARP BUT HAVE A MAXIMUM TURN DEGREE AND NOT ACCELERATE BUT GO AT A CONSTANT SPEED.
+
         Vector3 playerPosVector = (new Vector3(player.position.x, 0, player.position.z)) - transform.position;
         Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
 

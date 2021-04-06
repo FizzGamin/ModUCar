@@ -44,7 +44,7 @@ public class PlayerController : IPlayer, IDamageable
     public void OnDeath()
     {
         Debug.Log("You died");
-        //BRING UP END/RESTART SCREEN
+        //BRING UP END/RESTART SCREEN WITH OPTIONS (RESPAWN, QUIT)
         //for now just drop items and respawn
         Respawn();
     }
@@ -240,7 +240,7 @@ public class PlayerController : IPlayer, IDamageable
     {
         transform.SetParent(seat.transform);
         transform.localPosition = Vector3.zero;
-        transform.up = seat.transform.forward * -1;
+        transform.rotation = Quaternion.LookRotation(seat.transform.up, seat.transform.forward * -1);
         transform.GetComponent<Rigidbody>().isKinematic = true;
 
         //disable procedural movement scripts
@@ -258,16 +258,16 @@ public class PlayerController : IPlayer, IDamageable
         foreach (GameObject o in legs)
         {
             float footSpacing = 1.5f * i;
-            o.transform.position = new Vector3(legRoot.position.x + footSpacing, legRoot.position.y + 1.8f, legRoot.position.z + 2);
+            o.transform.position = legRoot.position + seat.transform.TransformDirection(new Vector3(footSpacing, 1.5f, 1.5f));
             i = i * -1;
         }
         //move and rotate arms into driving position
         foreach (GameObject o in arms)
         {
-            float armSpacing = 1.5f * i;
-            o.transform.position = new Vector3(armRoot.position.x + armSpacing, armRoot.position.y + 0.7f, armRoot.position.z + 3);
-            Vector3 rot = new Vector3(-90, 270, 270);
-            o.transform.rotation = Quaternion.Euler(rot);
+            float armSpacing = 1.3f * i;
+            o.transform.position = legRoot.position + seat.transform.TransformDirection(new Vector3(armSpacing, 7f, 2.3f));
+            Vector3 rot = new Vector3(-200, 180, 0);
+            o.transform.localRotation = Quaternion.Euler(rot);
             i = i * -1;
         }
     }
@@ -288,8 +288,6 @@ public class PlayerController : IPlayer, IDamageable
         {
             p.Enable();
         }
-
-        //reset the legs and arm positions somehow??
         
     }
 }
