@@ -19,7 +19,7 @@ public class TerrainChunk
     LODMesh[] lodMeshes;
     int colliderLODIndex;
 
-    HeightMap heightMap;
+    public HeightMap heightMap;
     bool heightMapReceived;
     int previousLODIndex = -1;
     bool hasSetCollider;

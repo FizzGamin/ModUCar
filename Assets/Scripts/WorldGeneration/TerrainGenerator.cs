@@ -86,6 +86,17 @@ public class TerrainGenerator : MonoBehaviour
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         newChunk.Load();
 
+
+
+
+                        //newChunk.UpdateTerrainChunk();
+                        //var h = newChunk.heightMap.values[1, 1];
+                        //Debug.LogWarning(h);
+
+
+
+
+
                         //Generate buildings in the chunk
                         Random.InitState((int)(newChunk.bounds.center.x + newChunk.bounds.center.z));
                         GameObject building = WorldGenerator.instance.SpawnBuilding(new Vector3(
@@ -103,6 +114,16 @@ public class TerrainGenerator : MonoBehaviour
                         foreach(GameObject tree in trees)
                         {
                             tree.transform.SetParent(newChunk.GetTerrainObject().transform);
+                        }
+
+                        //Generate Bushes in the chunk
+                        List<GameObject> bushes = WorldGenerator.instance.SpawnBushes(new Vector3(
+                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.x,
+                                0,
+                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z));
+                        foreach (GameObject bush in bushes)
+                        {
+                            bush.transform.SetParent(newChunk.GetTerrainObject().transform);
                         }
                     }
                 }
@@ -122,7 +143,6 @@ public class TerrainGenerator : MonoBehaviour
             visibleTerrainChunks.Remove(chunk);
         }
     }
-
 }
 [System.Serializable]
 public struct LODInfo
