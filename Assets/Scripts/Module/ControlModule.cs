@@ -6,11 +6,6 @@ public class ControlModule : VehicleModule
 {
     public GameObject seat;
 
-    public override void Equip(VehicleController vehicle)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public override string GetName()
     {
         return "Control Module";
@@ -31,7 +26,12 @@ public class ControlModule : VehicleModule
         return null;
     }
 
-    public override void Unequip(VehicleController vehicle)
+    protected override void OnEquip(VehicleController vehicle)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnUnequip(VehicleController vehicle)
     {
         throw new System.NotImplementedException();
     }

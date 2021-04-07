@@ -78,7 +78,6 @@ public abstract class IPlayer : UserControllable
     private IInteractable FindInteractableFromObject(GameObject obj)
     {
         IInteractable ret = obj.GetComponent<IInteractable>();
-        Debug.Log(obj.name);
         if (ret != null) return ret;
         ret = obj.GetComponentInParent<IInteractable>();
         return ret;

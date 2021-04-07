@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ModuleUI : ToggleableUI
 {
     private const string MODULE_UI_RESOURCE = "UI/ModuleUI";
-    private const string MODULE_SLOT_RESOURCE = "UI/ModuleSlot";
+    private const string MODULE_SLOT_RESOURCE = "UI/ModuleUISlot";
     private const int WIDTH_INCREMENT = 200;
 
     [SerializeField]
@@ -16,6 +16,7 @@ public class ModuleUI : ToggleableUI
     protected GameObject gridPanel;
 
     private List<ItemSlot> slots = new List<ItemSlot>();
+    private VehicleController vehicle;
 
     void Start()
     {
@@ -27,16 +28,20 @@ public class ModuleUI : ToggleableUI
         CloseOnEscape();
     }
 
-    public static ModuleUI CreateModuleUI(int numModules)
+    public static ModuleUI CreateModuleUI(VehicleController vehicle)
     {
         GameObject moduleUIPrefab = Resources.Load<GameObject>(MODULE_UI_RESOURCE);
         GameObject newUI = Instantiate<GameObject>(moduleUIPrefab);
         newUI.transform.SetParent(UIManager.GetUIBase().transform);
-        return newUI.GetComponent<ModuleUI>().Initialize(numModules);
+        return newUI.GetComponent<ModuleUI>().Initialize(vehicle);
     }
 
-    public ModuleUI Initialize(int numModules)
+    public ModuleUI Initialize(VehicleController vehicle)
     {
+        this.vehicle = vehicle;
+        List<VehicleModule> modules = vehicle.GetVehicleModules();
+        int numModules = modules.Count;
+
         if (numModules < 1 || numModules > 8) throw new ArgumentException("Can only initialize module UIs to have between 1 and 8 slots");
         ModifyWidth(mainPanel, numModules);
         ModifyWidth(gridPanel, numModules);
@@ -44,7 +49,7 @@ public class ModuleUI : ToggleableUI
         GameObject slotPrefab = Resources.Load<GameObject>(MODULE_SLOT_RESOURCE);
         for (int i = 0; i < numModules; i++)
         {
-            AddSlot(slotPrefab);
+            AddSlot(slotPrefab, modules[i]);
         }
 
         gameObject.SetActive(false);
@@ -52,13 +57,15 @@ public class ModuleUI : ToggleableUI
         return this;
     }
 
-    private void AddSlot(GameObject slotPrefab)
+    private void AddSlot(GameObject slotPrefab, VehicleModule module)
     {
         GameObject newSlot = Instantiate<GameObject>(slotPrefab);
         Vector3 origScale = newSlot.transform.localScale;
         newSlot.transform.SetParent(gridPanel.transform);
         newSlot.transform.localScale = origScale;
-        slots.Add(newSlot.GetComponent<ItemSlot>());
+        ItemSlot slotComponent = newSlot.GetComponent<ItemSlot>();
+        slotComponent.SetItem(module);
+        slots.Add(slotComponent);
     }
 
     private void ModifyWidth(GameObject panel, int numModules)
