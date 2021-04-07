@@ -6,10 +6,10 @@ using System.Reflection;
 
 public class ItemSlot : MonoBehaviour, IDragHandler
 {
-    private IItem currentItem;
-    private Image slotImage;
+    protected IItem currentItem;
+    protected Image slotImage;
 
-    public void Start()
+    public void Awake()
     {
         slotImage = gameObject.GetComponentsInChildren<Image>(true).Where((img) => img.gameObject != gameObject).First();
     }

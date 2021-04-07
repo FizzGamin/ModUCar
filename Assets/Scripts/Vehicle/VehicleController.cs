@@ -11,6 +11,8 @@ public class VehicleController : UserControllable, IInteractable
     public float vehicleSteeringAngle = 50f;
     public float cameraDistance = 10f;
 
+    private List<ModuleSlot> moduleSlots = new List<ModuleSlot>();
+
     bool isControlling = false;
 
     //Camera related
@@ -34,6 +36,11 @@ public class VehicleController : UserControllable, IInteractable
         foreach (WheelCollider wc in steeringWheelColliders)
         {
             wc.ConfigureVehicleSubsteps(.5f, 1, 2);
+        }
+
+        foreach (ModuleSlot moduleSlot in gameObject.GetComponentsInChildren<ModuleSlot>())
+        {
+            moduleSlots.Add(moduleSlot);
         }
     }
 
@@ -141,7 +148,7 @@ public class VehicleController : UserControllable, IInteractable
     public void Interact(IPlayer player)
     {
         player.ReleaseControl();
-        ModuleUI newModuleUI = ModuleUI.CreateModuleUI(3);
+        ModuleUI newModuleUI = ModuleUI.CreateModuleUI(this);
         newModuleUI.Open(player);
     }
 
@@ -204,5 +211,10 @@ public class VehicleController : UserControllable, IInteractable
     private ControlModule GetControlModule()
     {
         return gameObject.GetComponentInChildren<ControlModule>();
+    }
+
+    public List<VehicleModule> GetVehicleModules()
+    {
+        return moduleSlots.ConvertAll((slot) => {return slot.GetModule();});
     }
 }
