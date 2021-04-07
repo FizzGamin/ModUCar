@@ -16,10 +16,10 @@ public class VehicleModuleBuilder : MonoBehaviour
         }
 
         //Testing
-        AddModule(1, 10);
-        AddModule(2, 23);
-        AddModule(3, 33);
-        AddModule(4, 34);
+        //AddModule(1, 10);
+        //AddModule(2, 23);
+        //AddModule(3, 33);
+        //AddModule(4, 34);
     }
 
     void AddModule(int modSlot, int moduleID)
