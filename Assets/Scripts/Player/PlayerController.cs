@@ -31,8 +31,12 @@ public class PlayerController : IPlayer, IDamageable
 
     public Vector3 playerStartPos;
 
+    public Transform root;
+    
     public float maxHP;
     private float curHP;
+    private int jumps;
+    
     public void TakeDamage(float damage)
     {
         curHP -= damage;
@@ -88,6 +92,7 @@ public class PlayerController : IPlayer, IDamageable
             HandleInventoryKeys();
             HandlePause();
             HandleInteraction();
+            HandleJumps();
         }
 
         // Update the Player health bar visual
@@ -140,12 +145,36 @@ public class PlayerController : IPlayer, IDamageable
         }
 
         Vector3 newVel = dir.normalized * speed;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && jumps < 2)
         {
             rb.AddForce(Vector3.up * jumpHeight*rb.mass, ForceMode.Impulse);
+            jumps++;
         }
 
         rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
+    }
+
+    private void HandleJumps()
+    {
+        Ray leftRay = new Ray(root.position - new Vector3(3, 0, 0), Vector3.down);
+        Ray rightRay = new Ray(root.position + new Vector3(3, 0, 0), Vector3.down);
+
+        if (Physics.Raycast(leftRay, out RaycastHit infoA, 5, Physics.AllLayers))
+        {
+            Debug.Log(infoA.distance);
+            if (infoA.distance < 1f)
+                jumps = 0;
+            else if (jumps == 0)
+                jumps = 1;
+        }
+        
+        if (Physics.Raycast(rightRay, out RaycastHit infoB, 5, Physics.AllLayers))
+        {
+            if (infoB.distance < 1f)
+                jumps = 0;
+            else if (jumps == 0)
+                jumps = 1;
+        }
     }
 
     private void HandleUse()
