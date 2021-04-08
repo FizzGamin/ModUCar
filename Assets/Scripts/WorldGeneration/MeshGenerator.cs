@@ -23,7 +23,7 @@ public static class MeshGenerator
                 bool isSkippedVertex = x > 2 && x < numVertsPerLine - 3 && y > 2 && y < numVertsPerLine - 3 && ((x - 2) % skipIncrement != 0 || (y - 2) % skipIncrement != 0);
                 if (isOutOfMeshVertex)
                 {
-                    vertexIndicesMap[x, y] = outOfMeshVertexIndex;
+                    vertexIndicesMap[x, y] = outOfMeshVertexIndex;              
                     outOfMeshVertexIndex--;
                 }
                 else if (!isSkippedVertex)
