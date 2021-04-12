@@ -45,19 +45,20 @@ public class PlayerController : IPlayer, IDamageable
             Invoke(nameof(OnDeath), .5f);
         }
     }
+
+    //open the Death Screen
     public void OnDeath()
     {
         Debug.Log("You died");
-        //BRING UP END/RESTART SCREEN WITH OPTIONS (RESPAWN, QUIT)
-        //for now just drop items and respawn
-        Respawn();
+        this.ReleaseControl();
+        UIManager.GetDeathMenuUI().Open(this);
     }
     public void Respawn()
     {
+        curHP = maxHP;
         for (int i = 0; i < inventoryUI.GetSize(); i++)
             DropItem(i);
         this.transform.position = playerStartPos;
-
     }
 
     // Start is called before the first frame update
@@ -162,7 +163,7 @@ public class PlayerController : IPlayer, IDamageable
         if (Physics.Raycast(leftRay, out RaycastHit infoA, 5, Physics.AllLayers))
         {
             Debug.Log(infoA.distance);
-            if (infoA.distance < 1f)
+            if (infoA.distance < 1.5f)
                 jumps = 0;
             else if (jumps == 0)
                 jumps = 1;
@@ -170,7 +171,7 @@ public class PlayerController : IPlayer, IDamageable
         
         if (Physics.Raycast(rightRay, out RaycastHit infoB, 5, Physics.AllLayers))
         {
-            if (infoB.distance < 1f)
+            if (infoB.distance < 1.5f)
                 jumps = 0;
             else if (jumps == 0)
                 jumps = 1;

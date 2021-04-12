@@ -4,6 +4,7 @@ public class UIManager : UnitySingleton<UIManager>
 {
     private InventoryUI inventoryUI;
     private PauseMenuUI pauseMenuUI;
+    private DeathMenuUI deathMenuUI;
     private InteractionHud interactionHud;
     private InteractionHud vehicleInteractionHud;
 
@@ -30,6 +31,16 @@ public class UIManager : UnitySingleton<UIManager>
     public static void SetPauseMenuUI(PauseMenuUI pauseMenuUI)
     {
         instance.pauseMenuUI = pauseMenuUI;
+    }
+
+    public static DeathMenuUI GetDeathMenuUI()
+    {
+        return instance.deathMenuUI;
+    }
+
+    public static void SetDeathMenuUI(DeathMenuUI deathMenuUI)
+    {
+        instance.deathMenuUI = deathMenuUI;
     }
 
     public static InteractionHud GetInteractionHud()
