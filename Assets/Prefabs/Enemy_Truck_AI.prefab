@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 485981817}
   m_Layer: 0
   m_Name: Enemy_Truck_AI
-  m_TagString: Enemy
+  m_TagString: Enemy_Truck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
