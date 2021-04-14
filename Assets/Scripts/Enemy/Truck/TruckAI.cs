@@ -182,14 +182,11 @@ public class TruckAI : IEnemy
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy_Spider")
         {
-            if (other.gameObject.name == "Enemy_Spider")
-            {
-                other.gameObject.GetComponent<SpiderAI>().TakeDamage(10);
-                hitPlayer = true;
-                Invoke(nameof(ResetAttack), 0.5f);
-            }
+            other.gameObject.GetComponent<SpiderAI>().TakeDamage(10);
+            hitPlayer = true;
+            Invoke(nameof(ResetAttack), 0.5f);
         }
     }
     private void ResetAttack()

@@ -42,7 +42,7 @@ public class PlayerController : IPlayer, IDamageable
         curHP -= damage;
         if (curHP <= 0)
         {
-            Invoke(nameof(OnDeath), .5f);
+            OnDeath();
         }
     }
 
