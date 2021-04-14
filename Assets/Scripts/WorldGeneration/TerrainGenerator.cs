@@ -24,12 +24,15 @@ public class TerrainGenerator : MonoBehaviour
     int chunksVisibleInViewDst;
 
     public int numOfTrees;
+    public int numOfBushes;
+    public int numOfBuildings;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
     public List<GameObject> trees;
     public List<GameObject> bushes;
+    public List<GameObject> buildings;
 
     void Start()
     {
@@ -87,7 +90,7 @@ public class TerrainGenerator : MonoBehaviour
                     }
                     else
                     {
-                        TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial, trees, bushes, numOfTrees, textureSettings);
+                        TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial, textureSettings);
                         terrainChunkDictionary.Add(viewedChunkCoord, newChunk);
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         newChunk.Load();
