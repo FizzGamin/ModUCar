@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -29,14 +30,7 @@ public class TerrainChunk
     MeshSettings meshSettings;
     Transform viewer;
 
-    //public List<GameObject> trees;
-    //private int NUM_TREES;
-    //private float TREE_Y_MIN;
-    //private float TREE_Y_MAX;
-    //TextureData textureSettings;
-
-
-    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer,  Material worldMaterial)
+    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer,  Material worldMaterial, List<GameObject> trees, List<GameObject> bushes, int numOfTrees, TextureData textureSettings)
     {
         this.coord = coord;
         this.detailLevels = detailLevels;
@@ -57,6 +51,13 @@ public class TerrainChunk
         meshCollider = meshObject.AddComponent<MeshCollider>();
         meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
+
+        meshObject.AddComponent<TreeGenerator>();
+        meshObject.GetComponent<TreeGenerator>().trees = trees;
+        meshObject.GetComponent<TreeGenerator>().bushes = bushes;
+        meshObject.GetComponent<TreeGenerator>().NUM_TREES = numOfTrees;
+        meshObject.GetComponent<TreeGenerator>().textureSettings = textureSettings;
+        meshObject.GetComponent<TreeGenerator>().heightMapSettings = heightMapSettings;
 
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
         meshObject.transform.parent = parent;
@@ -202,42 +203,5 @@ class LODMesh
         hasRequestedMesh = true;
         ThreadedDataRequester.RequestData(() => MeshGenerator.GenerateTerrainMesh(heightMap.values, meshSettings, lod), OnMeshDataReceived);
     }
-
-
-
-    //public void GenerateTrees()
-    //{
-    //    Debug.LogWarning("Here");
-    //    TREE_Y_MAX = GetGrassHeight();
-    //    TREE_Y_MIN = 0;
-    //    NUM_TREES = 100;
-    //    Debug.LogWarning("3");
-    //    Debug.LogWarning("4");
-    //    Mesh mesh = meshFilter.mesh;
-    //    Transform parent = meshFilter.transform;
-    //    Vector3[] vertices = mesh.vertices;
-
-    //    Debug.LogWarning("Max: " + TREE_Y_MAX);
-
-    //    for (int i = 0; i < NUM_TREES; i++)
-    //    {
-    //        Debug.LogWarning("Here1");
-    //        Vector3 position = transform.TransformPoint(vertices[Random.Range(0, vertices.Length)]);
-    //        Debug.LogWarning("X: " + position.x + " Y: " + position.y +  " Z: " + position.z);
-    //        if (position.y > TREE_Y_MIN && position.y < TREE_Y_MAX)
-    //        {
-    //            GameObject tree = (GameObject)Instantiate(trees[Random.Range(0, 2)], position, Quaternion.identity);
-    //            tree.transform.parent = parent;
-    //        }
-    //    }
-    //}
-
-    //public float GetGrassHeight()
-    //{
-    //    float height = textureSettings.layers[1].startHeight;
-    //    float heightMultiplier = heightMapSettings.heightMultiplier;
-    //    return height * heightMultiplier;
-    //}
-
 }
 

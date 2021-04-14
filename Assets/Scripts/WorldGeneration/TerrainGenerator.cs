@@ -23,10 +23,13 @@ public class TerrainGenerator : MonoBehaviour
     float meshWorldSize;
     int chunksVisibleInViewDst;
 
+    public int numOfTrees;
+
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
     public List<GameObject> trees;
+    public List<GameObject> bushes;
 
     void Start()
     {
@@ -84,21 +87,10 @@ public class TerrainGenerator : MonoBehaviour
                     }
                     else
                     {
-                        TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial);//, textureSettings, this.trees);
+                        TerrainChunk newChunk = new TerrainChunk(viewedChunkCoord, heightMapSettings, meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial, trees, bushes, numOfTrees, textureSettings);
                         terrainChunkDictionary.Add(viewedChunkCoord, newChunk);
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         newChunk.Load();
-
-
-
-
-                        //newChunk.UpdateTerrainChunk();
-                        //var h = newChunk.heightMap.values[1, 1];
-                        //Debug.LogWarning(h);
-
-
-
-
 
                         //Generate buildings in the chunk
                         Random.InitState((int)(newChunk.bounds.center.x + newChunk.bounds.center.z));
@@ -108,26 +100,6 @@ public class TerrainGenerator : MonoBehaviour
                                 Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z)
                             , Quaternion.Euler(0,Random.Range(0,360),0));
                         building.transform.SetParent(newChunk.GetTerrainObject().transform);
-
-                        //Generate Trees in the chunk
-                        List<GameObject> trees = WorldGenerator.instance.SpawnTrees(new Vector3(
-                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.x,
-                                0,
-                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z));
-                        foreach(GameObject tree in trees)
-                        {
-                            tree.transform.SetParent(newChunk.GetTerrainObject().transform);
-                        }
-
-                        //Generate Bushes in the chunk
-                        List<GameObject> bushes = WorldGenerator.instance.SpawnBushes(new Vector3(
-                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.x,
-                                0,
-                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z));
-                        foreach (GameObject bush in bushes)
-                        {
-                            bush.transform.SetParent(newChunk.GetTerrainObject().transform);
-                        }
                     }
                 }
 
