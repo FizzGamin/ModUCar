@@ -21,7 +21,7 @@ public class TerrainObjectGenerator : MonoBehaviour
 
     private int howOftenTreesSpawn = 20;
     private int howOftenBushesSpawn = 25;
-    private int howOftenBuildingsSpawn = 300;
+    private int howOftenBuildingsSpawn = 3000;
 
     //List<Vector2> pointsForTrees;
     //List<Vector2> pointsForBushes;
