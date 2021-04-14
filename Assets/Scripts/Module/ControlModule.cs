@@ -28,11 +28,11 @@ public class ControlModule : VehicleModule
 
     protected override void OnEquip(VehicleController vehicle)
     {
-        throw new System.NotImplementedException();
+        //Not implemented
     }
 
     protected override void OnUnequip(VehicleController vehicle)
     {
-        throw new System.NotImplementedException();
+        //Not implemented
     }
 }
