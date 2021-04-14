@@ -217,4 +217,9 @@ public class VehicleController : UserControllable, IInteractable
     {
         return moduleSlots.ConvertAll((slot) => {return slot.GetModule();});
     }
+
+    public List<ModuleSlot> GetModuleSlots()
+    {
+        return new List<ModuleSlot>(moduleSlots);
+    }
 }

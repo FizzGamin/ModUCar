@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class ModuleSlot : MonoBehaviour
@@ -24,10 +25,18 @@ public class ModuleSlot : MonoBehaviour
 
     public VehicleModule SetModule(VehicleModule newModule)
     {
+        if (newModule == module) return newModule;
         VehicleModule old = RemoveModule();
-        newModule.transform.parent = gameObject.transform;
-        newModule.gameObject.SetActive(true);
-        newModule.Equip(vehicleController);
+        module = newModule;
+        if (newModule != null)
+        {
+            newModule.transform.parent = gameObject.transform;
+            newModule.transform.localPosition = Vector3.zero;
+            newModule.transform.localScale = Vector3.one;
+            newModule.transform.localEulerAngles = Vector3.zero;
+            newModule.gameObject.SetActive(true);
+            newModule.Equip(vehicleController);
+        }
         return old;
     }
 
