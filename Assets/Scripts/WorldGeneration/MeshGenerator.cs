@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public static class MeshGenerator
@@ -88,7 +89,6 @@ public static class MeshGenerator
         return meshData;
     }
 }
-
 
 public class MeshData
 {
@@ -250,5 +250,7 @@ public class MeshData
 
         return mesh;
     }
+
+
 
 }

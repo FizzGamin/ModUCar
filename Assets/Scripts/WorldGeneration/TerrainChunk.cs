@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -29,7 +30,7 @@ public class TerrainChunk
     MeshSettings meshSettings;
     Transform viewer;
 
-    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer,  Material worldMaterial)
+    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer,  Material worldMaterial, List<GameObject> trees, List<GameObject> bushes, int numOfTrees, TextureData textureSettings)
     {
         this.coord = coord;
         this.detailLevels = detailLevels;
@@ -50,6 +51,13 @@ public class TerrainChunk
         meshCollider = meshObject.AddComponent<MeshCollider>();
         meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
+
+        meshObject.AddComponent<TreeGenerator>();
+        meshObject.GetComponent<TreeGenerator>().trees = trees;
+        meshObject.GetComponent<TreeGenerator>().bushes = bushes;
+        meshObject.GetComponent<TreeGenerator>().NUM_TREES = numOfTrees;
+        meshObject.GetComponent<TreeGenerator>().textureSettings = textureSettings;
+        meshObject.GetComponent<TreeGenerator>().heightMapSettings = heightMapSettings;
 
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
         meshObject.transform.parent = parent;

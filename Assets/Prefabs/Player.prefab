@@ -1892,6 +1892,7 @@ MonoBehaviour:
   - {fileID: 6704414599483230046}
   armRoot: {fileID: 5450032682923870253}
   playerStartPos: {x: 0, y: 0, z: 0}
+  root: {fileID: 2357201613081921320}
   maxHP: 100
 --- !u!114 &6704414600242654201
 MonoBehaviour:
@@ -3009,7 +3010,7 @@ MonoBehaviour:
       m_Length: 1
       m_Item0:
         transform: {fileID: 6704414600169651821}
-        weight: 0.2
+        weight: 0.4
       m_Item1:
         transform: {fileID: 0}
         weight: 0
@@ -3085,6 +3086,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6704414600169651821}
+  - component: {fileID: 877670726}
   m_Layer: 3
   m_Name: target
   m_TagString: Untagged
@@ -3106,6 +3108,18 @@ Transform:
   m_Father: {fileID: 6704414599702923137}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877670726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6704414600169651818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 471d291630c8fe340b85e2146c7942f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6704414600254363073
 GameObject:
   m_ObjectHideFlags: 0
@@ -3426,7 +3440,7 @@ MonoBehaviour:
       m_Length: 1
       m_Item0:
         transform: {fileID: 6704414600169651821}
-        weight: 0.4
+        weight: 0.7
       m_Item1:
         transform: {fileID: 0}
         weight: 0
@@ -3448,7 +3462,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
+    m_Offset: {x: 10, y: 0, z: 0}
     m_MinLimit: -80
     m_MaxLimit: 80
     m_AimAxis: 5

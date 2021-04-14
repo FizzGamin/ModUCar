@@ -21,13 +21,13 @@ public class DeathMenuUI : ToggleableUI
     {
         UIManager.SetDeathMenuUI(this);
 
-        DeathScreen = transform.Find(DEATH_SCREEN_NAME).gameObject;
+        /*DeathScreen = transform.Find(DEATH_SCREEN_NAME).gameObject;
         RespawnButton = GetButtonByName(RESPAWN_NAME);
         MenuButton = GetButtonByName(MENU_NAME);
         QuitButton = GetButtonByName(QUIT_NAME);
 
-        RespawnButton.onClick.AddListener(Close);
-
+        RespawnButton.onClick.AddListener(Close);*/
+        
         gameObject.SetActive(false);
     }
 
@@ -39,14 +39,15 @@ public class DeathMenuUI : ToggleableUI
 
     public void Respawn()
     {
-        Close();
         GameObject player = GameObject.Find("Player");
         player.GetComponent<PlayerController>().Respawn();
+        Close();
     }
 
     public void GoToMainMenu()
     {
         //main menu scene is at index 0
+        //SceneManager.UnloadSceneAsync(1);
         SceneManager.LoadScene(0);
     }
 

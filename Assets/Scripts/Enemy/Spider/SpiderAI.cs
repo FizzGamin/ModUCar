@@ -140,14 +140,11 @@ public class SpiderAI : IEnemy
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy_Truck")
         {
-            if (other.gameObject.name == "Enemy_Truck_AI")
-            {
-                other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
-                hitPlayer = true;
-                Invoke(nameof(ResetAttack), 0.5f);
-            }
+            other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
+            hitPlayer = true;
+            Invoke(nameof(ResetAttack), 0.5f);
         }
     }
 

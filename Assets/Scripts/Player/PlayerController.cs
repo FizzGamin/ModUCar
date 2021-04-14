@@ -36,13 +36,15 @@ public class PlayerController : IPlayer, IDamageable
     public float maxHP;
     private float curHP;
     private int jumps;
-    
+
+    Renderer vis;
+
     public void TakeDamage(float damage)
     {
         curHP -= damage;
         if (curHP <= 0)
         {
-            Invoke(nameof(OnDeath), .5f);
+            OnDeath();
         }
     }
 
@@ -81,6 +83,7 @@ public class PlayerController : IPlayer, IDamageable
         resetRotation = transform.eulerAngles;
 
         curHP = maxHP;
+        vis = GetComponent<Renderer>();
     }
 
     void Update()
@@ -94,6 +97,7 @@ public class PlayerController : IPlayer, IDamageable
             HandlePause();
             HandleInteraction();
             HandleJumps();
+            //HandlePlayerVisibility();
         }
 
         // Update the Player health bar visual
@@ -318,6 +322,18 @@ public class PlayerController : IPlayer, IDamageable
         {
             p.Enable();
         }
-        
     }
+
+    //Makes the player visible if they get in a car.
+    /*private void HandlePlayerVisibility()
+    {
+        if (this.transform.parent != null)
+        {
+            vis.enabled = true;
+        }
+        else
+        {
+            vis.enabled = false;
+        }
+    }*/
 }

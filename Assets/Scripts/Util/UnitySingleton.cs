@@ -12,7 +12,6 @@ public abstract class UnitySingleton<T> : MonoBehaviour where T : UnitySingleton
     {
         if (instance == null)
         {
-            DontDestroyOnLoad(gameObject);
             instance = (T) this;
         }
         else if (instance != this)
