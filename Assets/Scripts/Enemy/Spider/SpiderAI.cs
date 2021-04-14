@@ -131,8 +131,6 @@ public class SpiderAI : IEnemy
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("You have been hit by " + this.name);
-
         //Spider can damage either the truck of the player
         if (other.gameObject.name == "Player" && !hitPlayer)
         {

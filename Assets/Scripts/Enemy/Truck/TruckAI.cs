@@ -116,7 +116,7 @@ public class TruckAI : IEnemy
         }
 
             // check if we have reached the walkPoint
-            Vector3 distToWalkPoint = transform.position - walkPoint;
+        Vector3 distToWalkPoint = transform.position - walkPoint;
         if (distToWalkPoint.magnitude < 20f)
             walkPointSet = false;
     }
@@ -173,8 +173,6 @@ public class TruckAI : IEnemy
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("You have been hit by " + this.name);
-
         //truck can damage either the spider or the player
         if (other.gameObject.name == "Player" && !hitPlayer)
         {
