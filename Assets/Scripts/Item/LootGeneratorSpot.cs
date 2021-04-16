@@ -8,8 +8,12 @@ public class LootGeneratorSpot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(LootService.instance)
-            LootService.instance.GetItem(ItemQuality.D);
+        if (LootService.instance)
+        {
+            IItem item = LootService.instance.GetItem(lootQuality);
+            GameObject obj = item.CreateItem();
+            obj.transform.position = transform.position;
+        }       
         Destroy(gameObject);
     }
 }
