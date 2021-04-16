@@ -53,7 +53,7 @@ public class TerrainChunk
         meshRenderer.material = worldMaterial;
 
         meshObject.AddComponent<TerrainObjectGenerator>();
-        meshObject.GetComponent<TerrainObjectGenerator>().SetupSettings(textureSettings, heightMapSettings);
+        meshObject.GetComponent<TerrainObjectGenerator>().SetupSettings(textureSettings, heightMapSettings, meshSettings);
         
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
         meshObject.transform.parent = parent;

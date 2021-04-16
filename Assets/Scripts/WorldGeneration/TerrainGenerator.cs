@@ -30,10 +30,6 @@ public class TerrainGenerator : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
-    public List<GameObject> trees;
-    public List<GameObject> bushes;
-    public List<GameObject> buildings;
-
     void Start()
     {
         textureSettings.ApplyToMaterial(mapMaterial);
@@ -94,15 +90,6 @@ public class TerrainGenerator : MonoBehaviour
                         terrainChunkDictionary.Add(viewedChunkCoord, newChunk);
                         newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         newChunk.Load();
-
-                        //Generate buildings in the chunk
-                        Random.InitState((int)(newChunk.bounds.center.x + newChunk.bounds.center.z));
-                        GameObject building = WorldGenerator.instance.SpawnBuilding(new Vector3(
-                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.x,
-                                0,
-                                Random.Range(-newChunk.bounds.size.x / 2, newChunk.bounds.size.x / 2) + newChunk.bounds.center.z)
-                            , Quaternion.Euler(0,Random.Range(0,360),0));
-                        building.transform.SetParent(newChunk.GetTerrainObject().transform);
                     }
                 }
 
