@@ -9,7 +9,6 @@ public class sun : MonoBehaviour
     private Transform sunTransform;
     private float rotationSpeed = 1;
 
-    public Transform player;
     // Start is called before the first frame update
     void Start()
     {

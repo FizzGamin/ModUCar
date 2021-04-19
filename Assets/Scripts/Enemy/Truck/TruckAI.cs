@@ -72,8 +72,8 @@ public class TruckAI : IEnemy
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
-        playerObj = GameObject.Find("Player");
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerObj = GameObject.FindGameObjectWithTag("Player");
         //driveInfluence = Input.GetAxis("Vertical");
         //steeringInfluence = Input.GetAxis("Horizontal");
     }
@@ -174,7 +174,7 @@ public class TruckAI : IEnemy
     private void OnTriggerStay(Collider other)
     {
         //truck can damage either the spider or the player
-        if (other.gameObject.name == "Player" && !hitPlayer)
+        if (other.gameObject.tag == "Player" && !hitPlayer)
         {
             playerObj.GetComponent<PlayerController>().TakeDamage(10);
             hitPlayer = true;

@@ -29,44 +29,69 @@ public class PlayerController : IPlayer, IDamageable
     public List<GameObject> arms;
     public Transform armRoot;
 
-    public Vector3 playerStartPos;
-
     public Transform root;
     
     public float maxHP;
     private float curHP;
     private int jumps;
 
+    private bool isDead;
+    public GameObject playerRagdoll;
+    Vector3 startPos;
+    Vector3 spawnPos;
     Renderer vis;
 
     public void TakeDamage(float damage)
     {
         curHP -= damage;
         if (curHP <= 0)
-        {
-            OnDeath();
+        {   
+            if (!isDead)
+                OnDeath();
         }
     }
 
     //open the Death Screen
     public void OnDeath()
     {
-        Debug.Log("You died");
+        isDead = true;
         this.ReleaseControl();
         UIManager.GetDeathMenuUI().Open(this);
+
+        //put in the ragDoll
+        Instantiate(playerRagdoll, this.transform.position, Quaternion.identity);
+
+        //move player camera with the player to be the deathCam
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Rigidbody>().isKinematic = true;
+        player.transform.position = player.transform.position + new Vector3(30, 5, 10);
+        player.transform.LookAt(GameObject.FindGameObjectWithTag("Ragdoll").transform);
+        player.transform.Rotate(-90, 0, 0);
     }
+
+    // AS OF NOW THIS METHOD SHOULD NOT BE CALLED
     public void Respawn()
     {
+        //reset stats
         curHP = maxHP;
         for (int i = 0; i < inventoryUI.GetSize(); i++)
             DropItem(i);
-        this.transform.position = playerStartPos;
+
+        //move player object to the starting position AND delete the ragdoll
+        this.GiveControl();
+        isDead = false;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = spawnPos;
+        player.GetComponent<Rigidbody>().isKinematic = false;
+        Destroy(GameObject.FindGameObjectWithTag("Ragdoll"));
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        playerStartPos = this.transform.position;
+        isDead = false;
+        startPos = spawnPos = this.transform.position;
+        UIManager.GetDeathMenuUI().SetSpawnPoint(startPos);
 
         GameManager.SetPlayer(this);
         this.GiveControl();
@@ -83,12 +108,11 @@ public class PlayerController : IPlayer, IDamageable
         resetRotation = transform.eulerAngles;
 
         curHP = maxHP;
-        vis = GetComponent<Renderer>();
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
     }
 
     void Update()
     {
-
         if (isControlled)
         {
             HandleUse();
@@ -97,7 +121,6 @@ public class PlayerController : IPlayer, IDamageable
             HandlePause();
             HandleInteraction();
             HandleJumps();
-            //HandlePlayerVisibility();
         }
 
         // Update the Player health bar visual
@@ -304,6 +327,7 @@ public class PlayerController : IPlayer, IDamageable
             o.transform.localRotation = Quaternion.Euler(rot);
             i = i * -1;
         }
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
     }
 
     public override void GetUp(Vector3 pos)
@@ -322,18 +346,7 @@ public class PlayerController : IPlayer, IDamageable
         {
             p.Enable();
         }
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
     }
 
-    //Makes the player visible if they get in a car.
-    /*private void HandlePlayerVisibility()
-    {
-        if (this.transform.parent != null)
-        {
-            vis.enabled = true;
-        }
-        else
-        {
-            vis.enabled = false;
-        }
-    }*/
 }

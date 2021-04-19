@@ -16,6 +16,9 @@ public class DeathMenuUI : ToggleableUI
     private Button QuitButton;
     private GameObject DeathScreen;
 
+    public GameObject playerPrefab;
+    private Vector3 spawnPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,13 +44,17 @@ public class DeathMenuUI : ToggleableUI
     {
         GameObject player = GameObject.Find("Player");
         player.GetComponent<PlayerController>().Respawn();
+        //GameObject deathCam = GameObject.FindGameObjectWithTag("MainCamera");
+        //Destroy(deathCam);
+        //Instantiate(playerPrefab);
+        //GameObject.FindGameObjectWithTag("Player").transform.position = spawnPos;
+        //Destroy(GameObject.FindGameObjectWithTag("Ragdoll"));
         Close();
     }
 
     public void GoToMainMenu()
     {
         //main menu scene is at index 0
-        //SceneManager.UnloadSceneAsync(1);
         SceneManager.LoadScene(0);
     }
 
@@ -57,6 +64,10 @@ public class DeathMenuUI : ToggleableUI
         Application.Quit();
     }
 
+    public void SetSpawnPoint(Vector3 pos)
+    {
+        spawnPos = pos;
+    }
     private Button GetButtonByName(string name)
     {
         return DeathScreen.transform.Find(name).GetComponent<Button>();
