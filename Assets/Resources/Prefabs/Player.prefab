@@ -1754,7 +1754,7 @@ GameObject:
   - component: {fileID: 6704414600242654201}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1891,9 +1891,10 @@ MonoBehaviour:
   - {fileID: 6704414600733674806}
   - {fileID: 6704414599483230046}
   armRoot: {fileID: 5450032682923870253}
-  playerStartPos: {x: 0, y: 0, z: 0}
   root: {fileID: 2357201613081921320}
   maxHP: 100
+  playerRagdoll: {fileID: 4580905741067574572, guid: 914d363bc255cc144acd43d6e145a74d,
+    type: 3}
 --- !u!114 &6704414600242654201
 MonoBehaviour:
   m_ObjectHideFlags: 0

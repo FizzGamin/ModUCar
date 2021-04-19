@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Enemy_Spider
   - Enemy_Truck
+  - Ragdoll
+  - deathCam
   layers:
   - Default
   - TransparentFX

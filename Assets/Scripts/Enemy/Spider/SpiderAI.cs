@@ -43,9 +43,9 @@ public class SpiderAI : IEnemy
 
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        playerObj = GameObject.Find("Player");
+        playerObj = GameObject.FindGameObjectWithTag("Player");
         //give acceleraction a random value between a range (15, 50)
         int randInt = Random.Range(15, 51);
         agent.acceleration = randInt;
@@ -132,7 +132,7 @@ public class SpiderAI : IEnemy
     private void OnTriggerStay(Collider other)
     {
         //Spider can damage either the truck of the player
-        if (other.gameObject.name == "Player" && !hitPlayer)
+        if (other.gameObject.tag == "Player" && !hitPlayer)
         {
             playerObj.GetComponent<PlayerController>().TakeDamage(10);
             hitPlayer = true;
