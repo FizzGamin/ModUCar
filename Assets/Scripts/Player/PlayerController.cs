@@ -37,9 +37,7 @@ public class PlayerController : IPlayer, IDamageable
 
     private bool isDead;
     public GameObject playerRagdoll;
-    Vector3 startPos;
-    Vector3 spawnPos;
-    Renderer vis;
+    private Vector3 spawnPos;
 
     public void TakeDamage(float damage)
     {
@@ -51,17 +49,18 @@ public class PlayerController : IPlayer, IDamageable
         }
     }
 
-    //open the Death Screen
+    /// <summary>
+    /// When the player dies this method should be triggered.
+    /// Opens the deathMenuUI, puts in a ragdoll where the player died, and offsets the player to use as camera to look at the ragdoll.
+    /// </summary>
     public void OnDeath()
     {
         isDead = true;
         this.ReleaseControl();
         UIManager.GetDeathMenuUI().Open(this);
 
-        //put in the ragDoll
         Instantiate(playerRagdoll, this.transform.position, Quaternion.identity);
 
-        //move player camera with the player to be the deathCam
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<Rigidbody>().isKinematic = true;
         player.transform.position = player.transform.position + new Vector3(30, 5, 10);
@@ -69,15 +68,16 @@ public class PlayerController : IPlayer, IDamageable
         player.transform.Rotate(-90, 0, 0);
     }
 
-    // AS OF NOW THIS METHOD SHOULD NOT BE CALLED
+    /// <summary>
+    /// Triggered when the user chooses to respawn after dying.
+    /// resets the stats of the player, moves it to the respawn position, and deletes the ragdoll.
+    /// </summary>
     public void Respawn()
     {
-        //reset stats
         curHP = maxHP;
         for (int i = 0; i < inventoryUI.GetSize(); i++)
             DropItem(i);
 
-        //move player object to the starting position AND delete the ragdoll
         this.GiveControl();
         isDead = false;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -90,8 +90,7 @@ public class PlayerController : IPlayer, IDamageable
     void Start()
     {
         isDead = false;
-        startPos = spawnPos = this.transform.position;
-        UIManager.GetDeathMenuUI().SetSpawnPoint(startPos);
+        spawnPos = this.transform.position;
 
         GameManager.SetPlayer(this);
         this.GiveControl();
@@ -182,6 +181,9 @@ public class PlayerController : IPlayer, IDamageable
         rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
     }
 
+    /// <summary>
+    /// Uses rays to check if the player is on the ground. Assigns the appropriate number of jumps to the player.
+    /// </summary>
     private void HandleJumps()
     {
         Ray leftRay = new Ray(root.position - new Vector3(3, 0, 0), Vector3.down);
@@ -293,6 +295,10 @@ public class PlayerController : IPlayer, IDamageable
         return playerCamera;
     }
 
+    /// <summary>
+    /// Disables procedural movement on legs and arms, moves the player to a sitting position in the car, puts the player in the seat, and makes the player visible.
+    /// </summary>
+    /// <param name="seat"></param>
     public override void Sit(GameObject seat)
     {
         transform.SetParent(seat.transform);
@@ -330,6 +336,10 @@ public class PlayerController : IPlayer, IDamageable
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
     }
 
+    /// <summary>
+    /// Enables procedural movement on legs and arms, moves the player out of the seat, and makes the player visible.
+    /// </summary>
+    /// <param name="pos"></param>
     public override void GetUp(Vector3 pos)
     {
         transform.SetParent(null);

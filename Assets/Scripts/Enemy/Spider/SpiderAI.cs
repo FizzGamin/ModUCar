@@ -22,8 +22,8 @@ public class SpiderAI : IEnemy
     public float walkPointRange;
 
     // ATTACKING
-    public float timeBetweenAttacks; // this is how long the truck will be driving away from the player so that it can then turn and charge the player.
-    bool hitPlayer; // used for making the truck go out a bit after hitting the player before attacking again (to perform more of a charging action).
+    public float timeBetweenAttacks;
+    bool hitPlayer;
 
     // STATES
     public float sightRange;
@@ -46,7 +46,7 @@ public class SpiderAI : IEnemy
         player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         playerObj = GameObject.FindGameObjectWithTag("Player");
-        //give acceleraction a random value between a range (15, 50)
+        //give acceleraction a random value between a range (15, 50) for different difficulties.
         int randInt = Random.Range(15, 51);
         agent.acceleration = randInt;
     }
@@ -61,6 +61,9 @@ public class SpiderAI : IEnemy
             AttackPlayer();
     }
 
+    /// <summary>
+    /// Handles the patrolling mode for the Spider. Changes speed of Spider and procedural legs and goes to walk point.
+    /// </summary>
     private void Patrol()
     {
         // Update to patrol speeds
@@ -87,6 +90,9 @@ public class SpiderAI : IEnemy
             walkPointSet = false;
     }
 
+    /// <summary>
+    /// Searches for a random point for the Spider to walk to within walkPointRange and goes there if it is a valid point.
+    /// </summary>
     private void SearchWalkPoint()
     {
         // create the point to go to
@@ -99,6 +105,9 @@ public class SpiderAI : IEnemy
             walkPointSet = true;
     }
 
+    /// <summary>
+    /// Handles the attacking mode for the Spider, changes the speed of the spider and legs, and looks toward the player if the angle between the two gets too big.
+    /// </summary>
     private void AttackPlayer()
     {
         // Update to attack speeds
@@ -111,17 +120,7 @@ public class SpiderAI : IEnemy
             leg.SpiderChaseSpeed();
 
         // look toward the player
-        float angle = Vector3.Angle(transform.forward, player.position); //changed walkPoint to player.position
-
-        //Debug.DrawLine(Vector3.zero, transform.forward, Color.green, 10f);
-        //Debug.DrawLine(Vector3.zero, player.position, Color.red, 10f);
-        /*
-        if (agent.pathPending == true)
-        {
-            agent.speed = 0;
-            agent.velocity = Vector3.zero;
-            agent.isStopped = true;
-        }*/
+        float angle = Vector3.Angle(transform.forward, player.position);
 
         if (angle > 20)
             transform.LookAt(player.position); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
@@ -129,6 +128,10 @@ public class SpiderAI : IEnemy
         agent.SetDestination(player.position);
     }
 
+    /// <summary>
+    /// When the spider's attack colliders collide with something, checks if it is something that can take damage and call the appropriate takeDamage function.
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
         //Spider can damage either the truck of the player
@@ -145,32 +148,17 @@ public class SpiderAI : IEnemy
             Invoke(nameof(ResetAttack), 0.5f);
         }
     }
-
     private void ResetAttack()
     {
         hitPlayer = false;
     }
 
-    /* Creates a gizmo showing the sight range of the spider */
+    /// <summary>
+    /// Creates a gizmo showing the sight range of the Spider
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
-
-
-    /*
-    // Start is called before the first frame update
-    void Start()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        InvokeRepeating(nameof(GoToLocation), 3, 5);
-    }
-
-    private void GoToLocation()
-    {
-        agent.SetDestination(new Vector3(Random.Range(25f, 100f), 0, Random.Range(25f, 100f)));
-        transform.eulerAngles = new Vector3(0, 180, 0);
-    }
-    */
 }

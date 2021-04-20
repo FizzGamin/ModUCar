@@ -67,18 +67,17 @@ public class TruckAI : IEnemy
             Patrol();
         if (playerInSightRange)
             AttackPlayer();
-
     }
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerObj = GameObject.FindGameObjectWithTag("Player");
-        //driveInfluence = Input.GetAxis("Vertical");
-        //steeringInfluence = Input.GetAxis("Horizontal");
     }
 
-    // called every frame
+    /// <summary>
+    /// Handles the patrol mode for the truck. Finds a walk point and drives toward it.
+    /// </summary>
     private void Patrol()
     {
         if (!walkPointSet)
@@ -89,8 +88,6 @@ public class TruckAI : IEnemy
         {
             Vector3 walkpointPosVector = (new Vector3(walkPoint.x, 0, walkPoint.z)) - transform.position;
             Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
-
-            //float angle = Vector3.SignedAngle(truckDirVector, walkpointPosVector, transform.position);
 
             float angle = Vector3.Angle(truckDirVector, walkpointPosVector);
             var cross = Vector3.Cross(walkpointPosVector, truckDirVector);
@@ -115,12 +112,15 @@ public class TruckAI : IEnemy
             Drive(angle * turnDir, power);
         }
 
-            // check if we have reached the walkPoint
+        // check if we have reached the walkPoint
         Vector3 distToWalkPoint = transform.position - walkPoint;
         if (distToWalkPoint.magnitude < 20f)
             walkPointSet = false;
     }
 
+    /// <summary>
+    /// Searches for a random point for the truck to drive to within walkPointRange and goes there if it is a valid point.
+    /// </summary>
     private void SearchWalkPoint()
     {
         // create the point to go to
@@ -133,24 +133,20 @@ public class TruckAI : IEnemy
             walkPointSet = true;
     }
 
-    /*
-     *  turn the wheels toward the player
-     *  IF THE ANGLE IS WITHIN A CERTAIN DEGREE, THEN THE TRUCK CAN ACCELERATE. 
-     *  IF IT IS OUTSIDE THAT RANGE, THE TRUCK SHOULD TURN ITS WHEELS SHARP BUT HAVE A MAXIMUM TURN DEGREE AND NOT ACCELERATE BUT GO AT A CONSTANT SPEED.
-    */
+    /// <summary>
+    /// Handles the attack mode for the truck. Calculates the angle to the player and a power based on the angle. Then calls the Drive function based on those values.
+    /// </summary>
     private void AttackPlayer()
     {
 
         Vector3 playerPosVector = (new Vector3(player.position.x, 0, player.position.z)) - transform.position;
         Vector3 truckDirVector = (new Vector3(transform.forward.x, 0, transform.forward.z)); //get the forward vector but in global terms
-
-        //float angle = Vector3.SignedAngle(truckDirVector, playerPosVector, transform.position);
         
         float angle = Vector3.Angle(truckDirVector, playerPosVector);
         var cross = Vector3.Cross(playerPosVector, truckDirVector);
         if (cross.y > 0) angle = -angle;
         
-        float turnDir = 1;
+        //float turnDir = 1;
         float power = vehiclePower;
         if (this.GetComponent<Rigidbody>().velocity.magnitude > 40 && (angle > MAXTURNANGLE || angle < -MAXTURNANGLE))
             BrakeToStop();
@@ -159,18 +155,22 @@ public class TruckAI : IEnemy
             if (angle > 0)
             {
                 angle = MAXTURNANGLE;
-                turnDir = 1;
+                //turnDir = 1;
             }
             else
             {
                 angle = -MAXTURNANGLE;
-                turnDir = -1;
+                //turnDir = -1;
             }
             power = vehiclePower / 2;
         }
         Drive(angle, power);
     }
 
+    /// <summary>
+    /// When the truck's attack colliders collide with something, checks if it is something that can take damage and call the appropriate takeDamage function.
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
         //truck can damage either the spider or the player
@@ -192,19 +192,27 @@ public class TruckAI : IEnemy
         hitPlayer = false;
     }
 
+    /// <summary>
+    /// Applies torque on the wheels to move the truck forward based on the power input, and turns the wheels based on the direction dir.
+    /// </summary>
+    /// <param name="dir"></param>
+    /// <param name="power"></param>
     private void Drive(float dir, float power)
     {
         vehicleSteeringAngle = dir;
         foreach (WheelCollider wc in steeringWheelColliders)
         {
-            wc.steerAngle = Mathf.Lerp(wc.steerAngle, vehicleSteeringAngle/* * steeringInfluence*/, 5f * Time.deltaTime);
+            wc.steerAngle = Mathf.Lerp(wc.steerAngle, vehicleSteeringAngle, 5f * Time.deltaTime);
         }
         foreach (WheelCollider wc in powerWheelColliders)
         {
-            wc.motorTorque = /*driveInfluence * */power;
+            wc.motorTorque = power;
         }
     }
 
+    /// <summary>
+    /// Increases the brake torque to bring the truck to a stop or at least slow it down.
+    /// </summary>
     private void BrakeToStop()
     {
         foreach (WheelCollider wc in powerWheelColliders)
@@ -217,7 +225,9 @@ public class TruckAI : IEnemy
         }
     }
 
-    /* Creates a gizmo showing the sight range of the truck */
+    /// <summary>
+    /// Creates a gizmo showing the sight range of the truck
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
