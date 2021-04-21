@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class TruckAI : IEnemy
 {
@@ -32,9 +33,11 @@ public class TruckAI : IEnemy
     public float sightRange;
     bool playerInSightRange;
 
+    GameObject healthBar;
     public override void TakeDamage(float damage)
     {
         health -= damage;
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage);
         if (health <= 0)
             Invoke(nameof(OnDeath), .5f);
     }

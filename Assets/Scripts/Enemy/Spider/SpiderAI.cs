@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class SpiderAI : IEnemy 
 {
@@ -33,7 +34,7 @@ public class SpiderAI : IEnemy
     public override void TakeDamage(float damage)
     {
         health -= damage;
-        //healthBar;
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage);
         if (health <= 0)
             Invoke(nameof(OnDeath), .5f);
     }
@@ -51,7 +52,7 @@ public class SpiderAI : IEnemy
         //give acceleraction a random value between a range (15, 50) for different difficulties.
         int randInt = Random.Range(15, 51);
         agent.acceleration = randInt;
-        //healthBar = transform.FindChild("HealthBar");
+        healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
     }
 
     void Update()
@@ -126,7 +127,10 @@ public class SpiderAI : IEnemy
         float angle = Vector3.Angle(transform.forward, player.position);
 
         if (angle > 20)
-            transform.LookAt(player.position); // WILL NEED TO CHANGE THIS. Make it so it follows along the up axis.
+        {
+            Vector3 targetPosition = new Vector3(player.position.x, this.transform.position.y, player.position.z);
+            transform.LookAt(targetPosition);
+        }
 
         agent.SetDestination(player.position);
     }
