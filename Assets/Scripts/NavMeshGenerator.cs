@@ -17,8 +17,14 @@ public class NavMeshGenerator : MonoBehaviour
         surface.BuildNavMesh();
     }
     // Update is called once per frame
+    int count = 0;
     void Update()
     {
-        
+        count++;
+        if (count > 1200)
+        {
+            count = 0;
+            //surface.UpdateNavMesh(surface.navMeshData);
+        }
     }
 }

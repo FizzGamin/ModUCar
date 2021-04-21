@@ -29,9 +29,11 @@ public class SpiderAI : IEnemy
     public float sightRange;
     bool playerInSightRange;
 
+    GameObject healthBar;
     public override void TakeDamage(float damage)
     {
         health -= damage;
+        //healthBar;
         if (health <= 0)
             Invoke(nameof(OnDeath), .5f);
     }
@@ -49,6 +51,7 @@ public class SpiderAI : IEnemy
         //give acceleraction a random value between a range (15, 50) for different difficulties.
         int randInt = Random.Range(15, 51);
         agent.acceleration = randInt;
+        //healthBar = transform.FindChild("HealthBar");
     }
 
     void Update()
