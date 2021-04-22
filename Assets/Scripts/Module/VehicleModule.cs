@@ -8,13 +8,13 @@ public abstract class VehicleModule : IItem, IInteractable
     protected bool isEquipped = false;
 
 
-    public string GetInteractionText()
+    public virtual string GetInteractionText()
     {
         if (!isEquipped) return "Pick up " + GetName();
         else return null;
     }
 
-    public void Interact(IPlayer player)
+    public virtual void Interact(IPlayer player)
     {
         if (!isEquipped) player.TakeItem(gameObject);
     }
