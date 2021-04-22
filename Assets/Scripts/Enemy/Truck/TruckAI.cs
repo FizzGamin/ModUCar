@@ -28,18 +28,19 @@ public class TruckAI : IEnemy
     // ATTACKING
     public float timeBetweenAttacks; // this is how long the truck will be driving away from the player so that it can then turn and charge the player.
     bool hitPlayer; // used for making the truck go out a bit after hitting the player before attacking again (to perform more of a charging action).
+    bool hitEnemy;
 
     // STATES
     public float sightRange;
     bool playerInSightRange;
 
-    GameObject healthBar;
+    private GameObject healthBar;
     public override void TakeDamage(float damage)
     {
         health -= damage;
-        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage);
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/health);
         if (health <= 0)
-            Invoke(nameof(OnDeath), .5f);
+            Invoke(nameof(OnDeath), .1f);
     }
 
     public override void OnDeath()
@@ -76,6 +77,7 @@ public class TruckAI : IEnemy
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerObj = GameObject.FindGameObjectWithTag("Player");
+        healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
     }
 
     /// <summary>
@@ -183,16 +185,17 @@ public class TruckAI : IEnemy
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
-        if (other.gameObject.tag == "Enemy_Spider")
+        if (other.gameObject.tag == "Enemy_Spider" && !hitEnemy)
         {
             other.gameObject.GetComponent<SpiderAI>().TakeDamage(10);
-            hitPlayer = true;
+            hitEnemy = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
     }
     private void ResetAttack()
     {
         hitPlayer = false;
+        hitEnemy = false;
     }
 
     /// <summary>

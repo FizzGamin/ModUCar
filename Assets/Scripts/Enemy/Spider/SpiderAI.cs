@@ -25,18 +25,19 @@ public class SpiderAI : IEnemy
     // ATTACKING
     public float timeBetweenAttacks;
     bool hitPlayer;
+    bool hitEnemy;
 
     // STATES
     public float sightRange;
     bool playerInSightRange;
 
-    GameObject healthBar;
+    private GameObject healthBar;
     public override void TakeDamage(float damage)
     {
         health -= damage;
-        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage);
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/health);
         if (health <= 0)
-            Invoke(nameof(OnDeath), .5f);
+            Invoke(nameof(OnDeath), .1f);
     }
 
     public override void OnDeath()
@@ -148,16 +149,17 @@ public class SpiderAI : IEnemy
             hitPlayer = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
-        if (other.gameObject.tag == "Enemy_Truck")
+        if (other.gameObject.tag == "Enemy_Truck" && !hitEnemy)
         {
             other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
-            hitPlayer = true;
+            hitEnemy = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
     }
     private void ResetAttack()
     {
         hitPlayer = false;
+        hitEnemy = false;
     }
 
     /// <summary>
