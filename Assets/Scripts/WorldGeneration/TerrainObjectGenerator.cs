@@ -23,9 +23,12 @@ public class TerrainObjectGenerator : MonoBehaviour
     {
         spawnYMin = GrassHeightMin;
         spawnYMax = GetGrassHeightMax();
-        treeRadius = 10 * (int)meshSettings.meshScale;
-        bushRadius = 15 * (int)meshSettings.meshScale;
-        buildingRadius = 80 * (int)meshSettings.meshScale;
+        if (Random.Range(0, 100) < 20) //20% Chance of spawning a forrest
+            treeRadius = Random.Range(4, 7);
+        else
+            treeRadius = Random.Range(10, 25);
+        bushRadius = Random.Range(treeRadius, treeRadius + 5);
+        buildingRadius = Random.Range(80, 200);
         StartCoroutine(GenerateObjects(trees, treeRadius));
         StartCoroutine(GenerateObjects(bushes, bushRadius));
         StartCoroutine(GenerateObjects(buildings, buildingRadius, 1));
@@ -76,12 +79,8 @@ public class TerrainObjectGenerator : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         Mesh mesh = GetComponent<MeshFilter>().mesh; //Get the mesh filter of the gameobject we are connected to (The terrain)
         Vector3[] vertices = mesh.vertices; //Create an array and reference it to all of the vertices in the terrain. (basically create an array that lists all of the vertices)
-        int chunkSize = getChunkSize(vertices);
-        float size = chunkSize / meshSettings.meshScale;
-        Debug.LogWarning("chunkSize: " + chunkSize + " size " + size);
-        List<Vector2> pointsForGeneration = PoissonDiscSampling.GeneratePoints(radius, new Vector2(size, size));
-        Debug.LogWarning("Length: " + vertices.Length);
-        //Debug.LogWarning(vertices[0] + "" +  vertices[1] + "" + vertices[2] + "" + vertices[3]);
+        float chunkSizeScaled = getChunkSize(vertices) / meshSettings.meshScale;
+        List<Vector2> pointsForGeneration = PoissonDiscSampling.GeneratePoints(radius, new Vector2(chunkSizeScaled, chunkSizeScaled));
 
         int count = 0;
 
@@ -89,8 +88,10 @@ public class TerrainObjectGenerator : MonoBehaviour
         {
             if (count++ < objectCountLimt)
             {
-                int index = getIndex((int)v.x, (int)v.y, chunkSize, vertices.Length, vertices[0]);//v.x, v.y, vertices[0]);
-                Debug.LogWarning("X: " + v.x + " Y: " + v.y + " vertices[0]: " + vertices[0] + " vertices[" + index + "]: " + vertices[index]);
+                Vector2 point = new Vector2(v.x - 61, v.y - 61);
+
+                int index = getIndex((int)point.x, (int)point.y, Mathf.RoundToInt(chunkSizeScaled), vertices.Length);
+                Debug.LogWarning("X: " + point.x + " Y: " + point.y + " vertices[0]: " + vertices[0] + " vertices[" + index + "]: " + vertices[index]);
 
                 Vector3 position = transform.TransformPoint(vertices[index]);
                 if (position.y > spawnYMin && position.y < spawnYMax)
@@ -101,61 +102,32 @@ public class TerrainObjectGenerator : MonoBehaviour
                 }
             }
         }
-
-        //for (int i = 0; i < vertices.Length; i++) // For every single vertex in array (and by extension the terrain)
-        //{
-        //    Vector3 position = transform.TransformPoint(vertices[i]); // Get the position of the vertex we're on.
-
-        //    Vector2 temp = new Vector2(Mathf.Abs(Mathf.CeilToInt(position.x % chunkSize / meshSettings.meshScale)), Mathf.Abs(Mathf.CeilToInt(position.z % chunkSize / meshSettings.meshScale)));
-
-        //    if (pointsForGeneration.Contains(temp))
-        //    {
-        //        if (position.y > spawnYMin && position.y < spawnYMax)
-        //        {
-        //            int objectIndex = Random.Range(0, objects.Count);
-        //            GameObject terrainObject = objects[objectIndex];
-        //            Instantiate(terrainObject, position, Quaternion.identity);
-        //        }
-        //    }
-        //}
         yield break;
     }
 
-    private int getIndex(int x, int y, int chunkSize, int length, Vector3 vector3)
+    private int getIndex(int x, int y, int chunkSizeScaled, int length)
     {
-        if (length < 1)
-            return 0;
+        if (length < 1) return 0;
 
-        if (Mathf.Abs(x) < chunkSize)
-            chunkSize = chunkSize / 2 + 1;
-        else
-            chunkSize++;
+        //The Starting x and Y cords will always be -61 and 61  (Times mesh scale but we're scaling everything down anyways so we leave it at -61,61)
+        int startingX = -61; 
+        int startingY = 61;
 
-        x = x % chunkSize / (int)meshSettings.meshScale;
-        y = y % chunkSize / (int)meshSettings.meshScale;
-
-        if (length > Mathf.Pow(2 * x, 2))
+        if (length > Mathf.Pow(chunkSizeScaled, 2))//if LOD is greater than 0 then vertices count will be less normal
         {
-            int startingX = (int)(vector3.x % chunkSize / meshSettings.meshScale);
-            int startingY = (int)(vector3.z % chunkSize / meshSettings.meshScale); //Since vector 3 is a 3d vector the y value in vector2 is equivalent to the z value in vector3
-
-            //Debug.LogWarning("startingX: " + startingX + " startingY: " + startingY);
-
-            int differenceX = Mathf.Abs((startingX - x)); //Since starting x will almosty always be negative then take absolute value
+            int differenceX = Mathf.Abs(startingX - x); //Since starting x will always be negative then take absolute value
             int differenceY = startingY - y;
 
-            Debug.LogWarning("X: " + x + " Y: " + y + " startingX: " + startingX + " startingY: " + startingY + " differenceX: " + differenceX + " differenceY: " + differenceY);
-
-            int yCalculated = (differenceY * (Mathf.Abs(startingY * 2) + 1)); //convert y coord to index value, add the 1 for the offset
+            int yCalculated = differenceY * (chunkSizeScaled + 1); //convert y coord to index value, add the 1 for the offset
 
             return differenceX + yCalculated;
         }
-        else
+        else //For the case when LOD > 0 for the current chunk
         {
-
+            //Code goes Here
+            Debug.LogWarning("Length: " + length + " MathF: " + Mathf.Pow(chunkSizeScaled, 2));
             return 0;
         }
-
     }
 
     private int getChunkSize(Vector3[] vertices)

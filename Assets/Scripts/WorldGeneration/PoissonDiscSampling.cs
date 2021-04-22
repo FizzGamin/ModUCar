@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,15 +14,15 @@ public static class PoissonDiscSampling
 		spawnPoints.Add(sampleRegionSize / 2);
 		while (spawnPoints.Count > 0)
 		{
-			int spawnIndex = UnityEngine.Random.Range(0, spawnPoints.Count);
+			int spawnIndex = Random.Range(0, spawnPoints.Count);
 			Vector2 spawnCentre = spawnPoints[spawnIndex];
 			bool candidateAccepted = false;
 
 			for (int i = 0; i < numSamplesBeforeRejection; i++)
 			{
-				float angle = UnityEngine.Random.value * Mathf.PI * 2;
+				float angle = Random.value * Mathf.PI * 2;
 				Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-				Vector2 candidate = spawnCentre + dir * UnityEngine.Random.Range(radius, 2 * radius);
+				Vector2 candidate = spawnCentre + dir * Random.Range(radius, 2 * radius);
 				if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid))
 				{
 					points.Add(new Vector2(Mathf.CeilToInt(candidate.x), Mathf.CeilToInt(candidate.y)));
