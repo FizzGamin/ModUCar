@@ -78,7 +78,6 @@ public class TerrainObjectGenerator : MonoBehaviour
         Vector3[] vertices = mesh.vertices; //Create an array and reference it to all of the vertices in the terrain. (basically create an array that lists all of the vertices)
         int chunkSize = getChunkSize(vertices);
         float size = chunkSize / meshSettings.meshScale;
-        Debug.LogWarning("chunkSize: " + chunkSize + " size " + size);
         List<Vector2> pointsForGeneration = PoissonDiscSampling.GeneratePoints(radius, new Vector2(size, size));
         Debug.LogWarning("Length: " + vertices.Length);
         //Debug.LogWarning(vertices[0] + "" +  vertices[1] + "" + vertices[2] + "" + vertices[3]);
@@ -90,7 +89,6 @@ public class TerrainObjectGenerator : MonoBehaviour
             if (count++ < objectCountLimt)
             {
                 int index = getIndex((int)v.x, (int)v.y, chunkSize, vertices.Length, vertices[0]);//v.x, v.y, vertices[0]);
-                Debug.LogWarning("X: " + v.x + " Y: " + v.y + " vertices[0]: " + vertices[0] + " vertices[" + index + "]: " + vertices[index]);
 
                 Vector3 position = transform.TransformPoint(vertices[index]);
                 if (position.y > spawnYMin && position.y < spawnYMax)
@@ -143,8 +141,6 @@ public class TerrainObjectGenerator : MonoBehaviour
 
             int differenceX = Mathf.Abs((startingX - x)); //Since starting x will almosty always be negative then take absolute value
             int differenceY = startingY - y;
-
-            Debug.LogWarning("X: " + x + " Y: " + y + " startingX: " + startingX + " startingY: " + startingY + " differenceX: " + differenceX + " differenceY: " + differenceY);
 
             int yCalculated = (differenceY * (Mathf.Abs(startingY * 2) + 1)); //convert y coord to index value, add the 1 for the offset
 

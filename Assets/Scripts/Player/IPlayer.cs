@@ -45,9 +45,10 @@ public abstract class IPlayer : UserControllable
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxInteractDistance))
         {
-            if (hit.transform.gameObject != prevLookedAt)
+            if (hit.collider.transform.gameObject != prevLookedAt)
             {
-                prevLookedAt = hit.transform.gameObject;
+                Debug.Log(hit.collider.transform.gameObject.name);
+                prevLookedAt = hit.collider.transform.gameObject;
                 VehicleController vehicleController = prevLookedAt.GetComponent<VehicleController>();
                 if (vehicleController != null)
                 {

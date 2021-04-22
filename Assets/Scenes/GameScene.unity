@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4349467, g: 0.4807909, b: 0.5369575, a: 1}
+  m_IndirectSpecularColor: {r: 0.43494707, g: 0.48079163, b: 0.5369578, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1034,8 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 527f056e98c8eba4cacab62b01199536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5894002858909161035, guid: 6c09b43168e101640ad8121cecc67857,
-    type: 3}
+  playerPrefab: {fileID: 0}
 --- !u!1 &676133175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,15 +1093,6 @@ MonoBehaviour:
   numOfTrees: 0
   numOfBushes: 0
   numOfBuildings: 0
-  trees:
-  - {fileID: 1970681966781816, guid: 6c9e41e24d2bc6b488c927f43944457b, type: 3}
-  - {fileID: 1970681966781816, guid: 84bb771a8038d2648bd2421451c4018d, type: 3}
-  - {fileID: 1970681966781816, guid: 7d39a68237432ea41ae92c75eb21dcf4, type: 3}
-  - {fileID: 1970681966781816, guid: a7984f59c227d0240b9771d2797a085c, type: 3}
-  bushes:
-  - {fileID: 1639987689182440, guid: 4c001ec3cbfef9446a573fe16815e9af, type: 3}
-  - {fileID: 1639987689182440, guid: 1237551950c246d43ab02b1d69e6f317, type: 3}
-  buildings: []
 --- !u!114 &676133178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,7 +1717,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056663127}
-  m_Mesh: {fileID: 1967524903}
+  m_Mesh: {fileID: 2130323644}
 --- !u!1 &1183243602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2858,7 +2848,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2016067929}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &2050128963
+--- !u!43 &2130323644
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

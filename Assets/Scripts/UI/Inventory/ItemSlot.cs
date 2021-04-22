@@ -26,13 +26,6 @@ public abstract class ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, I
         UpdateImageSprite();
     }
 
-    public virtual IItem Swap(IItem newItem)
-    {
-        if (!CanHold(newItem)) throw new ArgumentException("Attempted to swap in an item that was not able to be held into an item slot");
-        IItem ret = GetItem();
-        SetItem(newItem);
-        return ret;
-    }
     public abstract bool CanHold(IItem item);
     public void Select()
     {
@@ -84,10 +77,14 @@ public abstract class ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, I
         if (eventData.pointerCurrentRaycast.gameObject != null)
         {
             Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
-            ItemSlot slot = eventData.pointerCurrentRaycast.gameObject.GetComponent<ItemSlot>();
-            if (slot != null)
+            ItemSlot slot = eventData.pointerCurrentRaycast.gameObject.GetComponentInParent<ItemSlot>();
+            if (slot != null && slot.CanHold(GetItem()) && this.CanHold(slot.GetItem()))
             {
-                SetItem(slot.Swap(GetItem()));
+                IItem temp = GetItem();
+                IItem temp2 = slot.GetItem();
+                SetItem(null);
+                slot.SetItem(temp);
+                SetItem(temp2);
             }
         }
     }
