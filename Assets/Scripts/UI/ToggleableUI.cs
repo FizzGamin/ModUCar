@@ -40,4 +40,15 @@ public abstract class ToggleableUI : MonoBehaviour
             }
         }
     }
+
+    protected void CloseOnF()
+    {
+        if (isOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                this.Close();
+            }
+        }
+    }
 }

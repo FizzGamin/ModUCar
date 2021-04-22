@@ -26,6 +26,7 @@ public class ModuleUI : ToggleableUI
     void Update()
     {
         CloseOnEscape();
+        CloseOnF();
     }
 
     public static ModuleUI CreateModuleUI(VehicleController vehicle)

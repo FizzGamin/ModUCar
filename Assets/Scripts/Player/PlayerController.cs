@@ -191,7 +191,6 @@ public class PlayerController : IPlayer, IDamageable
 
         if (Physics.Raycast(leftRay, out RaycastHit infoA, 5, Physics.AllLayers))
         {
-            Debug.Log(infoA.distance);
             if (infoA.distance < 1.5f)
                 jumps = 0;
             else if (jumps == 0)

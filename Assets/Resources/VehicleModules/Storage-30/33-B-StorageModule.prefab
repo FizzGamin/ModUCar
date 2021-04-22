@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6993297750807394417}
   - component: {fileID: 6242821232700864468}
   - component: {fileID: 8162215344169435934}
+  - component: {fileID: 8112287413003669158}
+  - component: {fileID: 813844759208936871}
   m_Layer: 0
   m_Name: 33-B-StorageModule
   m_TagString: Untagged
@@ -81,3 +83,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8112287413003669158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658089605733409483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a494b3ea54b384dacf16abadd66209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEquipped: 0
+  quality: 3
+  numSlots: 5
+--- !u!64 &813844759208936871
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658089605733409483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: 94ea62ec7f3604e45a998628fdae3c99, type: 3}
