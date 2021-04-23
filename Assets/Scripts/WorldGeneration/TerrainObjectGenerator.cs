@@ -23,7 +23,7 @@ public class TerrainObjectGenerator : MonoBehaviour
     {
         spawnYMin = GrassHeightMin;
         spawnYMax = GetGrassHeightMax();
-        if (Random.Range(0, 100) < 20) //20% Chance of spawning a forrest
+        if (Random.Range(0, 100) < 20) //20% Chance of spawning a forest
             treeRadius = Random.Range(4, 7);
         else
             treeRadius = Random.Range(10, 25);
