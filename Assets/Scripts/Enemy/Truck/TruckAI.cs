@@ -191,6 +191,12 @@ public class TruckAI : IEnemy
             hitEnemy = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }
+        if (other.gameObject.tag == "Enemy_Truck" && !hitEnemy)
+        {
+            other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
+            hitEnemy = true;
+            Invoke(nameof(ResetAttack), 0.5f);
+        }
     }
     private void ResetAttack()
     {
@@ -201,8 +207,8 @@ public class TruckAI : IEnemy
     /// <summary>
     /// Applies torque on the wheels to move the truck forward based on the power input, and turns the wheels based on the direction dir.
     /// </summary>
-    /// <param name="dir"></param>
-    /// <param name="power"></param>
+    /// <param name="dir">The angle the wheels will turn.</param>
+    /// <param name="power">The power given to the wheels that turn to make the vehicle go.</param>
     private void Drive(float dir, float power)
     {
         vehicleSteeringAngle = dir;

@@ -186,23 +186,24 @@ public class PlayerController : IPlayer, IDamageable
     /// </summary>
     private void HandleJumps()
     {
-        Ray leftRay = new Ray(root.position - new Vector3(3, 0, 0), Vector3.down);
-        Ray rightRay = new Ray(root.position + new Vector3(3, 0, 0), Vector3.down);
+        List<Ray> rayList = new List<Ray>
+        {
+            new Ray(root.position - new Vector3(2, 0, 0), Vector3.down),
+            new Ray(root.position + new Vector3(2, 0, 0), Vector3.down),
+            new Ray(root.position - new Vector3(0, 0, 2), Vector3.down),
+            new Ray(root.position + new Vector3(0, 0, 2), Vector3.down)
+        };
 
-        if (Physics.Raycast(leftRay, out RaycastHit infoA, 5, Physics.AllLayers))
+        foreach (Ray ray in rayList)
         {
-            if (infoA.distance < 1.5f)
-                jumps = 0;
-            else if (jumps == 0)
-                jumps = 1;
-        }
-        
-        if (Physics.Raycast(rightRay, out RaycastHit infoB, 5, Physics.AllLayers))
-        {
-            if (infoB.distance < 1.5f)
-                jumps = 0;
-            else if (jumps == 0)
-                jumps = 1;
+            if (Physics.Raycast(ray, out RaycastHit info, 5, Physics.AllLayers))
+            {
+                Debug.DrawRay(ray.origin, ray.direction, Color.red, 10f);
+                if (info.distance < 1.5f)
+                    jumps = 0;
+                else if (jumps == 0)
+                    jumps = 1;
+            }
         }
     }
 

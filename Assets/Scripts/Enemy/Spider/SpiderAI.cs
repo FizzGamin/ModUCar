@@ -35,6 +35,7 @@ public class SpiderAI : IEnemy
     public override void TakeDamage(float damage)
     {
         health -= damage;
+        Debug.Log("Spider Health: " + health);
         healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/health);
         if (health <= 0)
             Invoke(nameof(OnDeath), .1f);
