@@ -24,7 +24,7 @@ public class NavMeshGenerator : MonoBehaviour
         if (count > 1200)
         {
             count = 0;
-            //surface.UpdateNavMesh(surface.navMeshData);
+            surface.UpdateNavMesh(surface.navMeshData);
         }
     }
 }

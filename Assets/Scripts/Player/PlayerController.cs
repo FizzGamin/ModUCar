@@ -135,7 +135,6 @@ public class PlayerController : IPlayer, IDamageable
     private void HandleMovement()
     {
         Vector3 dir = Vector3.zero;
-
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             speed = sprintSpeed;
@@ -182,9 +181,23 @@ public class PlayerController : IPlayer, IDamageable
     }
 
     /// <summary>
-    /// Uses rays to check if the player is on the ground. Assigns the appropriate number of jumps to the player.
+    /// Assigns a number of jumps to the player based on if they are on the ground or not.
     /// </summary>
     private void HandleJumps()
+    {
+        int onGround = IsOnGround();
+        if (onGround == 1)
+            jumps = 0;
+        else if (onGround == -1)
+            jumps = 1;
+    }
+
+    /// <summary>
+    /// Creates 4 rays pointing down, 1 on each side of the player and checks if the ray hits the ground and uses the 
+    /// length of that value to determine if the player is on the ground or not. 
+    /// </summary>
+    /// <returns>1 if the player is on the ground, -1 if they are not, 0 otherwise.</returns>
+    public int IsOnGround()
     {
         List<Ray> rayList = new List<Ray>
         {
@@ -198,13 +211,14 @@ public class PlayerController : IPlayer, IDamageable
         {
             if (Physics.Raycast(ray, out RaycastHit info, 5, Physics.AllLayers))
             {
-                Debug.DrawRay(ray.origin, ray.direction, Color.red, 10f);
+
                 if (info.distance < 1.5f)
-                    jumps = 0;
+                    return 1;
                 else if (jumps == 0)
-                    jumps = 1;
+                    return -1;
             }
         }
+        return 0;
     }
 
     private void HandleUse()
