@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 524403986}
   - component: {fileID: 524403988}
   - component: {fileID: 524403987}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 805540723}
   - component: {fileID: 805540724}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 1595306245}
   - component: {fileID: 1595306244}
   - component: {fileID: 1595306243}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 1664438250}
   - component: {fileID: 1664438252}
   - component: {fileID: 1664438251}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 2552727656829116531}
   - component: {fileID: 8104734879269598321}
   - component: {fileID: 201611796043340520}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 6644946467311502478}
   - component: {fileID: 7254714087438522310}
   - component: {fileID: 1471918108700937838}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 6347983117289417667}
   - component: {fileID: 8083450144405030560}
   - component: {fileID: 5387640613601702749}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canister
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,7 +580,7 @@ GameObject:
   - component: {fileID: 4141818245617219364}
   - component: {fileID: 6920620667147229141}
   - component: {fileID: 2553242346876078879}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pipes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -662,7 +662,7 @@ GameObject:
   - component: {fileID: 4494994410201739391}
   - component: {fileID: 2481098800258720557}
   - component: {fileID: 832971736447279391}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -775,7 +775,7 @@ GameObject:
   - component: {fileID: 1094866368929512037}
   - component: {fileID: 1094866368929512032}
   - component: {fileID: 485981817}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_Truck_AI
   m_TagString: Enemy_Truck
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 8659565736284685146}
   - component: {fileID: 2119639074927043522}
   - component: {fileID: 1756195513682929257}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1002,7 +1002,7 @@ GameObject:
   - component: {fileID: 3344159267742970644}
   - component: {fileID: 8318717355062029473}
   - component: {fileID: 4138897333228993497}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1114,7 +1114,7 @@ GameObject:
   - component: {fileID: 1685151890420270456}
   - component: {fileID: 407471970135929270}
   - component: {fileID: 6100829455641792666}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1225,7 +1225,7 @@ GameObject:
   - component: {fileID: 4396591218461347089}
   - component: {fileID: 6847678008486945578}
   - component: {fileID: 4246531243242080890}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: out_shades
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1306,7 +1306,7 @@ GameObject:
   - component: {fileID: 5986114576971339856}
   - component: {fileID: 3899551211023115649}
   - component: {fileID: 561457556386587068}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Truck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1392,7 +1392,7 @@ GameObject:
   - component: {fileID: 2574181072177024840}
   - component: {fileID: 4584459534810079149}
   - component: {fileID: 729234066159679425}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: in_shades
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1474,7 +1474,7 @@ GameObject:
   - component: {fileID: 4302922839876364563}
   - component: {fileID: 4590096218598172615}
   - component: {fileID: 8124952366426806020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
