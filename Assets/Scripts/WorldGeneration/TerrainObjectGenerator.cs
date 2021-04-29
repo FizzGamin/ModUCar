@@ -14,39 +14,75 @@ public class TerrainObjectGenerator : MonoBehaviour
     private List<GameObject> trees;
     private List<GameObject> bushes;
     private List<GameObject> buildings;
+    private List<GameObject> enemies;
 
     private int treeRadius;
     private int bushRadius;
     private int buildingRadius;
+    private List<int> enemiesRadius = new List<int>();
+
+    private Vector2 chunkCoord;
+    private int enemySpawnRate;//The greater the difficulty the higher the spawn rate of monsters
 
     public void Start()
     {
         spawnYMin = GrassHeightMin;
         spawnYMax = GetGrassHeightMax();
-        if (Random.Range(0, 100) < 20) //20% Chance of spawning a forest
-            treeRadius = Random.Range(4, 7);
-        else
-            treeRadius = Random.Range(10, 25);
-        bushRadius = Random.Range(treeRadius, treeRadius + 5);
-        buildingRadius = Random.Range(80, 200);
-        StartCoroutine(GenerateObjects(trees, treeRadius));
-        StartCoroutine(GenerateObjects(bushes, bushRadius));
-        StartCoroutine(GenerateObjects(buildings, buildingRadius, 1));
+        SetupRadius();
+        StartCoroutines();
     }
 
+    private void StartCoroutines()
+    {
+        StartCoroutine(GenerateObjects(trees, treeRadius, 0));
+        StartCoroutine(GenerateObjects(bushes, bushRadius, 0));
+        StartCoroutine(GenerateObjects(buildings, buildingRadius, 0, 1));
 
+        int index = 0;
+        foreach (GameObject enemy in enemies)
+        {
+            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], 50));
+        }
+    }
 
-    public void SetupSettings(TextureData textureSettings, HeightMapSettings heightMapSettings, MeshSettings meshSettings)
+    public void SetupSettings(TextureData textureSettings, HeightMapSettings heightMapSettings, MeshSettings meshSettings, Vector2 coord)
     {
         this.textureSettings = textureSettings;
         this.heightMapSettings = heightMapSettings;
         this.meshSettings = meshSettings;
+        chunkCoord = coord;
         SetupTrees();
         SetupBushes();
         SetupBuildings();
+        SetupEnemies();
     }
 
-    public void SetupTrees()
+    private void SetupRadius()
+    {
+        enemySpawnRate = (int)(Mathf.Abs(chunkCoord.x) + Mathf.Abs(chunkCoord.y));
+
+        if (Random.Range(0, 100) < 20) //20% Chance of spawning a forest
+            treeRadius = Random.Range(4, 7);
+        else
+            treeRadius = Random.Range(10, 50);
+
+        bushRadius = Random.Range(treeRadius, treeRadius + 5);
+        buildingRadius = Random.Range(80, 200);
+
+        //if radius goes below 10 then sets radius to 10
+        enemiesRadius.Add(Mathf.Max(10, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
+        enemiesRadius.Add(Mathf.Max(10, Random.Range(70, 200) - enemySpawnRate)); //Truck at Index 1
+    }
+
+    private void SetupEnemies()
+    {
+        GameObject spider = (GameObject)Resources.Load("Prefabs/Enemy_Spider", typeof(GameObject));
+        GameObject truck = (GameObject)Resources.Load("Prefabs/Enemy_Truck_AI", typeof(GameObject));
+
+        enemies = new List<GameObject> { spider, truck };
+    }
+
+    private void SetupTrees()
     {
         GameObject tree1 = (GameObject)Resources.Load("Prefabs/Trees/RedWood 1", typeof(GameObject));
         GameObject tree2 = (GameObject)Resources.Load("Prefabs/Trees/RedWood 2", typeof(GameObject));
@@ -56,7 +92,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         trees = new List<GameObject>() { tree1, tree2, tree3, tree4 };
     }
 
-    public void SetupBushes()
+    private void SetupBushes()
     {
         GameObject bush1 = (GameObject)Resources.Load("Prefabs/Trees/Bush 1", typeof(GameObject));
         GameObject bush2 = (GameObject)Resources.Load("Prefabs/Trees/Bush 2", typeof(GameObject));
@@ -64,7 +100,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         bushes = new List<GameObject>() { bush1, bush2 };
     }
 
-    public void SetupBuildings()
+    private void SetupBuildings()
     {
         GameObject building1 = (GameObject)Resources.Load("Prefabs/Buildings/smallHouse", typeof(GameObject));
         GameObject building2 = (GameObject)Resources.Load("Prefabs/Buildings/smallStoreA", typeof(GameObject));
@@ -74,7 +110,7 @@ public class TerrainObjectGenerator : MonoBehaviour
     }
 
 
-    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int objectCountLimt = 99999999)
+    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int yIncrease, int objectCountLimt = 99999999)
     {
         yield return new WaitForSeconds(.1f);
         Mesh mesh = GetComponent<MeshFilter>().mesh; //Get the mesh filter of the gameobject we are connected to (The terrain)
@@ -91,14 +127,14 @@ public class TerrainObjectGenerator : MonoBehaviour
                 Vector2 point = new Vector2(v.x - 61, v.y - 61);
 
                 int index = getIndex((int)point.x, (int)point.y, Mathf.RoundToInt(chunkSizeScaled), vertices.Length);
-                Debug.LogWarning("X: " + point.x + " Y: " + point.y + " vertices[0]: " + vertices[0] + " vertices[" + index + "]: " + vertices[index]);
+                //Debug.LogWarning("X: " + point.x + " Y: " + point.y + " vertices[0]: " + vertices[0] + " vertices[" + index + "]: " + vertices[index]);
 
                 Vector3 position = transform.TransformPoint(vertices[index]);
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
-                    Instantiate(terrainObject, position, Quaternion.identity);
+                    Instantiate(terrainObject, new Vector3(position.x, position.y + yIncrease, position.z), Quaternion.identity);
                 }
             }
         }
@@ -110,7 +146,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         if (length < 1) return 0;
 
         //The Starting x and Y cords will always be -61 and 61  (Times mesh scale but we're scaling everything down anyways so we leave it at -61,61)
-        int startingX = -61; 
+        int startingX = -61;
         int startingY = 61;
 
         if (length > Mathf.Pow(chunkSizeScaled, 2))//if LOD is greater than 0 then vertices count will be less normal
@@ -140,12 +176,12 @@ public class TerrainObjectGenerator : MonoBehaviour
     }
 
 
-    public float GetGrassHeightMax()
+    private float GetGrassHeightMax()
     {
         float height = textureSettings.layers[GrassLayerNumber + 1].startHeight;
         float heightMultiplier = heightMapSettings.heightMultiplier;
         return height * heightMultiplier;
     }
 
-    public float GrassHeightMin => textureSettings.layers[GrassLayerNumber].startHeight;
+    private float GrassHeightMin => textureSettings.layers[GrassLayerNumber].startHeight;
 }

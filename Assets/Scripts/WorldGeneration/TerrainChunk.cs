@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 public class TerrainChunk
 {
@@ -15,6 +15,7 @@ public class TerrainChunk
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
     MeshCollider meshCollider;
+    //NavMeshAgent navMeshAgent;
 
     LODInfo[] detailLevels;
     LODMesh[] lodMeshes;
@@ -38,7 +39,6 @@ public class TerrainChunk
         this.heightMapSettings = heightMapSettings;
         this.meshSettings = meshSettings;
         this.viewer = viewer;
-
         sampleCentre = coord * meshSettings.meshWorldSize / meshSettings.meshScale;
         Vector2 position = coord * meshSettings.meshWorldSize;
         bounds = new Bounds(position, Vector2.one * meshSettings.meshWorldSize);
@@ -49,11 +49,12 @@ public class TerrainChunk
         meshRenderer = meshObject.AddComponent<MeshRenderer>();
         meshFilter = meshObject.AddComponent<MeshFilter>();
         meshCollider = meshObject.AddComponent<MeshCollider>();
+        //navMeshAgent = meshObject.AddComponent<NavMeshAgent>();
         meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
 
         meshObject.AddComponent<TerrainObjectGenerator>();
-        meshObject.GetComponent<TerrainObjectGenerator>().SetupSettings(textureSettings, heightMapSettings, meshSettings);
+        meshObject.GetComponent<TerrainObjectGenerator>().SetupSettings(textureSettings, heightMapSettings, meshSettings, coord);
         
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
         meshObject.transform.parent = parent;
