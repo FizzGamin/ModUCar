@@ -80,7 +80,7 @@ public class TurretModule : VehicleModule
         Vector3 flatAngle = new Vector3(enemyPos.x, turret.transform.position.y, enemyPos.z);
         Vector3 tiltAngle = new Vector3(enemyPos.x, enemyPos.y, enemyPos.z);
         float angle = Vector3.SignedAngle(flatAngle, tiltAngle, Vector3.forward);
-        Debug.Log(angle);
+
         if (angle > 80)
             return flatAngle.y;
         else if (angle < -30)

@@ -19,6 +19,7 @@ public class TruckAI : IEnemy
     private static int MAXTURNANGLE = 50;
 
     public float health;
+    private float maxHealth;
 
     // PATROL
     Vector3 walkPoint;
@@ -38,7 +39,8 @@ public class TruckAI : IEnemy
     public override void TakeDamage(float damage)
     {
         health -= damage;
-        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/health);
+        Debug.Log("Enemy health: " + health + "  damage: " + damage);
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/maxHealth);
         if (health <= 0)
             Invoke(nameof(OnDeath), .1f);
     }
@@ -78,6 +80,7 @@ public class TruckAI : IEnemy
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerObj = GameObject.FindGameObjectWithTag("Player");
         healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
+        maxHealth = health;
     }
 
     /// <summary>

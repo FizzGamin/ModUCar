@@ -12,7 +12,9 @@ public class SpiderAI : IEnemy
     public List<SpiderIKSolver> legs1;
     public List<SpiderIKlegsSecond> legs2; 
     public List<SpiderIKlegsBack> legs3;
+
     public float health;
+    private float maxHealth;
 
     Transform player;
     GameObject playerObj;
@@ -35,8 +37,8 @@ public class SpiderAI : IEnemy
     public override void TakeDamage(float damage)
     {
         health -= damage;
-        Debug.Log("Spider Health: " + health);
-        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/health);
+        Debug.Log("Enemy health: " + health + "  damage: " + damage);
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/maxHealth);
         if (health <= 0)
             Invoke(nameof(OnDeath), .1f);
     }
@@ -55,6 +57,7 @@ public class SpiderAI : IEnemy
         int randInt = Random.Range(15, 51);
         agent.acceleration = randInt;
         healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
+        maxHealth = health;
     }
 
     void Update()

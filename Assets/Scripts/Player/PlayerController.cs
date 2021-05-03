@@ -56,6 +56,8 @@ public class PlayerController : IPlayer, IDamageable
     public void OnDeath()
     {
         isDead = true;
+        this.GetUp(transform.position);
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         this.ReleaseControl();
         UIManager.GetDeathMenuUI().Open(this);
 
@@ -63,7 +65,7 @@ public class PlayerController : IPlayer, IDamageable
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<Rigidbody>().isKinematic = true;
-        player.transform.position = player.transform.position + new Vector3(30, 5, 10);
+        player.transform.position = player.transform.position + new Vector3(30, 20, 30);
         player.transform.LookAt(GameObject.FindGameObjectWithTag("Ragdoll").transform);
         player.transform.Rotate(-90, 0, 0);
     }
@@ -83,6 +85,7 @@ public class PlayerController : IPlayer, IDamageable
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = spawnPos;
         player.GetComponent<Rigidbody>().isKinematic = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
         Destroy(GameObject.FindGameObjectWithTag("Ragdoll"));
     }
 
@@ -353,7 +356,7 @@ public class PlayerController : IPlayer, IDamageable
     /// <summary>
     /// Enables procedural movement on legs and arms, moves the player out of the seat, and makes the player visible.
     /// </summary>
-    /// <param name="pos"></param>
+    /// <param name="pos">The current position of the player.</param>
     public override void GetUp(Vector3 pos)
     {
         transform.SetParent(null);
