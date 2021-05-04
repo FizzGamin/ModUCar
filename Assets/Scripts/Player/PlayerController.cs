@@ -30,7 +30,8 @@ public class PlayerController : IPlayer, IDamageable
     public Transform armRoot;
 
     public Transform root;
-    
+
+    private bool immune;
     public float maxHP;
     private float curHP;
     private int jumps;
@@ -41,11 +42,14 @@ public class PlayerController : IPlayer, IDamageable
 
     public void TakeDamage(float damage)
     {
-        curHP -= damage;
-        if (curHP <= 0)
-        {   
-            if (!isDead)
-                OnDeath();
+        if (!immune)
+        {
+            curHP -= damage;
+            if (curHP <= 0)
+            {
+                if (!isDead)
+                    OnDeath();
+            }
         }
     }
 
@@ -56,8 +60,6 @@ public class PlayerController : IPlayer, IDamageable
     public void OnDeath()
     {
         isDead = true;
-        this.GetUp(transform.position);
-        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         this.ReleaseControl();
         UIManager.GetDeathMenuUI().Open(this);
 
@@ -111,6 +113,7 @@ public class PlayerController : IPlayer, IDamageable
 
         curHP = maxHP;
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+        immune = false;
     }
 
     void Update()
@@ -318,6 +321,7 @@ public class PlayerController : IPlayer, IDamageable
     /// <param name="seat"></param>
     public override void Sit(GameObject seat)
     {
+        immune = true;
         transform.SetParent(seat.transform);
         transform.localPosition = Vector3.zero;
         transform.rotation = Quaternion.LookRotation(seat.transform.up, seat.transform.forward * -1);
@@ -359,6 +363,7 @@ public class PlayerController : IPlayer, IDamageable
     /// <param name="pos">The current position of the player.</param>
     public override void GetUp(Vector3 pos)
     {
+        immune = false;
         transform.SetParent(null);
         transform.position = pos + new Vector3(0, 4, 0);
         transform.GetComponent<Rigidbody>().isKinematic = false;
