@@ -21,6 +21,7 @@ public class PlayerController : IPlayer, IDamageable
     private InventoryUI inventoryUI;
     private Rigidbody rb;
     private Vector3 resetRotation = Vector3.zero;
+    private bool controlBuffer = false;
 
     public List<PlayerIKsolverLegs> legScripts;
     public List<PlayerIKArms> armScripts;
@@ -120,12 +121,21 @@ public class PlayerController : IPlayer, IDamageable
     {
         if (isControlled)
         {
-            HandleUse();
-            HandleMovement();
-            HandleInventoryKeys();
-            HandlePause();
-            HandleInteraction();
-            HandleJumps();
+            //This boolean gets set to true when control is passed back to the player, but we want to skip that update since any keys pressed
+            //will then be processed here as well which is evil
+            if (controlBuffer)
+            {
+                controlBuffer = false;
+            }
+            else
+            {
+                HandleUse();
+                HandleMovement();
+                HandleInventoryKeys();
+                HandlePause();
+                HandleInteraction();
+                HandleJumps();
+            }
         }
 
         // Update the Player health bar visual
@@ -298,6 +308,7 @@ public class PlayerController : IPlayer, IDamageable
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
         isControlled = true;
+        controlBuffer = true;
 
         //Set their speed back to normal
         speed = walkSpeed;

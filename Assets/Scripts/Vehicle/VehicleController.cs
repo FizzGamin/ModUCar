@@ -246,6 +246,7 @@ public class VehicleController : UserControllable, IInteractable
         //Look to take fuel from FuelModules first
         foreach (VehicleModule module in modules)
         {
+            if (module == null) continue;
             FuelModule fuelModule;
             if ((fuelModule = module.GetComponent<FuelModule>()) != null)
             {
