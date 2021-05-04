@@ -373,4 +373,9 @@ public class PlayerController : IPlayer, IDamageable
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
     }
 
+    public override IItem GetEquippedItem()
+    {
+        return inventoryUI.GetSelectedItem();
+    }
+
 }
