@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class VehicleController : UserControllable, IInteractable
     public float cameraDistance = 10f;
 
     private List<ModuleSlot> moduleSlots = new List<ModuleSlot>();
+    private FuelBarUI fuelBar;
 
     bool isControlling = false;
 
@@ -42,6 +44,8 @@ public class VehicleController : UserControllable, IInteractable
         {
             moduleSlots.Add(moduleSlot);
         }
+
+        fuelBar = UIManager.GetFuelBarUI();
     }
 
     // Update is called once per frame
@@ -74,6 +78,7 @@ public class VehicleController : UserControllable, IInteractable
             RunPlayerVehicleControl();
             HandleMouseMovement();
             HandlePause();
+            UpdateFuelBar();
         }
     }
 
@@ -83,6 +88,13 @@ public class VehicleController : UserControllable, IInteractable
     {
         float driveInfluence = Input.GetAxis("Vertical");
         float steeringInfluence = Input.GetAxis("Horizontal");
+
+        //We check driveInfluence so that it won't call the ConsumeFuel function if the driveInfluence is 0
+        if (driveInfluence == 0 || !ConsumeFuel(driveInfluence))
+        {
+            if (driveInfluence != 0) Debug.Log("Out of fuel, refill the tank in ControlModule or StorageModule (or start with more fuel in either)");
+            driveInfluence = 0;
+        }
 
         //Apply force to go forward
         foreach (WheelCollider wc in powerWheelColliders)
@@ -199,6 +211,7 @@ public class VehicleController : UserControllable, IInteractable
         isControlling = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        fuelBar.gameObject.SetActive(true);
     }
 
     public override void ReleaseControl()
@@ -206,6 +219,7 @@ public class VehicleController : UserControllable, IInteractable
         isControlling = false;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+        fuelBar.gameObject.SetActive(false);
     }
 
     private ControlModule GetControlModule()
@@ -221,5 +235,59 @@ public class VehicleController : UserControllable, IInteractable
     public List<ModuleSlot> GetModuleSlots()
     {
         return new List<ModuleSlot>(moduleSlots);
+    }
+
+    private bool ConsumeFuel(float driveInfluence)
+    {
+        List<VehicleModule> modules = GetVehicleModules();
+        List<VehicleModule> nonFuelModules = new List<VehicleModule>();
+        double fuelToConsume = Math.Abs((double)driveInfluence * Time.deltaTime * .1);
+
+        //Look to take fuel from FuelModules first
+        foreach (VehicleModule module in modules)
+        {
+            FuelModule fuelModule;
+            if ((fuelModule = module.GetComponent<FuelModule>()) != null)
+            {
+                if (fuelModule.ConsumeFuel(fuelToConsume))
+                {
+                    return true;
+                }
+            } else
+            {
+                nonFuelModules.Add(module);
+            }
+        }
+
+        //Look for other fuel containers in the modules
+        foreach (VehicleModule module in nonFuelModules)
+        {
+            IFuelContainer fuelContainer;
+            if ((fuelContainer = module.GetComponentInChildren<IFuelContainer>()) != null)
+            {
+                if (fuelContainer.ConsumeFuel(fuelToConsume))
+                {
+                    return true;
+                }
+            }
+        }
+
+        //No driving for you today
+        return false;
+    }
+
+    private void UpdateFuelBar()
+    {
+        IFuelContainer[] fuelContainers = gameObject.GetComponentsInChildren<IFuelContainer>();
+        double totalCapacity = 0;
+        double totalFuel = 0;
+
+        foreach (IFuelContainer fuelContainer in fuelContainers)
+        {
+            totalCapacity += fuelContainer.GetCapacity();
+            totalFuel += fuelContainer.GetFuel();
+        }
+
+        fuelBar.SetFuel(totalFuel, totalCapacity);
     }
 }

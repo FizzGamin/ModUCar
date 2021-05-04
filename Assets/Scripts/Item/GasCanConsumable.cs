@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GasCanConsumable : IPickupable
+public class GasCanConsumable : FuelItem
 {
     public override string GetName()
     {
@@ -21,17 +21,5 @@ public class GasCanConsumable : IPickupable
     public override int GetWeight()
     {
         return 200;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

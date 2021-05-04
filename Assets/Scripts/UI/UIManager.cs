@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class UIManager : UnitySingleton<UIManager>
@@ -7,6 +9,7 @@ public class UIManager : UnitySingleton<UIManager>
     private DeathMenuUI deathMenuUI;
     private InteractionHud interactionHud;
     private InteractionHud vehicleInteractionHud;
+    private FuelBarUI fuelBarUI;
 
     public static GameObject GetUIBase()
     {
@@ -61,5 +64,15 @@ public class UIManager : UnitySingleton<UIManager>
     public static void SetVehicleInteractionHud(VehicleInteractionHud vehicleInteractionHud)
     {
         instance.vehicleInteractionHud = vehicleInteractionHud;
+    }
+
+    public static FuelBarUI GetFuelBarUI()
+    {
+        return instance.fuelBarUI;
+    }
+
+    public static void SetFuelBarUI(FuelBarUI fuelBarUI)
+    {
+        instance.fuelBarUI = fuelBarUI;
     }
 }

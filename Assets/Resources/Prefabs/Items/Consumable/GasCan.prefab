@@ -110,3 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180c9bc9f528ac24f95bcf2cb3e2d6af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capacity: 50
+  fuel: 50
