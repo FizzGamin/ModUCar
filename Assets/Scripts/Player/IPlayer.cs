@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class IPlayer : UserControllable
@@ -14,6 +12,7 @@ public abstract class IPlayer : UserControllable
     public abstract Camera GetCamera();
     public abstract void Sit(GameObject seat);
     public abstract void GetUp(Vector3 pos);
+    public abstract IItem GetEquippedItem();
 
 
     protected void HandleInteraction()

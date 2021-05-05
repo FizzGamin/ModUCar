@@ -5,20 +5,27 @@ using UnityEngine;
 public class TerrainObjectGenerator : MonoBehaviour
 {
     private int GrassLayerNumber = 0;
-    private float spawnYMin;
-    private float spawnYMax;
+    private int RockyLayerNumber = 1;
+    private int RockySnowLayerNumber = 2;
+
     private TextureData textureSettings;
     private HeightMapSettings heightMapSettings;
     private MeshSettings meshSettings;
 
     private List<GameObject> trees;
     private List<GameObject> bushes;
+    private List<GameObject> bigRocks;
+    private List<GameObject> smallRocks;
+    private List<GameObject> snowRocks;
     private List<GameObject> buildings;
     private List<GameObject> enemies;
 
     private int treeRadius;
     private int bushRadius;
     private int buildingRadius;
+    private int bigRockRadius;
+    private int smallRockRadius;
+    private int snowRockRadius;
     private List<int> enemiesRadius = new List<int>();
 
     private Vector2 chunkCoord;
@@ -26,22 +33,29 @@ public class TerrainObjectGenerator : MonoBehaviour
 
     public void Start()
     {
-        spawnYMin = GrassHeightMin;
-        spawnYMax = GetGrassHeightMax();
         SetupRadius();
         StartCoroutines();
     }
 
     private void StartCoroutines()
     {
-        StartCoroutine(GenerateObjects(trees, treeRadius, 0));
-        StartCoroutine(GenerateObjects(bushes, bushRadius, 0));
-        StartCoroutine(GenerateObjects(buildings, buildingRadius, 0, 1));
+        int extraYIncrease = 0;
+        Vector3 scale = new Vector3(2f, 2f, 2f);
+        StartCoroutine(GenerateObjects(trees, treeRadius, extraYIncrease, GrassLayerNumber, scale));
+        StartCoroutine(GenerateObjects(bushes, bushRadius, extraYIncrease, GrassLayerNumber, scale));
+        scale = new Vector3(8f, 8f, 8f);
+        StartCoroutine(GenerateObjects(bigRocks, bigRockRadius, extraYIncrease, RockyLayerNumber, scale));
+        StartCoroutine(GenerateObjects(smallRocks, smallRockRadius, extraYIncrease, GrassLayerNumber, scale));
+        StartCoroutine(GenerateObjects(snowRocks, snowRockRadius, extraYIncrease, RockySnowLayerNumber, scale));
+        scale = new Vector3(1f, 1f, 1f);
+        StartCoroutine(GenerateObjects(buildings, buildingRadius, extraYIncrease, GrassLayerNumber, scale));
+
+        extraYIncrease = 50;//Increase to 50 for monsters so they have to fall giving time for NavSurface to be generated
 
         int index = 0;
         foreach (GameObject enemy in enemies)
         {
-            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], 50));
+            //StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], extraYIncrease, GrassLayerNumber, new Vector3(1f, 1f, 1f)));
         }
     }
 
@@ -53,6 +67,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         chunkCoord = coord;
         SetupTrees();
         SetupBushes();
+        SetupRocks();
         SetupBuildings();
         SetupEnemies();
     }
@@ -67,7 +82,10 @@ public class TerrainObjectGenerator : MonoBehaviour
             treeRadius = Random.Range(10, 50);
 
         bushRadius = Random.Range(treeRadius, treeRadius + 5);
-        buildingRadius = Random.Range(80, 200);
+        bigRockRadius = Random.Range(10, 15);
+        smallRockRadius = Random.Range(40, 50);
+        snowRockRadius = Random.Range(10, 15);
+        buildingRadius = Random.Range(80, 100);
 
         //if radius goes below 10 then sets radius to 10
         enemiesRadius.Add(Mathf.Max(10, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
@@ -109,9 +127,35 @@ public class TerrainObjectGenerator : MonoBehaviour
         buildings = new List<GameObject>() { building1, building2, building3 };
     }
 
-
-    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int yIncrease, int objectCountLimt = 99999999)
+    private void SetupRocks()
     {
+        GameObject bigRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock2", typeof(GameObject));
+        GameObject bigRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock3", typeof(GameObject));
+        GameObject bigRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock4A", typeof(GameObject));
+        GameObject bigRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock5A", typeof(GameObject));
+        GameObject bigRock5 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock6A", typeof(GameObject));
+
+        GameObject smallRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1B", typeof(GameObject));
+        GameObject smallRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1C", typeof(GameObject));
+        GameObject smallRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1D", typeof(GameObject));
+        GameObject smallRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1E", typeof(GameObject));
+
+        GameObject snowRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup1", typeof(GameObject));
+        GameObject snowRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup2", typeof(GameObject));
+        GameObject snowRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup3", typeof(GameObject));
+        GameObject snowRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup4", typeof(GameObject));
+        GameObject snowRock5 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup5", typeof(GameObject));
+
+        bigRocks = new List<GameObject> { bigRock1, bigRock2, bigRock3, bigRock4, bigRock5 };
+        smallRocks = new List<GameObject> { smallRock1, smallRock2, smallRock3, smallRock4 };
+        snowRocks = new List<GameObject> { snowRock1, snowRock2, snowRock3, snowRock4, snowRock5 };
+    }
+
+    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int yIncrease, int LayerNumber, Vector3 scale, int objectCountLimt = 99999999)
+    {
+        float spawnYMax = GetLayerHeight(LayerNumber, true);
+        float spawnYMin = GetLayerHeight(LayerNumber, false);
+
         yield return new WaitForSeconds(.1f);
         Mesh mesh = GetComponent<MeshFilter>().mesh; //Get the mesh filter of the gameobject we are connected to (The terrain)
         Vector3[] vertices = mesh.vertices; //Create an array and reference it to all of the vertices in the terrain. (basically create an array that lists all of the vertices)
@@ -127,14 +171,17 @@ public class TerrainObjectGenerator : MonoBehaviour
                 Vector2 point = new Vector2(v.x - 61, v.y - 61);
 
                 int index = getIndex((int)point.x, (int)point.y, Mathf.RoundToInt(chunkSizeScaled), vertices.Length);
-                //Debug.LogWarning("X: " + point.x + " Y: " + point.y + " vertices[0]: " + vertices[0] + " vertices[" + index + "]: " + vertices[index]);
-
+                
                 Vector3 position = transform.TransformPoint(vertices[index]);
+                Debug.LogWarning("LayerNumber: " + LayerNumber + " YMax: " + spawnYMax + " YMin: " + spawnYMin + " Y: " + position.y + " Layer0: " + textureSettings.layers[0].startHeight + " Layer1: " + textureSettings.layers[1].startHeight + " Layer2: " + textureSettings.layers[2].startHeight + " Layer3: " + textureSettings.layers[3].startHeight);
+
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
-                    Instantiate(terrainObject, new Vector3(position.x, position.y + yIncrease, position.z), Quaternion.identity);
+                    Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+                    Instantiate(terrainObject, new Vector3(position.x, position.y + yIncrease, position.z), rotateAngle);
+                    terrainObject.transform.localScale = scale;
                 }
             }
         }
@@ -175,13 +222,16 @@ public class TerrainObjectGenerator : MonoBehaviour
         return (int)Mathf.Abs(max - min);
     }
 
-
-    private float GetGrassHeightMax()
+    private float GetLayerHeight(int LayerNumber, bool max)
     {
-        float height = textureSettings.layers[GrassLayerNumber + 1].startHeight;
+
+        float height;
+        int add = max ? 1 : 0;
+        if (LayerNumber < textureSettings.layers.Length)
+            height = textureSettings.layers[LayerNumber + add].startHeight;
+        else
+            height = 1;
         float heightMultiplier = heightMapSettings.heightMultiplier;
         return height * heightMultiplier;
     }
-
-    private float GrassHeightMin => textureSettings.layers[GrassLayerNumber].startHeight;
 }

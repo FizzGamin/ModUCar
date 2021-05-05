@@ -172,4 +172,9 @@ public class CameraController : IPlayer
     {
         transform.position = pos + new Vector3(0, 4, 0);
     }
+
+    public override IItem GetEquippedItem()
+    {
+        return inventoryUI.GetSelectedItem();
+    }
 }
