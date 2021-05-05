@@ -7,10 +7,12 @@ public class ShotBehavior : MonoBehaviour
 	public GameObject collisionExplosion;
 	public float speed;
 
+	private int damage;
+
 	// Use this for initialization
 	void Start () 
 	{
-	
+
 	}
 	
 	// Update is called once per frame
@@ -37,7 +39,7 @@ public class ShotBehavior : MonoBehaviour
 		this.target = target;
 	}
 
-	void Explode()
+	private void Explode()
 	{
 		if (collisionExplosion != null)
 		{
@@ -46,7 +48,25 @@ public class ShotBehavior : MonoBehaviour
 			Destroy(gameObject);
 			Destroy(explosion, 1f);
 		}
-
-
 	}
+
+	void OnTriggerEnter(Collider other)
+    {
+		IDamageable damageable = other.transform.gameObject.GetComponent<IDamageable>();
+		if (damageable != null && damageable.GetType() != typeof(PlayerController))
+		{
+			damageable.TakeDamage(damage);
+			Destroy(gameObject);
+		}
+		else if(damageable.GetType() != typeof(PlayerController))
+        {
+			Destroy(gameObject);
+		}
+		
+	}
+
+	public void SetDamage(int damage)
+    {
+		this.damage = damage;
+    }
 }

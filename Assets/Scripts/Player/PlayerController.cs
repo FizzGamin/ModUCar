@@ -88,7 +88,7 @@ public class PlayerController : IPlayer, IDamageable
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = spawnPos;
         player.GetComponent<Rigidbody>().isKinematic = false;
-        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         Destroy(GameObject.FindGameObjectWithTag("Ragdoll"));
     }
 

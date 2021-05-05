@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8633183622690349860}
   - component: {fileID: 8633183622690246628}
   - component: {fileID: 8633183622689972130}
+  - component: {fileID: 8580189047318793431}
   m_Layer: 0
   m_Name: Lazer_Shot
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionExplosion: {fileID: 0}
-  speed: 400
+  speed: 200
 --- !u!108 &8633183622689972130
 Light:
   m_ObjectHideFlags: 0
@@ -179,3 +180,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!136 &8580189047318793431
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8633183622695806222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 4
+  m_Height: 60
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.57, z: 25}
