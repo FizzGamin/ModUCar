@@ -35,27 +35,26 @@ public class TerrainObjectGenerator : MonoBehaviour
     {
         SetupRadius();
         StartCoroutines();
+        Random.InitState((int)(chunkCoord.x + chunkCoord.y) * 100);
+        Debug.LogWarning(Mathf.PerlinNoise(Random.value, Random.value) * 20);
     }
 
     private void StartCoroutines()
     {
         int extraYIncrease = 0;
-        Vector3 scale = new Vector3(2f, 2f, 2f);
-        StartCoroutine(GenerateObjects(trees, treeRadius, extraYIncrease, GrassLayerNumber, scale));
-        StartCoroutine(GenerateObjects(bushes, bushRadius, extraYIncrease, GrassLayerNumber, scale));
-        scale = new Vector3(8f, 8f, 8f);
-        StartCoroutine(GenerateObjects(bigRocks, bigRockRadius, extraYIncrease, RockyLayerNumber, scale));
-        StartCoroutine(GenerateObjects(smallRocks, smallRockRadius, extraYIncrease, GrassLayerNumber, scale));
-        StartCoroutine(GenerateObjects(snowRocks, snowRockRadius, extraYIncrease, RockySnowLayerNumber, scale));
-        scale = new Vector3(1f, 1f, 1f);
-        StartCoroutine(GenerateObjects(buildings, buildingRadius, extraYIncrease, GrassLayerNumber, scale));
+        StartCoroutine(GenerateObjects(trees, treeRadius, extraYIncrease, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(bushes, bushRadius, extraYIncrease, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(bigRocks, bigRockRadius, extraYIncrease, RockyLayerNumber));
+        StartCoroutine(GenerateObjects(smallRocks, smallRockRadius, extraYIncrease, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(snowRocks, snowRockRadius, extraYIncrease, RockySnowLayerNumber));
+        StartCoroutine(GenerateObjects(buildings, buildingRadius, extraYIncrease, GrassLayerNumber));
 
         extraYIncrease = 50;//Increase to 50 for monsters so they have to fall giving time for NavSurface to be generated
 
         int index = 0;
         foreach (GameObject enemy in enemies)
         {
-            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], extraYIncrease, GrassLayerNumber, new Vector3(1f, 1f, 1f)));
+            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], extraYIncrease, GrassLayerNumber));
         }
     }
 
@@ -151,7 +150,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         snowRocks = new List<GameObject> { snowRock1, snowRock2, snowRock3, snowRock4, snowRock5 };
     }
 
-    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int yIncrease, int LayerNumber, Vector3 scale, int objectCountLimt = 99999999)
+    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int yIncrease, int LayerNumber, int objectCountLimt = 99999999)
     {
         float spawnYMax = GetLayerHeight(LayerNumber, true);
         float spawnYMin = GetLayerHeight(LayerNumber, false);
@@ -173,7 +172,7 @@ public class TerrainObjectGenerator : MonoBehaviour
                 int index = getIndex((int)point.x, (int)point.y, Mathf.RoundToInt(chunkSizeScaled), vertices.Length);
                 
                 Vector3 position = transform.TransformPoint(vertices[index]);
-                Debug.LogWarning("LayerNumber: " + LayerNumber + " YMax: " + spawnYMax + " YMin: " + spawnYMin + " Y: " + position.y + " Layer0: " + textureSettings.layers[0].startHeight + " Layer1: " + textureSettings.layers[1].startHeight + " Layer2: " + textureSettings.layers[2].startHeight + " Layer3: " + textureSettings.layers[3].startHeight);
+                //Debug.LogWarning("LayerNumber: " + LayerNumber + " YMax: " + spawnYMax + " YMin: " + spawnYMin + " Y: " + position.y + " Layer0: " + textureSettings.layers[0].startHeight + " Layer1: " + textureSettings.layers[1].startHeight + " Layer2: " + textureSettings.layers[2].startHeight + " Layer3: " + textureSettings.layers[3].startHeight);
 
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
@@ -181,7 +180,6 @@ public class TerrainObjectGenerator : MonoBehaviour
                     GameObject terrainObject = objects[objectIndex];
                     Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
                     Instantiate(terrainObject, new Vector3(position.x, position.y + yIncrease, position.z), rotateAngle);
-                    terrainObject.transform.localScale = scale;
                 }
             }
         }
