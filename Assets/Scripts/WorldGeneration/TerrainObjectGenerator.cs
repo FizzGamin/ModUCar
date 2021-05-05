@@ -55,7 +55,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         int index = 0;
         foreach (GameObject enemy in enemies)
         {
-            //StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], extraYIncrease, GrassLayerNumber, new Vector3(1f, 1f, 1f)));
+            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], extraYIncrease, GrassLayerNumber, new Vector3(1f, 1f, 1f)));
         }
     }
 
