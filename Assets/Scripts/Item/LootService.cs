@@ -14,7 +14,6 @@ public class LootService : UnitySingleton<LootService>
     private List<int[]> itemSelectionArrays;
     private System.Random random; //This should eventually be seeded with the game seed
 
-    private const string ITEM_PREFAB_PATH = "Assets/JacobTestZone/Prefabs/Items/";
     void Start()
     {
         items = new List<IItem>();
@@ -22,7 +21,7 @@ public class LootService : UnitySingleton<LootService>
 
         GameManager.SetLootService(this);
 
-        UnityEngine.Object[] itemObjs = Resources.LoadAll("Items");
+        UnityEngine.Object[] itemObjs = Resources.LoadAll("Prefabs/Items");
         foreach(GameObject item in itemObjs)
         {
             items.Add(item.GetComponent<IItem>());
