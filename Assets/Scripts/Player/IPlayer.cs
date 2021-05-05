@@ -42,7 +42,7 @@ public abstract class IPlayer : UserControllable
 
         //Update the currently looked at thing
         RaycastHit hit;
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxInteractDistance))
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, maxInteractDistance, ~(1 << 3)))
         {
             if (hit.collider.transform.gameObject != prevLookedAt)
             {
