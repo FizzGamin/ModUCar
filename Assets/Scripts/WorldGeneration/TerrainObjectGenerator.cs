@@ -83,7 +83,7 @@ public class TerrainObjectGenerator : MonoBehaviour
 
         bushRadius = Random.Range(treeRadius, treeRadius + 5);
         bigRockRadius = Random.Range(10, 15);
-        smallRockRadius = Random.Range(40, 50);
+        smallRockRadius = Random.Range(50, 60);
         snowRockRadius = Random.Range(10, 15);
         buildingRadius = Random.Range(80, 100);
 
