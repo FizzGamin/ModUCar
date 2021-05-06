@@ -9,7 +9,9 @@ public class UIManager : UnitySingleton<UIManager>
     private DeathMenuUI deathMenuUI;
     private InteractionHud interactionHud;
     private InteractionHud vehicleInteractionHud;
-    private FuelBarUI fuelBarUI;
+    private GenericBarUI healthBarUI;
+    private GenericBarUI hungerBarUI;
+    private GenericBarUI fuelBarUI;
 
     public static GameObject GetUIBase()
     {
@@ -66,13 +68,33 @@ public class UIManager : UnitySingleton<UIManager>
         instance.vehicleInteractionHud = vehicleInteractionHud;
     }
 
-    public static FuelBarUI GetFuelBarUI()
+    public static GenericBarUI GetFuelBarUI()
     {
         return instance.fuelBarUI;
     }
 
-    public static void SetFuelBarUI(FuelBarUI fuelBarUI)
+    public static void SetFuelBarUI(GenericBarUI fuelBarUI)
     {
         instance.fuelBarUI = fuelBarUI;
+    }
+
+    public static GenericBarUI GetHealthBarUI()
+    {
+        return instance.healthBarUI;
+    }
+
+    public static void SetHealthBarUI(GenericBarUI healthBarUI)
+    {
+        instance.healthBarUI = healthBarUI;
+    }
+
+    public static GenericBarUI GetHungerBarUI()
+    {
+        return instance.hungerBarUI;
+    }
+
+    public static void SetHungerBarUI(GenericBarUI hungerBarUI)
+    {
+        instance.hungerBarUI = hungerBarUI;
     }
 }

@@ -13,7 +13,7 @@ public class VehicleController : UserControllable, IInteractable
     public float cameraDistance = 10f;
 
     private List<ModuleSlot> moduleSlots = new List<ModuleSlot>();
-    private FuelBarUI fuelBar;
+    private GenericBarUI fuelBar;
 
     bool isControlling = false;
 
@@ -289,6 +289,6 @@ public class VehicleController : UserControllable, IInteractable
             totalFuel += fuelContainer.GetFuel();
         }
 
-        fuelBar.SetFuel(totalFuel, totalCapacity);
+        fuelBar.SetBar(totalFuel, totalCapacity);
     }
 }

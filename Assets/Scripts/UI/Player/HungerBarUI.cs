@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuelBarUI : GenericBarUI
+public class HungerBarUI : GenericBarUI
 {
     void Awake()
     {
-        UIManager.SetFuelBarUI(this);
-        gameObject.SetActive(false);
+        UIManager.SetHungerBarUI(this);
     }
 }

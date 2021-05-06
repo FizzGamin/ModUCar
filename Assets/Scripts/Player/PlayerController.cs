@@ -35,6 +35,8 @@ public class PlayerController : IPlayer, IDamageable
     private bool immune;
     public float maxHP;
     private float curHP;
+    private GenericBarUI healthBar;
+    private GenericBarUI hungerBar;
     private int jumps;
 
     private bool isDead;
@@ -46,6 +48,7 @@ public class PlayerController : IPlayer, IDamageable
         if (!immune)
         {
             curHP -= damage;
+            healthBar.SetBar(curHP, maxHP);
             if (curHP <= 0)
             {
                 if (!isDead)
@@ -80,6 +83,7 @@ public class PlayerController : IPlayer, IDamageable
     public void Respawn()
     {
         curHP = maxHP;
+        healthBar.SetBar(curHP, maxHP);
         for (int i = 0; i < inventoryUI.GetSize(); i++)
             DropItem(i);
 
@@ -115,6 +119,10 @@ public class PlayerController : IPlayer, IDamageable
         curHP = maxHP;
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         immune = false;
+        healthBar = UIManager.GetHealthBarUI();
+        hungerBar = UIManager.GetHungerBarUI();
+        healthBar.SetBar(curHP, maxHP);
+        //x hungerBar.SetBar(1, 1);
     }
 
     void Update()
@@ -137,10 +145,6 @@ public class PlayerController : IPlayer, IDamageable
                 HandleJumps();
             }
         }
-
-        // Update the Player health bar visual
-        RectTransform rt = GameObject.Find("Health").GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(curHP * 6.4f, 80);
     }
 
     public override IItem GetItemInInventory(int i)
