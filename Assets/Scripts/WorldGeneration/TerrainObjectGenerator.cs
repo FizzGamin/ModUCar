@@ -36,7 +36,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         SetupRadius();
         StartCoroutines();
         Random.InitState((int)(chunkCoord.x + chunkCoord.y) * 100);
-        Debug.LogWarning(Mathf.PerlinNoise(Random.value, Random.value) * 20);
+        //Debug.LogWarning(Mathf.PerlinNoise(chunkCoord.x / 3f, chunkCoord.y / 3f) * 50);
     }
 
     private void StartCoroutines()
@@ -75,10 +75,7 @@ public class TerrainObjectGenerator : MonoBehaviour
     {
         enemySpawnRate = (int)(Mathf.Abs(chunkCoord.x) + Mathf.Abs(chunkCoord.y));
 
-        if (Random.Range(0, 100) < 20) //20% Chance of spawning a forest
-            treeRadius = Random.Range(4, 7);
-        else
-            treeRadius = Random.Range(10, 50);
+        treeRadius = (int)(Mathf.PerlinNoise(chunkCoord.x / 3f, chunkCoord.y / 3f) * 50);
 
         bushRadius = Random.Range(treeRadius, treeRadius + 5);
         bigRockRadius = Random.Range(10, 15);
@@ -139,11 +136,12 @@ public class TerrainObjectGenerator : MonoBehaviour
         GameObject smallRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1D", typeof(GameObject));
         GameObject smallRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1E", typeof(GameObject));
 
-        GameObject snowRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup1", typeof(GameObject));
-        GameObject snowRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup2", typeof(GameObject));
-        GameObject snowRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup3", typeof(GameObject));
-        GameObject snowRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup4", typeof(GameObject));
-        GameObject snowRock5 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock1_grup5", typeof(GameObject));
+        GameObject snowRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock2", typeof(GameObject));
+        GameObject snowRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock3", typeof(GameObject));
+        GameObject snowRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock4A", typeof(GameObject));
+        GameObject snowRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock5A", typeof(GameObject));
+        GameObject snowRock5 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock6A", typeof(GameObject));
+
 
         bigRocks = new List<GameObject> { bigRock1, bigRock2, bigRock3, bigRock4, bigRock5 };
         smallRocks = new List<GameObject> { smallRock1, smallRock2, smallRock3, smallRock4 };
@@ -170,7 +168,7 @@ public class TerrainObjectGenerator : MonoBehaviour
                 Vector2 point = new Vector2(v.x - 61, v.y - 61);
 
                 int index = getIndex((int)point.x, (int)point.y, Mathf.RoundToInt(chunkSizeScaled), vertices.Length);
-                
+
                 Vector3 position = transform.TransformPoint(vertices[index]);
                 //Debug.LogWarning("LayerNumber: " + LayerNumber + " YMax: " + spawnYMax + " YMin: " + spawnYMin + " Y: " + position.y + " Layer0: " + textureSettings.layers[0].startHeight + " Layer1: " + textureSettings.layers[1].startHeight + " Layer2: " + textureSettings.layers[2].startHeight + " Layer3: " + textureSettings.layers[3].startHeight);
 
@@ -220,11 +218,11 @@ public class TerrainObjectGenerator : MonoBehaviour
         return (int)Mathf.Abs(max - min);
     }
 
-    private float GetLayerHeight(int LayerNumber, bool max)
+    private float GetLayerHeight(int LayerNumber, bool getMaxHeight)
     {
 
         float height;
-        int add = max ? 1 : 0;
+        int add = getMaxHeight ? 1 : 0;
         if (LayerNumber < textureSettings.layers.Length)
             height = textureSettings.layers[LayerNumber + add].startHeight;
         else
