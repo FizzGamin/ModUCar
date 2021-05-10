@@ -24,7 +24,9 @@ public class LootService : UnitySingleton<LootService>
         UnityEngine.Object[] itemObjs = Resources.LoadAll("Prefabs/Items");
         foreach(GameObject item in itemObjs)
         {
-            items.Add(item.GetComponent<IItem>());
+            IItem itemComponent = item.GetComponent<IItem>();
+            if (itemComponent != null)
+            items.Add(itemComponent);
         }
 
         CreateWeightArrays();
