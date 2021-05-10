@@ -116,7 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb039d3a64491f4ebfc852d25b5ee70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionExplosion: {fileID: 0}
+  collisionExplosion: {fileID: 5112663310557251766, guid: 6abe321ff88c7504eb3840c6e74d7132,
+    type: 3}
   speed: 200
 --- !u!108 &8633183622689972130
 Light:

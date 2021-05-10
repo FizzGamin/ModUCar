@@ -9,7 +9,7 @@ public class LazerShoot : MonoBehaviour
     public void ShootRay(GameObject shotPrefab, float range, int damage)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, range))
+        if (Physics.Raycast(ray, out hit, range, ~4))
         {
             this.transform.LookAt(hit.point);
             GameObject laser = Instantiate(shotPrefab, transform.position, transform.rotation);
@@ -25,6 +25,7 @@ public class LazerShoot : MonoBehaviour
             GameObject laser = Instantiate(shotPrefab, transform.position, transform.rotation);
             laser.GetComponent<ShotBehavior>().SetDamage(damage);
             laser.GetComponent<ShotBehavior>().SetTarget(point);
+            laser.GetComponent<ShotBehavior>().SetDistance(Mathf.Infinity);
             Destroy(laser, 2f);
         }
     }

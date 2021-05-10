@@ -6,6 +6,7 @@ public class ShotBehavior : MonoBehaviour
 	private Vector3 target;
 	public GameObject collisionExplosion;
 	public float speed;
+	private float distance;
 
 	private int damage;
 
@@ -25,26 +26,35 @@ public class ShotBehavior : MonoBehaviour
 
 		if (target != null)
 		{
-			if (transform.position == target)
+			float dist = Vector3.Distance(target, this.transform.position);
+			if (dist > distance)//transform.position == target)
 			{
+				Destroy(gameObject);
 				Explode();
 				return;
 			}
 			transform.position = Vector3.MoveTowards(transform.position, target, step);
+			distance = Vector3.Distance(target, this.transform.position);
 		}
 	}
 
 	public void SetTarget(Vector3 target)
 	{
 		this.target = target;
+		distance = Vector3.Distance(target, this.transform.position);
 	}
+
+	public void SetDistance(float dist)
+    {
+		distance = dist;
+    }
 
 	private void Explode()
 	{
 		if (collisionExplosion != null)
 		{
 			GameObject explosion = (GameObject)Instantiate(
-				collisionExplosion, transform.position, transform.rotation);
+				collisionExplosion, transform.position , transform.rotation);
 			Destroy(gameObject);
 			Destroy(explosion, 1f);
 		}
@@ -52,18 +62,36 @@ public class ShotBehavior : MonoBehaviour
 
 	void OnTriggerEnter(Collider other)
     {
-		IDamageable damageable = other.transform.gameObject.GetComponent<IDamageable>();
-		if (damageable != null && damageable.GetType() != typeof(PlayerController))
+		GameObject parent = other.transform.root.gameObject;
+		if (parent.name != "Player")
 		{
-			damageable.TakeDamage(damage);
 			Destroy(gameObject);
+			Explode();
+			IDamageable damageable = parent.GetComponent<IDamageable>();
+			if (damageable != null)
+				damageable.TakeDamage(damage);
+
 		}
-		else if(damageable.GetType() != typeof(PlayerController))
-        {
-			Destroy(gameObject);
+			/*
+			IDamageable damageable = other.transform.root.gameObject.GetComponent<IDamageable>();
+			if (damageable.GetType() != typeof(PlayerController))
+			{
+				if (damageable != null)
+				{
+					damageable.TakeDamage(damage);
+					Destroy(gameObject);
+					Explode();
+				}
+			}
+
+			GameObject parent = other.transform.root.gameObject;
+			if (parent.name != "Player")
+			{
+				Debug.Log(parent);
+				Destroy(gameObject);
+				Explode();
+			}*/
 		}
-		
-	}
 
 	public void SetDamage(int damage)
     {
