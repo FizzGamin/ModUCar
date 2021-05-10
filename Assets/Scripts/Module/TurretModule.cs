@@ -66,7 +66,7 @@ public class TurretModule : VehicleModule
     private void Attack(Vector3 enemyPos)
     {
         Vector3 topLook = new Vector3(enemyPos.x, top.transform.position.y, enemyPos.z);
-        Vector3 turretLook = new Vector3(enemyPos.x, CheckValue(enemyPos.y, enemyPos, 30), enemyPos.z);
+        Vector3 turretLook = new Vector3(enemyPos.x, CheckValue(enemyPos, 20, -7), enemyPos.z);
         top.transform.LookAt(topLook);
         turret.transform.LookAt(turretLook);
 
@@ -75,15 +75,22 @@ public class TurretModule : VehicleModule
         Invoke(nameof(ResetAttack), 2f);
     }
 
-    private float CheckValue(float pos, Vector3 enemyPos, float maxAngle)
+    /// <summary>
+    /// Checks the y position value from turret to the enemy. Changes it if it is too large.
+    /// </summary>
+    /// <param name="enemyPos">the position of the enemy in the angle calculation.</param>
+    /// <param name="maxAngle">The maximum angle allowed.</param>
+    /// <param name="minAngle">The minimum angle allowed.</param>
+    /// <returns>The new checked angle.</returns>
+    private float CheckValue(Vector3 enemyPos, float maxAngle, float minAngle)
     {
         Vector3 flatAngle = new Vector3(enemyPos.x, turret.transform.position.y, enemyPos.z);
         Vector3 tiltAngle = new Vector3(enemyPos.x, enemyPos.y, enemyPos.z);
         float angle = Vector3.SignedAngle(flatAngle, tiltAngle, Vector3.forward);
-
-        if (angle > 80)
+Debug.Log(angle);
+        if (angle > maxAngle)
             return flatAngle.y;
-        else if (angle < -30)
+        else if (angle < minAngle)
             return flatAngle.y;
         else
             return enemyPos.y;
