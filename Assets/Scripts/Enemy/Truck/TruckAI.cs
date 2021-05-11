@@ -20,6 +20,7 @@ public class TruckAI : IEnemy
 
     public float health;
     private float maxHealth;
+    public float truckDamage;
 
     // PATROL
     Vector3 walkPoint;
@@ -176,27 +177,15 @@ public class TruckAI : IEnemy
     }
 
     /// <summary>
-    /// When the truck's attack colliders collide with something, checks if it is something that can take damage and call the appropriate takeDamage function.
+    /// When the truck's attack colliders collide with something, makes that thing take damage if it can.
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
-        //truck can damage either the spider or the player
-        if (other.gameObject.tag == "Player" && !hitPlayer)
+        IDamageable damageable = other.transform.root.gameObject.GetComponent<IDamageable>();
+        if (damageable != null && !hitEnemy)
         {
-            playerObj.GetComponent<PlayerController>().TakeDamage(10);
-            hitPlayer = true;
-            Invoke(nameof(ResetAttack), 0.5f);
-        }
-        if (other.gameObject.tag == "Enemy_Spider" && !hitEnemy)
-        {
-            other.gameObject.GetComponent<SpiderAI>().TakeDamage(10);
-            hitEnemy = true;
-            Invoke(nameof(ResetAttack), 0.5f);
-        }
-        if (other.gameObject.tag == "Enemy_Truck" && !hitEnemy)
-        {
-            other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
+            damageable.TakeDamage(truckDamage);
             hitEnemy = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }

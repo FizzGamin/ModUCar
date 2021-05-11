@@ -557,6 +557,7 @@ MonoBehaviour:
   - {fileID: 7033551338121759559}
   - {fileID: 7033551338365050908}
   health: 50
+  spiderDamage: 10
   walkPointRange: 100
   timeBetweenAttacks: 2
   sightRange: 100

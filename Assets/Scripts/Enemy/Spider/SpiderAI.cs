@@ -15,6 +15,7 @@ public class SpiderAI : IEnemy
 
     public float health;
     private float maxHealth;
+    public float spiderDamage;
 
     Transform player;
     GameObject playerObj;
@@ -141,21 +142,15 @@ public class SpiderAI : IEnemy
     }
 
     /// <summary>
-    /// When the spider's attack colliders collide with something, checks if it is something that can take damage and call the appropriate takeDamage function.
+    /// When the spider's attack colliders collide with something, makes that thing take damage if it can.
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
-        //Spider can damage either the truck of the player
-        if (other.gameObject.tag == "Player" && !hitPlayer)
+        IDamageable damageable = other.transform.root.gameObject.GetComponent<IDamageable>();
+        if (damageable != null && !hitEnemy)
         {
-            playerObj.GetComponent<PlayerController>().TakeDamage(10);
-            hitPlayer = true;
-            Invoke(nameof(ResetAttack), 0.5f);
-        }
-        if (other.gameObject.tag == "Enemy_Truck" && !hitEnemy)
-        {
-            other.gameObject.GetComponent<TruckAI>().TakeDamage(10);
+            damageable.TakeDamage(spiderDamage);
             hitEnemy = true;
             Invoke(nameof(ResetAttack), 0.5f);
         }

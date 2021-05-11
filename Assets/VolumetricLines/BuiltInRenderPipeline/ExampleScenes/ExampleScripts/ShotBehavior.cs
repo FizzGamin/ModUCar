@@ -64,7 +64,7 @@ public class ShotBehavior : MonoBehaviour
 	void OnTriggerEnter(Collider other)
     {
 		GameObject parent = other.transform.root.gameObject;
-		if (parent.name != "Player")
+		if (parent.tag != "Player")
 		{
 			Destroy(gameObject);
 			Explode();

@@ -862,6 +862,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   health: 100
+  truckDamage: 20
   walkPointRange: 150
   timeBetweenAttacks: 5
   sightRange: 300
