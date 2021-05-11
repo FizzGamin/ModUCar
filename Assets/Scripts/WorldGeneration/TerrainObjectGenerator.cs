@@ -36,7 +36,6 @@ public class TerrainObjectGenerator : MonoBehaviour
         SetupRadius();
         StartCoroutines();
         Random.InitState((int)(chunkCoord.x + chunkCoord.y) * 100);
-        //Debug.LogWarning(Mathf.PerlinNoise(chunkCoord.x / 3f, chunkCoord.y / 3f) * 50);
     }
 
     private void StartCoroutines()
@@ -81,7 +80,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         bigRockRadius = Random.Range(10, 15);
         smallRockRadius = Random.Range(50, 60);
         snowRockRadius = Random.Range(10, 15);
-        buildingRadius = Random.Range(80, 100);
+        buildingRadius = Random.Range(65, 100);
 
         //if radius goes below 10 then sets radius to 10
         enemiesRadius.Add(Mathf.Max(10, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
@@ -170,14 +169,26 @@ public class TerrainObjectGenerator : MonoBehaviour
                 int index = getIndex((int)point.x, (int)point.y, Mathf.RoundToInt(chunkSizeScaled), vertices.Length);
 
                 Vector3 position = transform.TransformPoint(vertices[index]);
-                //Debug.LogWarning("LayerNumber: " + LayerNumber + " YMax: " + spawnYMax + " YMin: " + spawnYMin + " Y: " + position.y + " Layer0: " + textureSettings.layers[0].startHeight + " Layer1: " + textureSettings.layers[1].startHeight + " Layer2: " + textureSettings.layers[2].startHeight + " Layer3: " + textureSettings.layers[3].startHeight);
 
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
+                    Vector3 newPosition = new Vector3(position.x, position.y + yIncrease, position.z);
                     Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
-                    Instantiate(terrainObject, new Vector3(position.x, position.y + yIncrease, position.z), rotateAngle);
+                    int objectRadius;
+
+                    if (terrainObject.GetComponent<CapsuleCollider>() != null)
+                    {
+                        objectRadius = (int)terrainObject.GetComponent<CapsuleCollider>().radius;
+                        Debug.LogWarning("HasCapsule ");
+                    }
+                    else
+                        objectRadius = (int)(terrainObject.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * terrainObject.transform.localScale.x);
+
+                    Debug.LogWarning("Radius: " + objectRadius);
+                    if (!Physics.CheckSphere(newPosition, objectRadius))
+                        Instantiate(terrainObject, newPosition, rotateAngle);
                 }
             }
         }
