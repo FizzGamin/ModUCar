@@ -10,12 +10,21 @@ public class ShotBehavior : MonoBehaviour
 
 	private int damage;
 
-	// Use this for initialization
-	void Start () 
+	public void SetTarget(Vector3 target)
 	{
-
+		this.target = target;
+		distance = Vector3.Distance(target, this.transform.position);
 	}
-	
+
+	public void SetDistance(float dist)
+    {
+		distance = dist;
+    }
+	public void SetDamage(int damage)
+    {
+		this.damage = damage;
+    }
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -38,17 +47,9 @@ public class ShotBehavior : MonoBehaviour
 		}
 	}
 
-	public void SetTarget(Vector3 target)
-	{
-		this.target = target;
-		distance = Vector3.Distance(target, this.transform.position);
-	}
-
-	public void SetDistance(float dist)
-    {
-		distance = dist;
-    }
-
+	/// <summary>
+	/// Instatiates an explosion particle system the destroys it for an explosion effect.
+	/// </summary>
 	private void Explode()
 	{
 		if (collisionExplosion != null)
@@ -72,29 +73,7 @@ public class ShotBehavior : MonoBehaviour
 				damageable.TakeDamage(damage);
 
 		}
-			/*
-			IDamageable damageable = other.transform.root.gameObject.GetComponent<IDamageable>();
-			if (damageable.GetType() != typeof(PlayerController))
-			{
-				if (damageable != null)
-				{
-					damageable.TakeDamage(damage);
-					Destroy(gameObject);
-					Explode();
-				}
-			}
+	}
 
-			GameObject parent = other.transform.root.gameObject;
-			if (parent.name != "Player")
-			{
-				Debug.Log(parent);
-				Destroy(gameObject);
-				Explode();
-			}*/
-		}
 
-	public void SetDamage(int damage)
-    {
-		this.damage = damage;
-    }
 }

@@ -14,6 +14,9 @@ public class TurretModule : VehicleModule
     public float sightRange;
     public LayerMask whatIsEnemy;
 
+    TurretLazer shootScript;
+    public float rateOfFire;
+
     public override string GetName()
     {
         return "Turret Module " + quality.ToString();
@@ -44,6 +47,7 @@ public class TurretModule : VehicleModule
         top = this.transform.GetChild(1).gameObject;
         turret = this.transform.GetChild(2).gameObject;
         attacked = false;
+        shootScript = gameObject.GetComponent<TurretLazer>();
     }
 
     // Update is called once per frame
@@ -71,8 +75,34 @@ public class TurretModule : VehicleModule
         turret.transform.LookAt(turretLook);
 
         //SHOOT
-        attacked = true;
-        Invoke(nameof(ResetAttack), 2f);
+        if (!attacked)
+        {
+            shootScript.Fire();
+            //BarrelKickback();
+            attacked = true;
+            Invoke(nameof(ResetAttack), rateOfFire);
+        }
+    }
+
+    /// <summary>
+    /// Smoothly, quickly moves the barrel backwards and then forwards again for some kickback motion.
+    /// </summary>
+    private void BarrelKickback()
+    {
+        float lerp;
+        float speed = 1;
+        Vector3 oldPos = turret.transform.position;
+
+        for (lerp = 0; lerp < 1; lerp += Time.deltaTime * speed)
+        {
+            turret.transform.position = Vector3.Lerp(turret.transform.position, turret.transform.position - (turret.transform.forward * 5), lerp);
+            new WaitForSeconds(0.1f);
+        }
+        for (lerp = 0; lerp < 1; lerp += Time.deltaTime * speed)
+        {
+            turret.transform.position = Vector3.Lerp(turret.transform.position - (turret.transform.forward * 5), oldPos, lerp);
+            new WaitForSeconds(0.1f);
+        }
     }
 
     /// <summary>
