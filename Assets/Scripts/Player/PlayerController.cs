@@ -35,6 +35,9 @@ public class PlayerController : IPlayer, IDamageable
     private bool immune;
     public float maxHP;
     private float curHP;
+    public float maxHunger = 100;
+    private float curHunger;
+    private float hungerTimer = 5;
     private GenericBarUI healthBar;
     private GenericBarUI hungerBar;
     private int jumps;
@@ -84,6 +87,8 @@ public class PlayerController : IPlayer, IDamageable
     {
         curHP = maxHP;
         healthBar.SetBar(curHP, maxHP);
+        curHunger = maxHunger;
+        hungerBar.SetBar(curHunger, maxHunger);
         for (int i = 0; i < inventoryUI.GetSize(); i++)
             DropItem(i);
 
@@ -117,12 +122,13 @@ public class PlayerController : IPlayer, IDamageable
         resetRotation = transform.eulerAngles;
 
         curHP = maxHP;
+        curHunger = maxHunger;
         GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         immune = false;
         healthBar = UIManager.GetHealthBarUI();
         hungerBar = UIManager.GetHungerBarUI();
         healthBar.SetBar(curHP, maxHP);
-        //x hungerBar.SetBar(1, 1);
+        hungerBar.SetBar(curHunger, maxHunger);
     }
 
     void Update()
@@ -145,6 +151,7 @@ public class PlayerController : IPlayer, IDamageable
                 HandleJumps();
             }
         }
+        DrainHunger();
     }
 
     public override IItem GetItemInInventory(int i)
@@ -399,6 +406,23 @@ public class PlayerController : IPlayer, IDamageable
     public override IItem GetEquippedItem()
     {
         return inventoryUI.GetSelectedItem();
+    }
+
+    private void DrainHunger()
+    {
+        hungerTimer -= Time.deltaTime;
+        if (hungerTimer < 0)
+        {
+            hungerTimer += 1f;
+            if (curHunger > 0)
+            {
+                curHunger -= 1;
+                hungerBar.SetBar(curHunger, maxHunger);
+            } else
+            {
+                TakeDamage(2);
+            }
+        }
     }
 
 }

@@ -35,7 +35,6 @@ public class ControlModuleFuelTank : MonoBehaviour, IFuelContainer, IInteractabl
         if (fuelToConsume < fuel)
         {
             fuel -= fuelToConsume;
-            Debug.Log("Fuel remaining: " + fuel);
             return true;
         }
         return false;
