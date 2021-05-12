@@ -11,6 +11,7 @@ public class UIManager : UnitySingleton<UIManager>
     private InteractionHud vehicleInteractionHud;
     private GenericBarUI healthBarUI;
     private GenericBarUI hungerBarUI;
+    private GenericBarUI vehicleHealthBarUI;
     private GenericBarUI fuelBarUI;
 
     public static GameObject GetUIBase()
@@ -96,5 +97,15 @@ public class UIManager : UnitySingleton<UIManager>
     public static void SetHungerBarUI(GenericBarUI hungerBarUI)
     {
         instance.hungerBarUI = hungerBarUI;
+    }
+
+    public static GenericBarUI GetVehicleHealthBarUI()
+    {
+        return instance.vehicleHealthBarUI;
+    }
+
+    public static void SetVehicleHealthBarUI(GenericBarUI vehicleHealthBarUI)
+    {
+        instance.vehicleHealthBarUI = vehicleHealthBarUI;
     }
 }

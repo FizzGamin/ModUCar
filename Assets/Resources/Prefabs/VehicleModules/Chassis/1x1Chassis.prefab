@@ -552,7 +552,6 @@ GameObject:
   - component: {fileID: -1749652059926321265}
   - component: {fileID: -4608020119721493560}
   - component: {fileID: -7498057254067967317}
-  - component: {fileID: 8349075976964762504}
   m_Layer: 0
   m_Name: 1x1Chassis
   m_TagString: Untagged
@@ -682,6 +681,9 @@ MonoBehaviour:
   vehiclePower: 550
   vehicleSteeringAngle: 30
   cameraDistance: 10
+  health: 300
+  healthBarVisibility: {fileID: 8792513514215398995}
+  healthBar: {fileID: 374390515214594193}
 --- !u!114 &-4608020119721493560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,21 +712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbada8a9ba8f4b41b482c08d2bda661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8349075976964762504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8267606392924593330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed5232d8a20bc1b4ab8a10b6054663c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  healthBarVisibility: {fileID: 8792513514215398995}
-  healthBar: {fileID: 374390515214594193}
 --- !u!1 &8753763390274855867
 GameObject:
   m_ObjectHideFlags: 0

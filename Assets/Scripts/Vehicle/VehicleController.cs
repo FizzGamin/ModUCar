@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class VehicleController : UserControllable, IInteractable
+public class VehicleController : UserControllable, IInteractable, IDamageable
 {
     public List<WheelCollider> steeringWheelColliders;
     public List<WheelCollider> powerWheelColliders;
@@ -14,6 +16,14 @@ public class VehicleController : UserControllable, IInteractable
 
     private List<ModuleSlot> moduleSlots = new List<ModuleSlot>();
     private GenericBarUI fuelBar;
+    private GenericBarUI vehicleHealthBar;
+
+    public float health = 300;
+    private float maxHealth = 300;
+    public GameObject healthBarVisibility;
+    public GameObject healthBar;
+    private GenericBarUI healthBarUI;
+
 
     bool isControlling = false;
 
@@ -46,6 +56,7 @@ public class VehicleController : UserControllable, IInteractable
         }
 
         fuelBar = UIManager.GetFuelBarUI();
+        vehicleHealthBar = UIManager.GetVehicleHealthBarUI();
     }
 
     // Update is called once per frame
@@ -82,7 +93,21 @@ public class VehicleController : UserControllable, IInteractable
         }
     }
 
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        Debug.Log("Enemy health: " + health + "  damage: " + damage);
+        healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100 / maxHealth);
+        healthBarUI.SetBar(health, maxHealth);
+        if (health <= 0)
+            Invoke(nameof(OnDeath), .1f);
+    }
 
+    public void OnDeath()
+    {
+        //MAYBE DROP THE MODULES BEFORE BEING DESTROYED
+        Destroy(gameObject);
+    }
 
     void RunPlayerVehicleControl()
     {
@@ -212,6 +237,10 @@ public class VehicleController : UserControllable, IInteractable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         fuelBar.gameObject.SetActive(true);
+        UpdateFuelBar();
+        vehicleHealthBar.gameObject.SetActive(true);
+        vehicleHealthBar.SetBar(health, maxHealth);
+        healthBarVisibility.SetActive(false);
     }
 
     public override void ReleaseControl()
@@ -220,6 +249,8 @@ public class VehicleController : UserControllable, IInteractable
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         fuelBar.gameObject.SetActive(false);
+        vehicleHealthBar.gameObject.SetActive(false);
+        healthBarVisibility.SetActive(true);
     }
 
     private ControlModule GetControlModule()
