@@ -64,6 +64,7 @@ public class ShotBehavior : MonoBehaviour
 	void OnTriggerEnter(Collider other)
     {
 		GameObject parent = other.transform.root.gameObject;
+		Debug.Log("Bullet hit: " + parent);
 		if (parent.tag != "Player")
 		{
 			Destroy(gameObject);

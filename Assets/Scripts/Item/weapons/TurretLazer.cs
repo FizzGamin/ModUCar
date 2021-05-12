@@ -17,7 +17,7 @@ public class TurretLazer : MonoBehaviour
 
     void Awake()
     {
-        muzzle = gameObject.transform.GetChild(2).gameObject;
+        muzzle = gameObject.transform.Find("turret").gameObject;
         muzzleScript = muzzle.GetComponent<LazerShoot>();
     }
 

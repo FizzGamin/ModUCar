@@ -20,6 +20,8 @@ public class SpiderAI : IEnemy
     Transform player;
     GameObject playerObj;
 
+    private Vector3 centerPoint = new Vector3(0, 2, 0);
+
     // PATROL
     Vector3 walkPoint;
     bool walkPointSet;
@@ -47,6 +49,11 @@ public class SpiderAI : IEnemy
     public override void OnDeath()
     {
         Destroy(gameObject);
+    }
+
+    public Vector3 GetCenterPoint()
+    {
+        return centerPoint;
     }
 
     private void Awake()
@@ -168,5 +175,6 @@ public class SpiderAI : IEnemy
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawCube(gameObject.transform.position + centerPoint, new Vector3(2, 2, 2));
     }
 }

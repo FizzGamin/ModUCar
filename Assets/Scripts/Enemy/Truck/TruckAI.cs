@@ -18,6 +18,8 @@ public class TruckAI : IEnemy
     GameObject playerObj;
     private static int MAXTURNANGLE = 50;
 
+    private Vector3 centerPoint = new Vector3(0, 7, -5);
+
     public float health;
     private float maxHealth;
     public float truckDamage;
@@ -49,6 +51,11 @@ public class TruckAI : IEnemy
     public override void OnDeath()
     {
         Destroy(gameObject);
+    }
+
+    public Vector3 GetCenterPoint()
+    {
+        return centerPoint;
     }
 
     // Update is called once per frame
@@ -236,6 +243,7 @@ public class TruckAI : IEnemy
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawCube(gameObject.transform.position + centerPoint, new Vector3(2,2,2));
     }
 
 

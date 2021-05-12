@@ -21,10 +21,19 @@ public class NavMeshGenerator : MonoBehaviour
     void Update()
     {
         count++;
-        if (count > 1200)
+        if (count > 300)
         {
             count = 0;
-            surface.UpdateNavMesh(surface.navMeshData);
+            Debug.Log("Creating coroutine...");
+            IEnumerator coroutine = UpdateSurface();
+            Debug.Log("starting coroutine...");
+            StartCoroutine(coroutine);
+            Debug.Log("coroutine finished.");
         }
+    }
+
+    private IEnumerator UpdateSurface()
+    {
+        return (IEnumerator)surface.UpdateNavMesh(surface.navMeshData);
     }
 }

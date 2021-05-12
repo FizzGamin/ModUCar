@@ -156,7 +156,7 @@ public class TurretModule : VehicleModule
             }
         }
 
-        return closest.transform.position;
+        return closest.transform.Find("CenterPoint").transform.position;
     }
 
     private void ResetAttack()

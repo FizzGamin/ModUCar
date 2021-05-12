@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8512278802070567304}
   - component: {fileID: 1701351744566374007}
   m_Layer: 9
-  m_Name: turrets
+  m_Name: turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
-  rateOfFire: 0.75
+  rateOfFire: 1
 --- !u!114 &8512278802070567306
 MonoBehaviour:
   m_ObjectHideFlags: 0
