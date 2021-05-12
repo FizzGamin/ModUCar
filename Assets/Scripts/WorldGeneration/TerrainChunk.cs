@@ -15,7 +15,6 @@ public class TerrainChunk
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
     MeshCollider meshCollider;
-    //NavMeshAgent navMeshAgent;
 
     LODInfo[] detailLevels;
     LODMesh[] lodMeshes;
