@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8633183622690246628}
   - component: {fileID: 8633183622689972130}
   - component: {fileID: 8580189047318793431}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lazer_Shot_blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
