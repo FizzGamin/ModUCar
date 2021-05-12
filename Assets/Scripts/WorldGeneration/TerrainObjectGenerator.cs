@@ -31,11 +31,24 @@ public class TerrainObjectGenerator : MonoBehaviour
     private Vector2 chunkCoord;
     private int enemySpawnRate;//The greater the difficulty the higher the spawn rate of monsters
 
+    private List<GameObject> allObjects = new List<GameObject>();
+
     public void Start()
     {
         SetupRadius();
         StartCoroutines();
         Random.InitState((int)(chunkCoord.x + chunkCoord.y) * 100);
+    }
+
+    public void updateVisibility(bool visible)
+    {
+        if (allObjects == null)
+            return;
+
+        for (int i = 0; i < allObjects.Count; i++)
+        {
+            allObjects[i].SetActive(visible);
+        }
     }
 
     private void StartCoroutines()
@@ -181,14 +194,19 @@ public class TerrainObjectGenerator : MonoBehaviour
                     if (terrainObject.GetComponent<CapsuleCollider>() != null)
                     {
                         objectRadius = (int)terrainObject.GetComponent<CapsuleCollider>().radius;
-                        Debug.LogWarning("HasCapsule ");
                     }
-                    else
+                    else if (terrainObject.GetComponent<MeshFilter>() != null)
                         objectRadius = (int)(terrainObject.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * terrainObject.transform.localScale.x);
+                    else if (terrainObject.GetComponent<BoxCollider>() != null)
+                        objectRadius = (int)terrainObject.GetComponent<BoxCollider>().size.x;
+                    else
+                        objectRadius = 10;
 
-                    Debug.LogWarning("Radius: " + objectRadius);
                     if (!Physics.CheckSphere(newPosition, objectRadius))
-                        Instantiate(terrainObject, newPosition, rotateAngle);
+                    {
+                        GameObject newGameObject = Instantiate(terrainObject, newPosition, rotateAngle);
+                        allObjects.Add(newGameObject);
+                    }
                 }
             }
         }

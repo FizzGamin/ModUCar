@@ -49,7 +49,6 @@ public class TerrainChunk
         meshRenderer = meshObject.AddComponent<MeshRenderer>();
         meshFilter = meshObject.AddComponent<MeshFilter>();
         meshCollider = meshObject.AddComponent<MeshCollider>();
-        //navMeshAgent = meshObject.AddComponent<NavMeshAgent>();
         meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
 
@@ -124,6 +123,7 @@ public class TerrainChunk
             if (wasVisible != visible)
             {
                 SetVisible(visible);
+                meshObject.GetComponent<TerrainObjectGenerator>().updateVisibility(visible);
                 if (onVisibilityChanged != null)
                 {
                     onVisibilityChanged(this, visible);
