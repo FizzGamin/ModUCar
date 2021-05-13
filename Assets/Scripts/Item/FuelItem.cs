@@ -14,6 +14,7 @@ public abstract class FuelItem : IPickupable
     public void Refuel(IFuelContainer fuelContainer)
     {
         fuel = fuelContainer.AddFuel(fuel);
-        Debug.Log("Fuel remaining: " + fuel);
+        //For now we are just going to consume the fuel item
+        GameManager.GetPlayer().ConsumeEquipped();
     }
 }

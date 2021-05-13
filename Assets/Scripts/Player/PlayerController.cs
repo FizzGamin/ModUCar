@@ -46,61 +46,6 @@ public class PlayerController : IPlayer, IDamageable
     public GameObject playerRagdoll;
     private Vector3 spawnPos;
 
-    public void TakeDamage(float damage)
-    {
-        if (!immune)
-        {
-            curHP -= damage;
-            healthBar.SetBar(curHP, maxHP);
-            if (curHP <= 0)
-            {
-                if (!isDead)
-                    OnDeath();
-            }
-        }
-    }
-
-    /// <summary>
-    /// When the player dies this method should be triggered.
-    /// Opens the deathMenuUI, puts in a ragdoll where the player died, and offsets the player to use as camera to look at the ragdoll.
-    /// </summary>
-    public void OnDeath()
-    {
-        isDead = true;
-        this.ReleaseControl();
-        UIManager.GetDeathMenuUI().Open(this);
-
-        Instantiate(playerRagdoll, this.transform.position, Quaternion.identity);
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<Rigidbody>().isKinematic = true;
-        player.transform.position = player.transform.position + new Vector3(30, 20, 30);
-        player.transform.LookAt(GameObject.FindGameObjectWithTag("Ragdoll").transform);
-        player.transform.Rotate(-90, 0, 0);
-    }
-
-    /// <summary>
-    /// Triggered when the user chooses to respawn after dying.
-    /// resets the stats of the player, moves it to the respawn position, and deletes the ragdoll.
-    /// </summary>
-    public void Respawn()
-    {
-        curHP = maxHP;
-        healthBar.SetBar(curHP, maxHP);
-        curHunger = maxHunger;
-        hungerBar.SetBar(curHunger, maxHunger);
-        for (int i = 0; i < inventoryUI.GetSize(); i++)
-            DropItem(i);
-
-        this.GiveControl();
-        isDead = false;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = spawnPos;
-        player.GetComponent<Rigidbody>().isKinematic = false;
-        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
-        Destroy(GameObject.FindGameObjectWithTag("Ragdoll"));
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -152,6 +97,70 @@ public class PlayerController : IPlayer, IDamageable
             }
         }
         DrainHunger();
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (!immune)
+        {
+            curHP -= damage;
+            healthBar.SetBar(curHP, maxHP);
+            if (curHP <= 0)
+            {
+                if (!isDead)
+                    OnDeath();
+            }
+        }
+    }
+
+    public override bool Heal(float hp)
+    {
+        if (curHP >= maxHP) return false;
+        curHP += hp;
+        if (curHP > maxHP) curHP = maxHP;
+        healthBar.SetBar(curHP, maxHP);
+        return true;
+    }
+
+    /// <summary>
+    /// When the player dies this method should be triggered.
+    /// Opens the deathMenuUI, puts in a ragdoll where the player died, and offsets the player to use as camera to look at the ragdoll.
+    /// </summary>
+    public void OnDeath()
+    {
+        isDead = true;
+        this.ReleaseControl();
+        UIManager.GetDeathMenuUI().Open(this);
+
+        Instantiate(playerRagdoll, this.transform.position, Quaternion.identity);
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Rigidbody>().isKinematic = true;
+        player.transform.position = player.transform.position + new Vector3(30, 20, 30);
+        player.transform.LookAt(GameObject.FindGameObjectWithTag("Ragdoll").transform);
+        player.transform.Rotate(-90, 0, 0);
+    }
+
+    /// <summary>
+    /// Triggered when the user chooses to respawn after dying.
+    /// resets the stats of the player, moves it to the respawn position, and deletes the ragdoll.
+    /// </summary>
+    public void Respawn()
+    {
+        curHP = maxHP;
+        healthBar.SetBar(curHP, maxHP);
+        curHunger = maxHunger;
+        hungerBar.SetBar(curHunger, maxHunger);
+        for (int i = 0; i < inventoryUI.GetSize(); i++)
+            DropItem(i);
+
+        this.GiveControl();
+        isDead = false;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = spawnPos;
+        player.GetComponent<Rigidbody>().isKinematic = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+        Destroy(GameObject.FindGameObjectWithTag("Ragdoll"));
     }
 
     public override IItem GetItemInInventory(int i)
@@ -413,11 +422,15 @@ public class PlayerController : IPlayer, IDamageable
         hungerTimer -= Time.deltaTime;
         if (hungerTimer < 0)
         {
-            hungerTimer += 1f;
+            hungerTimer += 5f;
             if (curHunger > 0)
             {
                 curHunger -= 1;
                 hungerBar.SetBar(curHunger, maxHunger);
+                if (curHunger > 60 && curHP < 100)
+                {
+                    Heal(1);
+                }
             } else
             {
                 TakeDamage(2);
@@ -425,4 +438,24 @@ public class PlayerController : IPlayer, IDamageable
         }
     }
 
+    public override bool Feed(float hunger)
+    {
+        if (curHunger >= maxHunger) return false;
+        curHunger += hunger;
+        if (curHunger > maxHunger) curHunger = maxHunger;
+        hungerBar.SetBar(curHunger, maxHunger);
+        return true;
+    }
+
+    public void ConsumeSelectedItem()
+    {
+
+    }
+
+    public override void ConsumeEquipped()
+    {
+        IItem toConsume = inventoryUI.GetSelectedItem();
+        inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), null);
+        Destroy(toConsume.gameObject);
+    }
 }

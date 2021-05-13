@@ -177,4 +177,21 @@ public class CameraController : IPlayer
     {
         return inventoryUI.GetSelectedItem();
     }
+
+    public override bool Heal(float hp)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override bool Feed(float hunger)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void ConsumeEquipped()
+    {
+        IItem toConsume = inventoryUI.GetSelectedItem();
+        inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), null);
+        Destroy(toConsume.gameObject);
+    }
 }

@@ -14,6 +14,19 @@ public abstract class IPlayer : UserControllable
     public abstract void GetUp(Vector3 pos);
     public abstract IItem GetEquippedItem();
 
+    /// <summary>
+    /// A method that heals the player for a specified amount of health
+    /// </summary>
+    /// <param name="hp">Amount of health to heal</param>
+    /// <returns>Whether or not any healing was done e.g. for whether or not to consume a healing item</returns>
+    public abstract bool Heal(float hp);
+    /// <summary>
+    /// A method that feeds the player for a specified amount of hunger
+    /// </summary>
+    /// <param name="hunger">Amount of hunger to restore</param>
+    /// <returns>Whether or not any hunger was restored e.g. for whether or not to consume a food item</returns>
+    public abstract bool Feed(float hunger);
+    public abstract void ConsumeEquipped();
 
     protected void HandleInteraction()
     {

@@ -11,12 +11,14 @@ public class LootService : UnitySingleton<LootService>
     public GameObject itemDirectory;
 
     private List<IItem> items;
+    private List<GameObject> chassisList;
     private List<int[]> itemSelectionArrays;
     private System.Random random; //This should eventually be seeded with the game seed
 
     void Start()
     {
         items = new List<IItem>();
+        chassisList = new List<GameObject>();
         random = new System.Random();
 
         GameManager.SetLootService(this);
@@ -25,11 +27,17 @@ public class LootService : UnitySingleton<LootService>
         foreach(GameObject item in itemObjs)
         {
             IItem itemComponent = item.GetComponent<IItem>();
-            if (itemComponent != null)
-            items.Add(itemComponent);
+            if (itemComponent != null) items.Add(itemComponent);
         }
 
         CreateWeightArrays();
+
+        UnityEngine.Object[] chassisObjs = Resources.LoadAll("Prefabs/Chassis");
+        foreach (GameObject chassis in chassisObjs)
+        {
+            if (chassis.GetComponent<VehicleController>() != null)
+                chassisList.Add(chassis);
+        }
     }
 
     private void CreateWeightArrays()
@@ -67,6 +75,11 @@ public class LootService : UnitySingleton<LootService>
         }
 
         throw new InvalidDataException("Attempted to generate an item but was out of bounds of the array: " + selected);
+    }
+
+    public GameObject GetChassis()
+    {
+        return chassisList[random.Next(0, chassisList.Count)];
     }
 
     public void TestItemGeneration(ItemQuality quality, int count)
