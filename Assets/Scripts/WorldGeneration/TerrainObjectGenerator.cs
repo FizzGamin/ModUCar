@@ -187,6 +187,7 @@ public class TerrainObjectGenerator : MonoBehaviour
                 {
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
+                    terrainObject.layer = 10;
                     Vector3 newPosition = new Vector3(position.x, position.y + yIncrease, position.z);
                     Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
                     int objectRadius;
@@ -202,9 +203,10 @@ public class TerrainObjectGenerator : MonoBehaviour
                     else
                         objectRadius = 10;
 
-                    if (!Physics.CheckSphere(newPosition, objectRadius))
+                    if (!Physics.CheckSphere(newPosition, objectRadius + 10, 7))
                     {
                         GameObject newGameObject = Instantiate(terrainObject, newPosition, rotateAngle);
+                        newGameObject.layer = 10;
                         allObjects.Add(newGameObject);
                     }
                 }
