@@ -51,9 +51,6 @@ public class TerrainChunk
         meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
 
-        meshObject.AddComponent<TerrainObjectGenerator>();
-        meshObject.GetComponent<TerrainObjectGenerator>().SetupSettings(textureSettings, heightMapSettings, meshSettings, coord);
-        
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
         meshObject.transform.parent = parent;
         SetVisible(false);
@@ -70,6 +67,9 @@ public class TerrainChunk
         }
 
         maxViewDistance = detailLevels[detailLevels.Length - 1].visibleDstThreshold;
+        meshObject.AddComponent<TerrainObjectGenerator>();
+        meshObject.GetComponent<TerrainObjectGenerator>().SetupSettings(textureSettings, heightMapSettings, meshSettings, coord);
+
     }
 
     public void Load()
@@ -133,25 +133,14 @@ public class TerrainChunk
 
     public void UpdateCollisionMesh()
     {
+
         if (!hasSetCollider)
         {
-            float sqrDstFromViewerToEdge = bounds.SqrDistance(ViewerPosition);
-
-            if (sqrDstFromViewerToEdge < detailLevels[colliderLODIndex].sqrVisibleDstThreshold)
+            lodMeshes[colliderLODIndex].RequestMesh(heightMap, meshSettings);
+            if (lodMeshes[colliderLODIndex].hasMesh)
             {
-                if (!lodMeshes[colliderLODIndex].hasRequestedMesh)
-                {
-                    lodMeshes[colliderLODIndex].RequestMesh(heightMap, meshSettings);
-                }
-            }
-
-            if (sqrDstFromViewerToEdge < colliderGenerationDistanceThreshold * colliderGenerationDistanceThreshold)
-            {
-                if (lodMeshes[colliderLODIndex].hasMesh)
-                {
-                    meshCollider.sharedMesh = lodMeshes[colliderLODIndex].mesh;
-                    hasSetCollider = true;
-                }
+                meshCollider.sharedMesh = lodMeshes[colliderLODIndex].mesh;
+                hasSetCollider = true;
             }
         }
     }
