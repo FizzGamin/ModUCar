@@ -1,10 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class TerrainChunk
 {
-    const float colliderGenerationDistanceThreshold = 5;
     public event System.Action<TerrainChunk, bool> onVisibilityChanged;
     public Vector2 coord;
 
@@ -48,7 +45,6 @@ public class TerrainChunk
         meshRenderer = meshObject.AddComponent<MeshRenderer>();
         meshFilter = meshObject.AddComponent<MeshFilter>();
         meshCollider = meshObject.AddComponent<MeshCollider>();
-        //meshObject.AddComponent<TerrainCollider>();
         meshRenderer.material = worldMaterial;
 
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
