@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 1094866368929512037}
   - component: {fileID: 1094866368929512032}
   - component: {fileID: 485981817}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Enemy_Truck_AI
   m_TagString: Enemy_Truck
   m_Icon: {fileID: 0}

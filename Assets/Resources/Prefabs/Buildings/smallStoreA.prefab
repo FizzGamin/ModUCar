@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 8733200751757367316}
   - component: {fileID: 6833782086776450270}
   - component: {fileID: 7129298564781788699}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: smallStoreA
   m_TagString: Untagged
   m_Icon: {fileID: 0}

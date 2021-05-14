@@ -53,20 +53,17 @@ public class TerrainObjectGenerator : MonoBehaviour
 
     private void StartCoroutines()
     {
-        int extraYIncrease = 0;
-        StartCoroutine(GenerateObjects(trees, treeRadius, extraYIncrease, GrassLayerNumber));
-        StartCoroutine(GenerateObjects(bushes, bushRadius, extraYIncrease, GrassLayerNumber));
-        StartCoroutine(GenerateObjects(bigRocks, bigRockRadius, extraYIncrease, RockyLayerNumber));
-        StartCoroutine(GenerateObjects(smallRocks, smallRockRadius, extraYIncrease, GrassLayerNumber));
-        StartCoroutine(GenerateObjects(snowRocks, snowRockRadius, extraYIncrease, RockySnowLayerNumber));
-        StartCoroutine(GenerateObjects(buildings, buildingRadius, extraYIncrease, GrassLayerNumber));
-
-        extraYIncrease = 50;//Increase to 50 for monsters so they have to fall giving time for NavSurface to be generated
+        StartCoroutine(GenerateObjects(buildings, buildingRadius, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(trees, treeRadius, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(bushes, bushRadius, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(bigRocks, bigRockRadius, RockyLayerNumber));
+        StartCoroutine(GenerateObjects(smallRocks, smallRockRadius, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(snowRocks, snowRockRadius, RockySnowLayerNumber));
 
         int index = 0;
         foreach (GameObject enemy in enemies)
         {
-            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], extraYIncrease, GrassLayerNumber));
+            StartCoroutine(GenerateObjects(new List<GameObject>() { enemies[index] }, enemiesRadius[index++], GrassLayerNumber));
         }
     }
 
@@ -93,7 +90,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         bigRockRadius = Random.Range(10, 15);
         smallRockRadius = Random.Range(50, 60);
         snowRockRadius = Random.Range(10, 15);
-        buildingRadius = Random.Range(65, 100);
+        buildingRadius = Random.Range(80, 100);
 
         //if radius goes below 10 then sets radius to 10
         enemiesRadius.Add(Mathf.Max(10, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
@@ -160,7 +157,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         snowRocks = new List<GameObject> { snowRock1, snowRock2, snowRock3, snowRock4, snowRock5 };
     }
 
-    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int yIncrease, int LayerNumber, int objectCountLimt = 99999999)
+    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int LayerNumber, int objectCountLimt = 99999999)
     {
         float spawnYMax = GetLayerHeight(LayerNumber, true);
         float spawnYMin = GetLayerHeight(LayerNumber, false);
@@ -188,22 +185,26 @@ public class TerrainObjectGenerator : MonoBehaviour
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
                     terrainObject.layer = 10;
-                    Vector3 newPosition = new Vector3(position.x, position.y + yIncrease, position.z);
+                    Vector3 newPosition = new Vector3(position.x, position.y, position.z);
                     Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+
                     int objectRadius;
+                    int radiusIncrease = 1;
 
-                    if (terrainObject.GetComponent<CapsuleCollider>() != null)
-                    {
-                        objectRadius = (int)terrainObject.GetComponent<CapsuleCollider>().radius;
-                    }
+                    if (terrainObject.GetComponent<BoxCollider>() != null)
+                        objectRadius = (int)terrainObject.GetComponent<BoxCollider>().size.x + radiusIncrease;
+                    else if (terrainObject.GetComponent<CapsuleCollider>() != null)
+                        objectRadius = (int)terrainObject.GetComponent<CapsuleCollider>().radius + radiusIncrease;
                     else if (terrainObject.GetComponent<MeshFilter>() != null)
-                        objectRadius = (int)(terrainObject.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * terrainObject.transform.localScale.x);
-                    else if (terrainObject.GetComponent<BoxCollider>() != null)
-                        objectRadius = (int)terrainObject.GetComponent<BoxCollider>().size.x;
+                        objectRadius = (int)(terrainObject.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * terrainObject.transform.localScale.x) + radiusIncrease;
+                    else if (terrainObject.name.Contains("Spider"))
+                        objectRadius = 5;
                     else
-                        objectRadius = 10;
+                        objectRadius = radiusIncrease;
 
-                    if (!Physics.CheckSphere(newPosition, objectRadius + 10, 7))
+
+                    Debug.LogWarning(terrainObject.name + " - " + objectRadius);
+                    if (!Physics.CheckSphere(newPosition, objectRadius, LayerMask.GetMask("TerrainObjects")))
                     {
                         GameObject newGameObject = Instantiate(terrainObject, newPosition, rotateAngle);
                         newGameObject.layer = 10;
