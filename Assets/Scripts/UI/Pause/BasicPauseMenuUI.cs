@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BasicPauseMenuUI : PauseMenuUI
@@ -30,6 +31,11 @@ public class BasicPauseMenuUI : PauseMenuUI
     void Update()
     {
         CloseOnEscape();
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private Button GetButtonByName(string name)

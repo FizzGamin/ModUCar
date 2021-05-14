@@ -184,7 +184,8 @@ public class TerrainObjectGenerator : MonoBehaviour
                 {
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
-                    terrainObject.layer = 10;
+                    if(terrainObject)
+                        terrainObject.layer = 10;
                     Vector3 newPosition = new Vector3(position.x, position.y, position.z);
                     Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
 
