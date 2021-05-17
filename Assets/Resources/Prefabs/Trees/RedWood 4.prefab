@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 33065013992664210}
   - component: {fileID: 23466419510729776}
   - component: {fileID: 4835637495471961579}
+  - component: {fileID: 9137810866550637186}
   m_Layer: 0
   m_Name: RedWood 4
   m_TagString: Untagged
@@ -107,6 +108,22 @@ CapsuleCollider:
   m_Height: 40.84
   m_Direction: 1
   m_Center: {x: -0.04, y: 19, z: -0.09403038}
+--- !u!208 &9137810866550637186
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970681966781816}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.28, y: 23.000002, z: 1.2}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.1, y: 22.750002, z: -0.3}
+  m_TimeToStationary: 0.5
 --- !u!21 &21440639111565978
 Material:
   serializedVersion: 6
@@ -127,19 +144,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpSpecMap:
-        m_Texture: {fileID: 2800000, guid: 6a5ffc35a1583db4a87aa5a275ee0814, type: 3}
+        m_Texture: {fileID: 2800000, guid: b7429637edcfb4f49b54df9fba8a26ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cc4bcc87e3fd5d1458291174eb2efa09, type: 3}
+        m_Texture: {fileID: 2800000, guid: e7a7357d3fd35034e9089d4f7ba3cf1f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTex:
-        m_Texture: {fileID: 2800000, guid: 6af796a350110b242a37fd6cf05eeb0f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 94b9140b81d32a847974559080955e94, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
-        m_Texture: {fileID: 2800000, guid: e2e09d3ddebbff148b61304933f5bcd7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8c9c8b17841ed5947bbf1f42913b022c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -174,15 +191,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpSpecMap:
-        m_Texture: {fileID: 2800000, guid: 6a5ffc35a1583db4a87aa5a275ee0814, type: 3}
+        m_Texture: {fileID: 2800000, guid: b7429637edcfb4f49b54df9fba8a26ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cc4bcc87e3fd5d1458291174eb2efa09, type: 3}
+        m_Texture: {fileID: 2800000, guid: e7a7357d3fd35034e9089d4f7ba3cf1f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
-        m_Texture: {fileID: 2800000, guid: e2e09d3ddebbff148b61304933f5bcd7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8c9c8b17841ed5947bbf1f42913b022c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:

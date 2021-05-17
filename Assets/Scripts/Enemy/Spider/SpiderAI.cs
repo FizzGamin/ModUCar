@@ -29,6 +29,7 @@ public class SpiderAI : IEnemy
     RaycastHit hit;
     bool paused;
     float waitTime;
+    Rigidbody rb;
 
     // ATTACKING
     public float timeBetweenAttacks;
@@ -70,6 +71,7 @@ public class SpiderAI : IEnemy
         healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         maxHealth = health;
         paused = false;
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -80,6 +82,8 @@ public class SpiderAI : IEnemy
             Patrol();
         if (playerInSightRange)
             AttackPlayer();
+
+        HandleWheelCollision();
     }
 
     /// <summary>
@@ -139,7 +143,6 @@ public class SpiderAI : IEnemy
         float randZ;
         float randX;
         int randBool = Random.Range(0, 2);
-        Debug.Log(randBool);
         if (randBool == 0)
         {
             randZ = Random.Range(-walkPointRange, -5);
@@ -156,17 +159,11 @@ public class SpiderAI : IEnemy
         Ray ray1 = new Ray(walkPoint, -transform.up);
         Ray ray2 = new Ray(walkPoint, transform.up);
         if (Physics.Raycast(ray1, out hit, 300f, whatIsGround))
-        {
             walkPoint = hit.point;
-        }
         else if (Physics.Raycast(ray2, out hit, 300f, whatIsGround))
-        {
             walkPoint = hit.point;
-        }
         else
-        {
             walkPoint.y = transform.position.y + 10;
-        }
     }
 
     /// <summary>
@@ -213,6 +210,18 @@ public class SpiderAI : IEnemy
     {
         hitPlayer = false;
         hitEnemy = false;
+    }
+
+    /// <summary>
+    /// Handles the case when a spider would get launched really fast by the car wheels or another force. Makes the spider take damage and sets velocity to 0.
+    /// </summary>
+    public void HandleWheelCollision()
+    {
+        if (rb.velocity.magnitude > 200)
+        {
+            rb.velocity = Vector3.zero;
+            TakeDamage(20);
+        }
     }
 
     /// <summary>
