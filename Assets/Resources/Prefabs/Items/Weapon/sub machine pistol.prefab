@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Sub Machine Pistol
   weaponQuality: 2
-  weaponSprite: {fileID: 0}
+  weaponSprite: MachinePistol
   damage: 30
   shotPrefab: {fileID: 8633183622695806222, guid: 7f9630954da5df747bac460b345eb257,
     type: 3}

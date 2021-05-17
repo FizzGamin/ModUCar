@@ -16,7 +16,7 @@ public class GasCanConsumable : FuelItem
 
     public override string GetSpriteName()
     {
-        return "TempD";
+        return "GasCan";
     }
     public override int GetWeight()
     {

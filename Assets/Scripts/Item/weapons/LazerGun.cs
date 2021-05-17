@@ -6,7 +6,7 @@ public class LazerGun : IPickupable, IEquippable
 {
     public string weaponName = "Default Name";
     public ItemQuality weaponQuality;
-    public Sprite weaponSprite;
+    public string weaponSprite;
     public int damage;
 
     public GameObject shotPrefab;
@@ -29,10 +29,7 @@ public class LazerGun : IPickupable, IEquippable
 
     public override string GetSpriteName()
     {
-        if (weaponSprite)
-            return weaponSprite.name;
-        else
-            return "MissingSprite";
+        return weaponSprite;
     }
 
     void Awake()

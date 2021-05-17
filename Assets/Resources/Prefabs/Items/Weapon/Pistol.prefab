@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 7173648047911970440}
   - component: {fileID: 370114113909961066}
   m_Layer: 0
-  m_Name: Pistolv2 1
+  m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Pistol
   weaponQuality: 0
-  weaponSprite: {fileID: 21300000, guid: d67bff1c64316ec4d8b3ce0675c46f2a, type: 3}
+  weaponSprite: pistol
   damage: 10
   shotPrefab: {fileID: 8633183622695806222, guid: 7f9630954da5df747bac460b345eb257,
     type: 3}

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Extended Pistol
   weaponQuality: 1
-  weaponSprite: {fileID: 0}
+  weaponSprite: ExtendedPistol
   damage: 20
   shotPrefab: {fileID: 8633183622695806222, guid: 7f9630954da5df747bac460b345eb257,
     type: 3}
