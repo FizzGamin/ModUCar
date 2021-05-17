@@ -26,6 +26,9 @@ public class SpiderAI : IEnemy
     Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
+    RaycastHit hit;
+    bool paused;
+    float waitTime;
 
     // ATTACKING
     public float timeBetweenAttacks;
@@ -66,6 +69,7 @@ public class SpiderAI : IEnemy
         agent.acceleration = randInt;
         healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         maxHealth = health;
+        paused = false;
     }
 
     void Update()
@@ -92,19 +96,37 @@ public class SpiderAI : IEnemy
         foreach (SpiderIKlegsBack leg in legs3)
             leg.SpiderPatrolSpeed();
 
-        if (!walkPointSet)
+        if (paused)
         {
-            Invoke(nameof(SearchWalkPoint), 1);
+            agent.isStopped = true;
         }
-        if (walkPointSet)
+        if (!paused)
         {
-            agent.SetDestination(walkPoint);
+            if (!walkPointSet)
+            {
+                Invoke(nameof(SearchWalkPoint), 0);
+            }
+            if (walkPointSet)
+            {
+                agent.isStopped = false;
+                agent.SetDestination(walkPoint);
+            }
         }
 
         // check if we have reached the walkPoint
+        waitTime = Random.Range(1f, 4f);
         Vector3 distToWalkPoint = transform.position - walkPoint;
-        if (distToWalkPoint.magnitude < 1f)
+        if (distToWalkPoint.magnitude < 10f)
+        {
+            paused = true;
             walkPointSet = false;
+            Invoke(nameof(ResetPause), waitTime);
+        }
+    }
+
+    private void ResetPause()
+    {
+        paused = false;
     }
 
     /// <summary>
@@ -112,14 +134,39 @@ public class SpiderAI : IEnemy
     /// </summary>
     private void SearchWalkPoint()
     {
+        walkPointSet = true;
         // create the point to go to
-        float randZ = Random.Range(-walkPointRange, walkPointRange);
-        float randX = Random.Range(-walkPointRange, walkPointRange);
+        float randZ;
+        float randX;
+        int randBool = Random.Range(0, 2);
+        Debug.Log(randBool);
+        if (randBool == 0)
+        {
+            randZ = Random.Range(-walkPointRange, -5);
+            randX = Random.Range(-walkPointRange, -5);
+        }
+        else
+        {
+            randZ = Random.Range(5, walkPointRange);
+            randX = Random.Range(5, walkPointRange);
+        }
         walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
 
         // check if the point to walk to is on the ground
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
+        Ray ray1 = new Ray(walkPoint, -transform.up);
+        Ray ray2 = new Ray(walkPoint, transform.up);
+        if (Physics.Raycast(ray1, out hit, 300f, whatIsGround))
+        {
+            walkPoint = hit.point;
+        }
+        else if (Physics.Raycast(ray2, out hit, 300f, whatIsGround))
+        {
+            walkPoint = hit.point;
+        }
+        else
+        {
+            walkPoint.y = transform.position.y + 10;
+        }
     }
 
     /// <summary>
@@ -176,5 +223,6 @@ public class SpiderAI : IEnemy
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, sightRange);
         Gizmos.DrawCube(gameObject.transform.position + centerPoint, new Vector3(2, 2, 2));
+        Gizmos.DrawCube(walkPoint, new Vector3(5, 5, 5));
     }
 }
