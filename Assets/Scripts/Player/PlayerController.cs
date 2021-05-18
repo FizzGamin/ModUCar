@@ -97,6 +97,7 @@ public class PlayerController : IPlayer, IDamageable
             }
         }
         DrainHunger();
+        CheckHeight();
     }
 
     public void TakeDamage(float damage)
@@ -457,5 +458,14 @@ public class PlayerController : IPlayer, IDamageable
         IItem toConsume = inventoryUI.GetSelectedItem();
         inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), null);
         Destroy(toConsume.gameObject);
+    }
+
+    /// <summary>
+    /// Calls the OnDeath method if the player is falling below the map.
+    /// </summary>
+    public void CheckHeight()
+    {
+        if (gameObject.transform.position.y < -200)
+            OnDeath();
     }
 }

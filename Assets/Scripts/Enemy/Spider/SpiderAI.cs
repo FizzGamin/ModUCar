@@ -220,7 +220,6 @@ public class SpiderAI : IEnemy
         if (rb.velocity.magnitude > 200)
         {
             rb.velocity = Vector3.zero;
-            TakeDamage(20);
         }
     }
 
