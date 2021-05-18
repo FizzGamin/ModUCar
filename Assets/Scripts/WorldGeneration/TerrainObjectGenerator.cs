@@ -53,7 +53,7 @@ public class TerrainObjectGenerator : MonoBehaviour
 
     private void StartCoroutines()
     {
-        StartCoroutine(GenerateObjects(buildings, buildingRadius, GrassLayerNumber));
+        StartCoroutine(GenerateObjects(buildings, buildingRadius, GrassLayerNumber, 1));
         StartCoroutine(GenerateObjects(trees, treeRadius, GrassLayerNumber));
         StartCoroutine(GenerateObjects(bushes, bushRadius, GrassLayerNumber));
         StartCoroutine(GenerateObjects(bigRocks, bigRockRadius, RockyLayerNumber));
@@ -137,7 +137,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         GameObject bigRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock2", typeof(GameObject));
         GameObject bigRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock3", typeof(GameObject));
         GameObject bigRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock4A", typeof(GameObject));
-        GameObject bigRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock5A", typeof(GameObject));
+        GameObject bigRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock4A", typeof(GameObject));
         GameObject bigRock5 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock6A", typeof(GameObject));
 
         GameObject smallRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs/Rock1B", typeof(GameObject));
@@ -148,7 +148,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         GameObject snowRock1 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock2", typeof(GameObject));
         GameObject snowRock2 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock3", typeof(GameObject));
         GameObject snowRock3 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock4A", typeof(GameObject));
-        GameObject snowRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock5A", typeof(GameObject));
+        GameObject snowRock4 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock4A", typeof(GameObject));
         GameObject snowRock5 = (GameObject)Resources.Load("Prefabs/RocksandBoulders/Rocks/Prefabs_snow/Rock6A", typeof(GameObject));
 
 
@@ -157,7 +157,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         snowRocks = new List<GameObject> { snowRock1, snowRock2, snowRock3, snowRock4, snowRock5 };
     }
 
-    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int LayerNumber, int objectCountLimt = 99999999)
+    IEnumerator GenerateObjects(List<GameObject> objects, int radius, int LayerNumber, int objectCountLimt = 999)
     {
         float spawnYMax = GetLayerHeight(LayerNumber, true);
         float spawnYMin = GetLayerHeight(LayerNumber, false);
@@ -184,9 +184,18 @@ public class TerrainObjectGenerator : MonoBehaviour
                 {
                     int objectIndex = Random.Range(0, objects.Count);
                     GameObject terrainObject = objects[objectIndex];
-                    if(terrainObject)
-                        terrainObject.layer = 10;
                     Vector3 newPosition = new Vector3(position.x, position.y, position.z);
+                    if (terrainObject.name.Contains("Enemy"))
+                    {
+                        terrainObject.layer = 8;
+                        newPosition.y += 5;
+                    }
+                    else
+                    {
+                        terrainObject.layer = 10;
+                        newPosition.y -= 2;
+                    }
+                        
                     Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
 
                     int objectRadius;
@@ -208,7 +217,6 @@ public class TerrainObjectGenerator : MonoBehaviour
                     if (!Physics.CheckSphere(newPosition, objectRadius, LayerMask.GetMask("TerrainObjects")))
                     {
                         GameObject newGameObject = Instantiate(terrainObject, newPosition, rotateAngle);
-                        newGameObject.layer = 10;
                         allObjects.Add(newGameObject);
                     }
                 }
