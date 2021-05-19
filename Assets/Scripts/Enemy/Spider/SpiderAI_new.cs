@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class SpiderAI : IEnemy 
+public class SpiderAI_new : IEnemy 
 {
-    public NavMeshAgent agent;
-    
     public LayerMask whatIsGround, whatIsPlayer;
     public List<SpiderIKSolver> legs1;
     public List<SpiderIKlegsSecond> legs2; 
@@ -20,6 +18,8 @@ public class SpiderAI : IEnemy
     Transform player;
     GameObject playerObj;
 
+    public LayerMask myLayerMask;
+
     // PATROL
     Vector3 walkPoint;
     bool walkPointSet;
@@ -28,6 +28,7 @@ public class SpiderAI : IEnemy
     bool paused;
     float waitTime;
     Rigidbody rb;
+    float speed;
 
     // ATTACKING
     public float timeBetweenAttacks;
@@ -56,11 +57,7 @@ public class SpiderAI : IEnemy
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
         playerObj = GameObject.FindGameObjectWithTag("Player");
-        //give acceleraction a random value between a range (15, 50) for different difficulties.
-        int randInt = Random.Range(15, 51);
-        agent.acceleration = randInt;
         healthBar = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(0).gameObject;
         maxHealth = health;
         paused = false;
@@ -77,6 +74,7 @@ public class SpiderAI : IEnemy
             AttackPlayer();
 
         HandleWheelCollision();
+        //HandleBouncing();
     }
 
     /// <summary>
@@ -85,7 +83,7 @@ public class SpiderAI : IEnemy
     private void Patrol()
     {
         // Update to patrol speeds
-        agent.speed = 10;
+        speed = 5f;
         foreach (SpiderIKSolver leg in legs1)
             leg.SpiderPatrolSpeed();
         foreach (SpiderIKlegsSecond leg in legs2)
@@ -95,7 +93,7 @@ public class SpiderAI : IEnemy
 
         if (paused)
         {
-            agent.isStopped = true;
+            rb.velocity = Vector3.zero;
         }
         if (!paused)
         {
@@ -105,8 +103,10 @@ public class SpiderAI : IEnemy
             }
             if (walkPointSet)
             {
-                agent.isStopped = false;
-                agent.SetDestination(walkPoint);
+                Vector3 look = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
+                gameObject.transform.LookAt(look);
+                if (rb.velocity.magnitude < 20)
+                    rb.AddForce(gameObject.transform.forward * rb.mass * speed, ForceMode.Impulse);
             }
         }
 
@@ -165,7 +165,7 @@ public class SpiderAI : IEnemy
     private void AttackPlayer()
     {
         // Update to attack speeds
-        agent.speed = 30;
+        speed = 5;
         foreach (SpiderIKSolver leg in legs1)
             leg.SpiderChaseSpeed();
         foreach (SpiderIKlegsSecond leg in legs2)
@@ -173,16 +173,15 @@ public class SpiderAI : IEnemy
         foreach (SpiderIKlegsBack leg in legs3)
             leg.SpiderChaseSpeed();
 
-        // look toward the player
-        float angle = Vector3.Angle(transform.forward, player.position);
+        float yLook = gameObject.transform.position.y;
+        Ray ray = new Ray(gameObject.transform.position, gameObject.transform.forward);
+        if (Physics.Raycast(ray, out hit, 50, myLayerMask))
+            yLook = player.position.y;
+        Vector3 targetPosition = new Vector3(player.position.x, yLook, player.position.z);
+        transform.LookAt(targetPosition);
 
-        if (angle > 20)
-        {
-            Vector3 targetPosition = new Vector3(player.position.x, this.transform.position.y, player.position.z);
-            transform.LookAt(targetPosition);
-        }
-
-        agent.SetDestination(player.position);
+        if (rb.velocity.magnitude < 40)
+            rb.AddForce(gameObject.transform.forward * rb.mass * speed, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -213,6 +212,15 @@ public class SpiderAI : IEnemy
         if (rb.velocity.magnitude > 200)
         {
             rb.velocity = Vector3.zero;
+        }
+    }
+
+    public void HandleBouncing()
+    {
+        Ray ray = new Ray(gameObject.transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out hit, 20, myLayerMask))
+        {
+            gameObject.transform.position = hit.point + new Vector3(0, 0, 100);
         }
     }
 

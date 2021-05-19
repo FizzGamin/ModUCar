@@ -39,7 +39,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464715662}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_Material: {fileID: 13400000, guid: 9266447730e8603428eb41e786f6a5e9, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -52,7 +52,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464715662}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_Material: {fileID: 13400000, guid: 9266447730e8603428eb41e786f6a5e9, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myLayerMask:
     serializedVersion: 2
-    m_Bits: 401
+    m_Bits: 1425
 --- !u!1 &1415898138
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415898138}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_Material: {fileID: 13400000, guid: 9266447730e8603428eb41e786f6a5e9, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -156,7 +156,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415898138}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_Material: {fileID: 13400000, guid: 9266447730e8603428eb41e786f6a5e9, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2068,8 +2068,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractDistance: 15
-  walkSpeed: 20
-  sprintSpeed: 30
+  walkSpeed: 30
+  sprintSpeed: 50
   jumpHeight: 30
   sensitivity: 3
   dropDistance: 5
@@ -2089,6 +2089,7 @@ MonoBehaviour:
   armRoot: {fileID: 5450032682923870253}
   root: {fileID: 2357201613081921320}
   maxHP: 100
+  maxHunger: 100
   playerRagdoll: {fileID: 4580905741067574572, guid: 914d363bc255cc144acd43d6e145a74d,
     type: 3}
 --- !u!114 &6704414600242654201
