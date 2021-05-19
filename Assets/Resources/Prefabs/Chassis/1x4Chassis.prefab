@@ -195,7 +195,7 @@ MonoBehaviour:
   - {fileID: 7945907718478628032}
   - {fileID: 7709481406503312077}
   cameraCenter: {fileID: 7133996247024368839}
-  vehiclePower: 3400
+  vehiclePower: 4000
   vehicleSteeringAngle: 70
   cameraDistance: 10
   health: 300
