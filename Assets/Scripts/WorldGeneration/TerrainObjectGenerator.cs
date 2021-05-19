@@ -90,7 +90,7 @@ public class TerrainObjectGenerator : MonoBehaviour
         bigRockRadius = Random.Range(10, 15);
         smallRockRadius = Random.Range(50, 60);
         snowRockRadius = Random.Range(10, 15);
-        buildingRadius = Random.Range(80, 100);
+        buildingRadius = Random.Range(70, 100);
 
         //if radius goes below 10 then sets radius to 10
         enemiesRadius.Add(Mathf.Max(10, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
