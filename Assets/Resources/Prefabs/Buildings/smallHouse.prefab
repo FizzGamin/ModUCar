@@ -1,5 +1,61 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2122749669155604895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1286877843244612135}
+  - component: {fileID: 1829928145077267294}
+  m_Layer: 0
+  m_Name: VehicleGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1286877843244612135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122749669155604895}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.04, y: 12.98, z: 21.13}
+  m_LocalScale: {x: 0.25, y: 0.33333334, z: 0.33333334}
+  m_Children: []
+  m_Father: {fileID: 8569098629129131381}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1829928145077267294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122749669155604895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283034705f307cc4ebc3eb2b4145ba63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnWeights:
+  - weight: 60
+    vehicleChassis: {fileID: 8267606392924593330, guid: 905a4fe5a93393f42975b8a09885afe6,
+      type: 3}
+  - weight: 40
+    vehicleChassis: {fileID: 9137921467838470678, guid: 9d071c052c5ba6b4c8f7151bdcfd6ca5,
+      type: 3}
+  - weight: 30
+    vehicleChassis: {fileID: 8311798115456434119, guid: 81978e6d204321b4688eaface0bb394c,
+      type: 3}
+  - weight: 10
+    vehicleChassis: {fileID: 187325096965239483, guid: c25366637e2764c4b9dbf588bb0086e8,
+      type: 3}
 --- !u!1 &9052337925432741839
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +89,7 @@ Transform:
   - {fileID: 6280779087663690018}
   - {fileID: 1682467969126394416}
   - {fileID: 8093146622669914431}
+  - {fileID: 1286877843244612135}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
