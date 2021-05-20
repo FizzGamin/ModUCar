@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,10 +21,6 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
     private float maxHealth = 300;
     public GameObject healthBarVisibility;
     public GameObject healthBar;
-    private GenericBarUI healthBarUI;
-
-
-    bool isControlling = false;
 
     //Camera related
     private Camera playerCamera;
@@ -68,7 +63,7 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
         foreach (WheelCollider wc in powerWheelColliders)
         {
             //IF ther eis no player in car, use breaks
-            if (!isControlling)
+            if (!isControlled)
                 wc.brakeTorque = vehiclePower * 3;
             else
                 wc.brakeTorque = 0;
@@ -84,7 +79,7 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
         }
 
         //If the vehicle is currently being controlled, check for inputs
-        if (isControlling)
+        if (isControlled)
         {
             RunPlayerVehicleControl();
             HandleMouseMovement();
@@ -98,15 +93,28 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
         health -= damage;
         Debug.Log("Enemy health: " + health + "  damage: " + damage);
         healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100 / maxHealth);
-        healthBarUI.SetBar(health, maxHealth);
+        vehicleHealthBar.SetBar(health, maxHealth);
         if (health <= 0)
             Invoke(nameof(OnDeath), .1f);
     }
 
     public void OnDeath()
     {
-        //MAYBE DROP THE MODULES BEFORE BEING DESTROYED
         Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        List<ModuleSlot> moduleSlots = GetModuleSlots();
+        if (isControlled)
+        {
+            GetOutOfVehicle();
+        }
+        foreach (ModuleSlot moduleSlot in moduleSlots)
+        {
+            VehicleModule module = moduleSlot.RemoveModule();
+            if (module != null) module.gameObject.SetActive(true);
+        }
     }
 
     void RunPlayerVehicleControl()
@@ -233,7 +241,7 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
 
     public override void GiveControl()
     {
-        isControlling = true;
+        isControlled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         fuelBar.gameObject.SetActive(true);
@@ -245,7 +253,7 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
 
     public override void ReleaseControl()
     {
-        isControlling = false;
+        isControlled = false;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         fuelBar.gameObject.SetActive(false);
