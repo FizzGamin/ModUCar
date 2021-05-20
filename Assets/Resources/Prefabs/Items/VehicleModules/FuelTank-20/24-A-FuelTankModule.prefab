@@ -90,6 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8217303644260338913}
+  - component: {fileID: -6721568343351524981}
   m_Layer: 0
   m_Name: 24-A-FuelTankModule
   m_TagString: Untagged
@@ -113,6 +114,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6721568343351524981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8737663376799913563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55706f1a814d7d944b2ab95b70244711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEquipped: 0
+  weight: 20
+  quality: 4
+  capacity: 150
+  fuel: 75
 --- !u!1 &9083585428163287406
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +142,7 @@ GameObject:
   - component: {fileID: 5077840133245638532}
   - component: {fileID: 4577149405471793434}
   - component: {fileID: 5369206416384277957}
+  - component: {fileID: 3662544040355808108}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -194,3 +213,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3662544040355808108
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9083585428163287406}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 9.999999, z: 0.9999999}
+  m_Center: {x: 0, y: 0, z: 0}

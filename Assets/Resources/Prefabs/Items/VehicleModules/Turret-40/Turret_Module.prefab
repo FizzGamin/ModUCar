@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEquipped: 0
+  weight: 100
   quality: 4
   sightRange: 300
   whatIsEnemy:

@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEquipped: 0
+  weight: 17
   quality: 4
   numSlots: 6
 --- !u!64 &-6099316896914961615

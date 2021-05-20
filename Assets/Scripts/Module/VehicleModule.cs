@@ -6,7 +6,8 @@ public abstract class VehicleModule : IItem, IInteractable
 {
     [SerializeField]
     protected bool isEquipped = false;
-
+    [SerializeField]
+    private int weight = 100;
 
     public virtual string GetInteractionText()
     {
@@ -34,4 +35,9 @@ public abstract class VehicleModule : IItem, IInteractable
     }
 
     protected abstract void OnUnequip(VehicleController vehicle);
+
+    public override int GetWeight()
+    {
+        return weight;
+    }
 }

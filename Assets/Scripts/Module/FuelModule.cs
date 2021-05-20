@@ -56,9 +56,15 @@ public class FuelModule : VehicleModule, IFuelContainer
     public override void Interact(IPlayer player)
     {
         FuelItem fuelItem;
-        if ((fuelItem = GameManager.GetPlayer()?.GetEquippedItem()?.GetComponent<FuelItem>()) != null)
+        if (isEquipped)
         {
-            fuelItem.Refuel(this);
+            if ((fuelItem = GameManager.GetPlayer()?.GetEquippedItem()?.GetComponent<FuelItem>()) != null)
+            {
+                fuelItem.Refuel(this);
+            }
+        } else
+        {
+            base.Interact(player);
         }
     }
 
