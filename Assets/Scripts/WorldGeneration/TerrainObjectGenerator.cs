@@ -172,7 +172,7 @@ public class TerrainObjectGenerator : MonoBehaviour
 
         foreach (Vector2 v in pointsForGeneration)
         {
-            if (count++ < objectCountLimt)
+            if (count < objectCountLimt)
             {
                 Vector2 point = new Vector2(v.x - 61, v.y - 61);
 
@@ -180,49 +180,68 @@ public class TerrainObjectGenerator : MonoBehaviour
 
                 Vector3 position = transform.TransformPoint(vertices[index]);
 
+                int objectIndex = Random.Range(0, objects.Count);
+                GameObject terrainObject = objects[objectIndex];
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
-                    int objectIndex = Random.Range(0, objects.Count);
-                    GameObject terrainObject = objects[objectIndex];
-                    Vector3 newPosition = new Vector3(position.x, position.y, position.z);
-                    if (terrainObject.name.Contains("Enemy"))
-                    {
-                        terrainObject.layer = 8;
-                        newPosition.y += 5;
-                    }
-                    else
-                    {
-                        terrainObject.layer = 10;
-                        newPosition.y -= 2;
-                    }
-                        
-                    Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
-
-                    int objectRadius;
-                    int radiusIncrease = 1;
-
-                    if (terrainObject.GetComponent<BoxCollider>() != null)
-                        objectRadius = (int)terrainObject.GetComponent<BoxCollider>().size.x + radiusIncrease;
-                    else if (terrainObject.GetComponent<CapsuleCollider>() != null)
-                        objectRadius = (int)terrainObject.GetComponent<CapsuleCollider>().radius + radiusIncrease;
-                    else if (terrainObject.GetComponent<MeshFilter>() != null)
-                        objectRadius = (int)(terrainObject.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * terrainObject.transform.localScale.x) + radiusIncrease;
-                    else if (terrainObject.name.Contains("Spider"))
-                        objectRadius = 5;
-                    else
-                        objectRadius = radiusIncrease;
-
-
-                    Debug.LogWarning(terrainObject.name + " - " + objectRadius);
-                    if (!Physics.CheckSphere(newPosition, objectRadius, LayerMask.GetMask("TerrainObjects")))
-                    {
-                        GameObject newGameObject = Instantiate(terrainObject, newPosition, rotateAngle);
-                        allObjects.Add(newGameObject);
-                    }
+                    count += spawnObject(terrainObject, position, LayerNumber);
                 }
             }
         }
         yield break;
+    }
+
+    private int spawnObject(GameObject terrainObject, Vector3 position, int LayerNumber)
+    {
+        if (terrainObject.name.Contains("Enemy"))
+        {
+            terrainObject.layer = 8;
+            position.y += 5;
+        }
+        else
+        {
+            terrainObject.layer = 10;
+            position.y -= 2;
+        }
+
+        Quaternion rotateAngle;
+        //If object is a building
+        if (terrainObject.name.Contains("small"))
+        {
+            RaycastHit hit;
+            position.y += 1000;
+            if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Terrain")))
+                rotateAngle = Quaternion.FromToRotation(transform.up, hit.normal);
+            else
+                rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+            position.y -= 1000;
+            Debug.LogWarning("X: " + rotateAngle.eulerAngles.x + " Y: " + rotateAngle.eulerAngles.y + " Z: " + rotateAngle.eulerAngles.z);
+        }
+        else
+            rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+
+        int objectRadius;
+        int radiusIncrease = 1;
+
+        if (terrainObject.GetComponent<BoxCollider>() != null)
+            objectRadius = (int)terrainObject.GetComponent<BoxCollider>().size.x + radiusIncrease;
+        else if (terrainObject.GetComponent<CapsuleCollider>() != null)
+            objectRadius = (int)terrainObject.GetComponent<CapsuleCollider>().radius + radiusIncrease;
+        else if (terrainObject.GetComponent<MeshFilter>() != null)
+            objectRadius = (int)(terrainObject.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * terrainObject.transform.localScale.x) + radiusIncrease;
+        else if (terrainObject.name.Contains("Spider"))
+            objectRadius = 5;
+        else
+            objectRadius = radiusIncrease;
+
+        if (!Physics.CheckSphere(position, objectRadius, LayerMask.GetMask("TerrainObjects"))
+            && rotateAngle.eulerAngles.x < 3 && rotateAngle.eulerAngles.z < 3)
+        {
+            GameObject newGameObject = Instantiate(terrainObject, position, rotateAngle);
+            allObjects.Add(newGameObject);
+            return 1;
+        }
+        return 0;
     }
 
     private int getIndex(int x, int y, int chunkSizeScaled, int length)
