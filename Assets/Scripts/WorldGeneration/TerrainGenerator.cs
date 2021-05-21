@@ -54,6 +54,18 @@ public class TerrainGenerator : MonoBehaviour
             viewerPositionOld = viewerPosition;
             UpdateVisibleChunks();
         }
+
+        Debug.LogWarning("Total Distance from Origin: " + (Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)));
+        if((Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)) > 5000 * meshSettings.meshScale)
+        {
+            //Player has reached the End
+            //
+            //
+            //
+            //
+            //
+            //Add code for displaying that the player has reached the end
+        }
     }
 
     void UpdateVisibleChunks()
