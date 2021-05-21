@@ -29,11 +29,13 @@ public class SpiderAI_new : IEnemy
     float waitTime;
     Rigidbody rb;
     float speed;
+    int patrolSpeed;
 
     // ATTACKING
     public float timeBetweenAttacks;
     bool hitPlayer;
     bool hitEnemy;
+    int randDifficulty;
 
     // STATES
     public float sightRange;
@@ -62,6 +64,8 @@ public class SpiderAI_new : IEnemy
         maxHealth = health;
         paused = false;
         rb = gameObject.GetComponent<Rigidbody>();
+        randDifficulty = Random.Range(30, 61);
+        patrolSpeed = 20;
     }
 
     void Update()
@@ -94,10 +98,13 @@ public class SpiderAI_new : IEnemy
         if (paused)
         {
             rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            Vector3 look = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
+            gameObject.transform.LookAt(look);
         }
         if (!paused)
         {
-            if (!walkPointSet)
+            if (!walkPointSet || Vector3.Distance(walkPoint, gameObject.transform.position) > sightRange)
             {
                 Invoke(nameof(SearchWalkPoint), 0);
             }
@@ -105,14 +112,15 @@ public class SpiderAI_new : IEnemy
             {
                 Vector3 look = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
                 gameObject.transform.LookAt(look);
-                if (rb.velocity.magnitude < 20)
+                if (rb.velocity.magnitude < patrolSpeed)
                     rb.AddForce(gameObject.transform.forward * rb.mass * speed, ForceMode.Impulse);
             }
         }
 
         // check if we have reached the walkPoint
-        waitTime = Random.Range(1f, 4f);
-        Vector3 distToWalkPoint = transform.position - walkPoint;
+        waitTime = Random.Range(1f, 6f);
+        Vector3 a = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
+        Vector3 distToWalkPoint = transform.position - a;
         if (distToWalkPoint.magnitude < 10f)
         {
             paused = true;
@@ -146,7 +154,7 @@ public class SpiderAI_new : IEnemy
             randZ = Random.Range(5, walkPointRange);
             randX = Random.Range(5, walkPointRange);
         }
-        walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
+        walkPoint = new Vector3(transform.position.x + randX, 100, transform.position.z + randZ);
 
         // check if the point to walk to is on the ground
         Ray ray1 = new Ray(walkPoint, -transform.up);
@@ -180,7 +188,7 @@ public class SpiderAI_new : IEnemy
         Vector3 targetPosition = new Vector3(player.position.x, yLook, player.position.z);
         transform.LookAt(targetPosition);
 
-        if (rb.velocity.magnitude < 40)
+        if (rb.velocity.magnitude < randDifficulty)
             rb.AddForce(gameObject.transform.forward * rb.mass * speed, ForceMode.Impulse);
     }
 
@@ -217,11 +225,13 @@ public class SpiderAI_new : IEnemy
 
     public void HandleBouncing()
     {
-        Ray ray = new Ray(gameObject.transform.position, Vector3.down);
+        /*Ray ray = new Ray(gameObject.transform.position, Vector3.down);
         if (Physics.Raycast(ray, out hit, 20, myLayerMask))
         {
             gameObject.transform.position = hit.point + new Vector3(0, 0, 100);
-        }
+        }*/
+
+        rb.AddForce(-gameObject.transform.up * rb.mass * 100, ForceMode.Force);
     }
 
     /// <summary>
