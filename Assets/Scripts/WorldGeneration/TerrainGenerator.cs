@@ -55,7 +55,7 @@ public class TerrainGenerator : MonoBehaviour
             UpdateVisibleChunks();
         }
 
-        Debug.LogWarning("Total Distance from Origin: " + (Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)));
+        //Debug.LogWarning("Total Distance from Origin: " + (Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)));
         if((Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)) > 5000 * meshSettings.meshScale)
         {
             //Player has reached the End

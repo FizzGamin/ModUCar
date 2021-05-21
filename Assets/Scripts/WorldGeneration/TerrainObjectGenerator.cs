@@ -182,8 +182,10 @@ public class TerrainObjectGenerator : MonoBehaviour
 
                 int objectIndex = Random.Range(0, objects.Count);
                 GameObject terrainObject = objects[objectIndex];
+                
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
+                    Debug.LogWarning(terrainObject.name + " Min: " + spawnYMin + " Max: " + spawnYMax + " Y: " + position.y);
                     count += spawnObject(terrainObject, position, LayerNumber);
                 }
             }
@@ -215,7 +217,6 @@ public class TerrainObjectGenerator : MonoBehaviour
             else
                 rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
             position.y -= 1000;
-            Debug.LogWarning("X: " + rotateAngle.eulerAngles.x + " Y: " + rotateAngle.eulerAngles.y + " Z: " + rotateAngle.eulerAngles.z);
         }
         else
             rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
@@ -288,6 +289,6 @@ public class TerrainObjectGenerator : MonoBehaviour
         else
             height = 1;
         float heightMultiplier = heightMapSettings.heightMultiplier;
-        return height * heightMultiplier;
+        return height * heightMultiplier * heightMapSettings.heightCurve.Evaluate(height);
     }
 }
