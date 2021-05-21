@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43494707, g: 0.48079163, b: 0.5369578, a: 1}
+  m_IndirectSpecularColor: {r: 0.4349467, g: 0.4807909, b: 0.5369575, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1522,7 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b53d0887021a9040aa475020efa2bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!43 &877743625
+--- !u!43 &864210788
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1886,7 +1886,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056663127}
-  m_Mesh: {fileID: 877743625}
+  m_Mesh: {fileID: 864210788}
 --- !u!1 &1183243602
 GameObject:
   m_ObjectHideFlags: 0
@@ -7714,6 +7714,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6704414600242654150, guid: 6c09b43168e101640ad8121cecc67857,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 130
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c09b43168e101640ad8121cecc67857, type: 3}
