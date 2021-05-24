@@ -20,6 +20,8 @@ public class SpiderAI_new : IEnemy
 
     public LayerMask myLayerMask;
 
+    GameObject centerPoint;
+
     // PATROL
     Vector3 walkPoint;
     bool walkPointSet;
@@ -36,6 +38,7 @@ public class SpiderAI_new : IEnemy
     bool hitPlayer;
     bool hitEnemy;
     int randDifficulty;
+    Ray forceRay;
 
     // STATES
     public float sightRange;
@@ -66,6 +69,8 @@ public class SpiderAI_new : IEnemy
         rb = gameObject.GetComponent<Rigidbody>();
         randDifficulty = Random.Range(30, 61);
         patrolSpeed = 20;
+        centerPoint = gameObject.transform.GetChild(2).gameObject;
+        forceRay = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
     }
 
     void Update()
@@ -77,8 +82,8 @@ public class SpiderAI_new : IEnemy
         if (playerInSightRange)
             AttackPlayer();
 
+        HandleBouncing();
         HandleWheelCollision();
-        //HandleBouncing();
     }
 
     /// <summary>
@@ -112,8 +117,9 @@ public class SpiderAI_new : IEnemy
             {
                 Vector3 look = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
                 gameObject.transform.LookAt(look);
+                Ray ray = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
                 if (rb.velocity.magnitude < patrolSpeed)
-                    rb.AddForce(gameObject.transform.forward * rb.mass * speed, ForceMode.Impulse);
+                    rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
             }
         }
 
@@ -182,14 +188,19 @@ public class SpiderAI_new : IEnemy
             leg.SpiderChaseSpeed();
 
         float yLook = gameObject.transform.position.y;
-        Ray ray = new Ray(gameObject.transform.position, gameObject.transform.forward);
-        if (Physics.Raycast(ray, out hit, 50, myLayerMask))
+
+        Ray ray = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
+        Debug.DrawRay(ray.origin, ray.direction * 50, Color.red, 10f);
+
+        if (Physics.Raycast(ray, out hit, 30, myLayerMask))
+        {
             yLook = player.position.y;
+        }
         Vector3 targetPosition = new Vector3(player.position.x, yLook, player.position.z);
         transform.LookAt(targetPosition);
 
         if (rb.velocity.magnitude < randDifficulty)
-            rb.AddForce(gameObject.transform.forward * rb.mass * speed, ForceMode.Impulse);
+            rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -225,13 +236,14 @@ public class SpiderAI_new : IEnemy
 
     public void HandleBouncing()
     {
-        /*Ray ray = new Ray(gameObject.transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out hit, 20, myLayerMask))
+        Ray ray = new Ray(centerPoint.transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out hit, 100, myLayerMask))
         {
-            gameObject.transform.position = hit.point + new Vector3(0, 0, 100);
-        }*/
+            if (hit.point.magnitude > 0.1f || hit.point.magnitude < 0f)
+                gameObject.transform.position = hit.point + new Vector3(0, 0.1f, 0);
+        }
 
-        rb.AddForce(-gameObject.transform.up * rb.mass * 100, ForceMode.Force);
+        //rb.AddForce(-gameObject.transform.up * rb.mass * 10, ForceMode.Impulse);
     }
 
     /// <summary>

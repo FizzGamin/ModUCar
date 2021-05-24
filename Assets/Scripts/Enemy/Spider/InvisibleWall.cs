@@ -7,11 +7,13 @@ public class InvisibleWall : MonoBehaviour
     Ray ray;
     RaycastHit hit;
     public LayerMask myLayerMask;
+    GameObject parent;
 
     // Start is called before the first frame update
     void Start()
     {
         ray = new Ray(gameObject.transform.position, Vector3.down);
+        parent = gameObject.transform.parent.gameObject;
     }
 
     // Update is called once per frame
@@ -19,7 +21,8 @@ public class InvisibleWall : MonoBehaviour
     {
         if (Physics.Raycast(ray, out hit, 20, myLayerMask))
         {
-            gameObject.transform.position = new Vector3(gameObject.transform.position.x, hit.point.y + 3.88f, gameObject.transform.position.z);
+            float y = hit.point.y - parent.transform.position.y;
+            gameObject.transform.localPosition = new Vector3(gameObject.transform.position.x, y + 5f, gameObject.transform.position.z); //3.88
                 
         }
     }
