@@ -115,10 +115,32 @@ public class SpiderAI_new : IEnemy
             }
             if (walkPointSet)
             {
-                Vector3 look = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
+                /*Vector3 look = new Vector3(walkPoint.x, gameObject.transform.position.y, walkPoint.z);
                 gameObject.transform.LookAt(look);
                 Ray ray = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
                 if (rb.velocity.magnitude < patrolSpeed)
+                    rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);*/
+                float yLook = gameObject.transform.position.y;
+                Ray ray = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
+
+                //change the angle that the spider applies force in.
+                if (Physics.Raycast(ray, out hit, 10, myLayerMask))
+                {
+                    speed = 6;
+                    yLook = walkPoint.y;
+                    Ray walkPointDir = new Ray(gameObject.transform.position, (gameObject.transform.position - (walkPoint + new Vector3(0, 5, 0))).normalized);
+                    ray = new Ray(gameObject.transform.position, -walkPointDir.direction);
+                    Debug.DrawRay(ray.origin, ray.direction * 50, Color.red, 10f);
+                }
+
+                Vector3 targetPosition = new Vector3(walkPoint.x, yLook, walkPoint.z);
+                transform.LookAt(targetPosition);
+
+                //force for going straight
+                if (rb.velocity.magnitude < patrolSpeed)
+                    rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
+                //force for going up hills
+                if (speed > 5 && rb.velocity.magnitude < 100)
                     rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
             }
         }
@@ -174,7 +196,7 @@ public class SpiderAI_new : IEnemy
     }
 
     /// <summary>
-    /// Handles the attacking mode for the Spider, changes the speed of the spider and legs, and looks toward the player if the angle between the two gets too big.
+    /// Handles the attacking mode for the Spider, changes the speed of the spider and legs, and looks toward the player and goes toward it.
     /// </summary>
     private void AttackPlayer()
     {
@@ -188,18 +210,36 @@ public class SpiderAI_new : IEnemy
             leg.SpiderChaseSpeed();
 
         float yLook = gameObject.transform.position.y;
-
         Ray ray = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
-        Debug.DrawRay(ray.origin, ray.direction * 50, Color.red, 10f);
 
-        if (Physics.Raycast(ray, out hit, 30, myLayerMask))
+        //change the angle that the spider applies force in.
+        if (Physics.Raycast(ray, out hit, 10, myLayerMask))
         {
+            speed = 6;
             yLook = player.position.y;
+            Ray playerDir = new Ray(gameObject.transform.position, (gameObject.transform.position - (player.position + new Vector3(0, 5, 0))).normalized);
+            ray = new Ray(gameObject.transform.position, -playerDir.direction);
+            Debug.DrawRay(ray.origin, ray.direction * 50, Color.red, 10f);
         }
+
         Vector3 targetPosition = new Vector3(player.position.x, yLook, player.position.z);
         transform.LookAt(targetPosition);
 
+        //change sideways velocity so spider doesn't slide
+        Vector3 tempVector = gameObject.GetComponent<Rigidbody>().velocity;
+        tempVector = gameObject.transform.InverseTransformVector(tempVector);
+        if (tempVector.x > 5 || tempVector.x < -5)
+        {
+            tempVector.x = 0f;
+            tempVector = gameObject.transform.TransformVector(tempVector);
+            gameObject.GetComponent<Rigidbody>().velocity = tempVector;
+        }
+        Debug.Log(randDifficulty);
+        //force for going straight
         if (rb.velocity.magnitude < randDifficulty)
+            rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
+        //force for going up hills
+        if (speed > 5 && rb.velocity.magnitude < 61)
             rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
     }
 
@@ -239,11 +279,9 @@ public class SpiderAI_new : IEnemy
         Ray ray = new Ray(centerPoint.transform.position, Vector3.down);
         if (Physics.Raycast(ray, out hit, 100, myLayerMask))
         {
-            if (hit.point.magnitude > 0.1f || hit.point.magnitude < 0f)
+            if (hit.point.magnitude > 1f || hit.point.magnitude < 0f) //changed from 0 to 0.001
                 gameObject.transform.position = hit.point + new Vector3(0, 0.1f, 0);
         }
-
-        //rb.AddForce(-gameObject.transform.up * rb.mass * 10, ForceMode.Impulse);
     }
 
     /// <summary>
