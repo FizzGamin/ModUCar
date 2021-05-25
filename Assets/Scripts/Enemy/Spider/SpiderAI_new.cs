@@ -56,6 +56,7 @@ public class SpiderAI_new : IEnemy
 
     public override void OnDeath()
     {
+        GameManager.GetLootService().DeathLoot(ItemQuality.C, .2, transform.position);
         Destroy(gameObject);
     }
 

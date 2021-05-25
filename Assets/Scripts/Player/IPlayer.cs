@@ -59,7 +59,7 @@ public abstract class IPlayer : UserControllable
         {
             if (hit.collider.transform.gameObject != prevLookedAt)
             {
-                Debug.Log(hit.collider.transform.gameObject.name);
+                //Debug.Log(hit.collider.transform.gameObject.name);
                 prevLookedAt = hit.collider.transform.gameObject;
                 VehicleController vehicleController = prevLookedAt.GetComponent<VehicleController>();
                 if (vehicleController != null)
