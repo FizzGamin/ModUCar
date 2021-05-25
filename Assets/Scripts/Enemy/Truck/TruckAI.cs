@@ -50,6 +50,7 @@ public class TruckAI : IEnemy
 
     public override void OnDeath()
     {
+        GameManager.GetLootService().DeathLoot(ItemQuality.A, .5, transform.position);
         Destroy(gameObject);
     }
 

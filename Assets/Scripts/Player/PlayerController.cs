@@ -314,6 +314,17 @@ public class PlayerController : IPlayer, IDamageable
             item.SetActive(false);
             inventoryUI.SetItem(inventoryUI.GetSelectedIndex(), item.GetComponent<IItem>());
             return true;
+        } else
+        {
+            for (int i = 0; i < inventoryUI.GetSize(); i++)
+            {
+                if (inventoryUI.GetItem(i) == null)
+                {
+                    item.SetActive(false);
+                    inventoryUI.SetItem(i, item.GetComponent<IItem>());
+                    return true;
+                }
+            }
         }
 
         return false;

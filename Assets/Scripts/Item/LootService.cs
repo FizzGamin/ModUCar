@@ -77,6 +77,17 @@ public class LootService : UnitySingleton<LootService>
         throw new InvalidDataException("Attempted to generate an item but was out of bounds of the array: " + selected);
     }
 
+    public void DeathLoot(ItemQuality quality, double chance, Vector3 position)
+    {
+        if (random.NextDouble() < chance || 1==1)
+        {
+            IItem loot = Instantiate(GetItem(quality));
+            Debug.Log(loot.name);
+            loot.transform.position = position + new Vector3(0,2,0);
+            loot.gameObject.SetActive(true);
+        }
+    }
+
     public GameObject GetChassis()
     {
         return chassisList[random.Next(0, chassisList.Count)];
