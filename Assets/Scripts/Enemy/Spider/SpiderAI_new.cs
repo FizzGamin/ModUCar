@@ -234,7 +234,7 @@ public class SpiderAI_new : IEnemy
             ray = new Ray(gameObject.transform.position, -playerDir.direction);
             Debug.DrawRay(ray.origin, ray.direction * 50, Color.red, 10f);
         }
-        Debug.Log(randDifficulty);
+
         Vector3 targetPosition = new Vector3(player.position.x, yLook, player.position.z);
         transform.LookAt(targetPosition);
 

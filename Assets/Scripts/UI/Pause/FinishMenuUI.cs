@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class DeathMenuUI : ToggleableUI
+public class FinishMenuUI : ToggleableUI
 {
     // Start is called before the first frame update
     void Start()
     {
-        UIManager.SetDeathMenuUI(this);
+        UIManager.SetFinishMenuUI(this);
         gameObject.SetActive(false);
     }
 
     /// <summary>
     /// Calls the players respawn method to respawn and closes the deathMenuUI.
     /// </summary>
-    public void Respawn()
+    public void Restart()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerController>().Respawn();

@@ -25,6 +25,8 @@ public class TerrainGenerator : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
+    GameObject player;
+
     void Start()
     {
         textureSettings.ApplyToMaterial(mapMaterial);
@@ -35,6 +37,8 @@ public class TerrainGenerator : MonoBehaviour
         chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / meshWorldSize);
 
         UpdateVisibleChunks();
+
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -55,16 +59,14 @@ public class TerrainGenerator : MonoBehaviour
             UpdateVisibleChunks();
         }
 
-        //Debug.LogWarning("Total Distance from Origin: " + (Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)));
-        if((Mathf.Abs(viewerPosition.x) + Mathf.Abs(viewerPosition.x)) > 5000 * meshSettings.meshScale)
+        //Debug.Log("Total Distance from Origin: " + (Vector3.Distance(player.transform.position, Vector3.zero)));
+        Debug.Log(meshSettings.meshScale);
+        if (Vector3.Distance(player.transform.position, Vector3.zero) > 35000)
         {
             //Player has reached the End
-            //
-            //
-            //
-            //
-            //
-            //Add code for displaying that the player has reached the end
+            PlayerController control = player.GetComponent<PlayerController>();
+            control.ReleaseControl();
+            UIManager.GetFinishMenuUI().Open(control);
         }
     }
 

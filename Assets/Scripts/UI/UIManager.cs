@@ -7,6 +7,7 @@ public class UIManager : UnitySingleton<UIManager>
     private InventoryUI inventoryUI;
     private PauseMenuUI pauseMenuUI;
     private DeathMenuUI deathMenuUI;
+    private FinishMenuUI finishMenuUI;
     private InteractionHud interactionHud;
     private InteractionHud vehicleInteractionHud;
     private GenericBarUI healthBarUI;
@@ -47,6 +48,16 @@ public class UIManager : UnitySingleton<UIManager>
     public static void SetDeathMenuUI(DeathMenuUI deathMenuUI)
     {
         instance.deathMenuUI = deathMenuUI;
+    }
+
+    public static FinishMenuUI GetFinishMenuUI()
+    {
+        return instance.finishMenuUI;
+    }
+
+    public static void SetFinishMenuUI(FinishMenuUI finishMenuUI)
+    {
+        instance.finishMenuUI = finishMenuUI;
     }
 
     public static InteractionHud GetInteractionHud()
