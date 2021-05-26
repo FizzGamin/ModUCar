@@ -68,8 +68,8 @@ public class SpiderAI_new : IEnemy
         maxHealth = health;
         paused = false;
         rb = gameObject.GetComponent<Rigidbody>();
-        randDifficulty = Random.Range(30, 61);
-        patrolSpeed = 20;
+        randDifficulty = Random.Range(25, 36);
+        patrolSpeed = 10;
         centerPoint = gameObject.transform.GetChild(2).gameObject;
         forceRay = new Ray(centerPoint.transform.position, new Vector3(gameObject.transform.forward.x, centerPoint.transform.forward.y, gameObject.transform.forward.z));
     }
@@ -137,9 +137,19 @@ public class SpiderAI_new : IEnemy
                 Vector3 targetPosition = new Vector3(walkPoint.x, yLook, walkPoint.z);
                 transform.LookAt(targetPosition);
 
+                //change sideways velocity so spider doesn't slide
+                Vector3 tempVector = gameObject.GetComponent<Rigidbody>().velocity;
+                tempVector = gameObject.transform.InverseTransformVector(tempVector);
+                if (tempVector.x > 1 || tempVector.x < -1)
+                {
+                    tempVector.x = 0f;
+                    tempVector = gameObject.transform.TransformVector(tempVector);
+                    gameObject.GetComponent<Rigidbody>().velocity = tempVector;
+                }
+
                 //force for going straight
-                if (rb.velocity.magnitude < patrolSpeed)
-                    rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
+                    if (rb.velocity.magnitude < patrolSpeed)
+                    rb.AddForce(ray.direction * rb.mass, ForceMode.Impulse);
                 //force for going up hills
                 if (speed > 5 && rb.velocity.magnitude < 100)
                     rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
@@ -194,6 +204,8 @@ public class SpiderAI_new : IEnemy
             walkPoint = hit.point;
         else
             walkPoint.y = transform.position.y + 10;
+
+        patrolSpeed = Random.Range(3, 8);
     }
 
     /// <summary>
@@ -222,7 +234,7 @@ public class SpiderAI_new : IEnemy
             ray = new Ray(gameObject.transform.position, -playerDir.direction);
             Debug.DrawRay(ray.origin, ray.direction * 50, Color.red, 10f);
         }
-
+        Debug.Log(randDifficulty);
         Vector3 targetPosition = new Vector3(player.position.x, yLook, player.position.z);
         transform.LookAt(targetPosition);
 
@@ -235,7 +247,7 @@ public class SpiderAI_new : IEnemy
             tempVector = gameObject.transform.TransformVector(tempVector);
             gameObject.GetComponent<Rigidbody>().velocity = tempVector;
         }
-        Debug.Log(randDifficulty);
+
         //force for going straight
         if (rb.velocity.magnitude < randDifficulty)
             rb.AddForce(ray.direction * rb.mass * speed, ForceMode.Impulse);
