@@ -79,7 +79,7 @@ public class LootService : UnitySingleton<LootService>
 
     public void DeathLoot(ItemQuality quality, double chance, Vector3 position)
     {
-        if (random.NextDouble() < chance || 1==1)
+        if (random.NextDouble() < chance)
         {
             IItem loot = Instantiate(GetItem(quality));
             Debug.Log(loot.name);

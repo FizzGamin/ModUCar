@@ -95,9 +95,9 @@ public class PlayerController : IPlayer, IDamageable
                 HandleInteraction();
                 HandleJumps();
             }
+            CheckHeight();
         }
         DrainHunger();
-        CheckHeight();
     }
 
     public void TakeDamage(float damage)

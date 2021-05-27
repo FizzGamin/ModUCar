@@ -14,6 +14,7 @@ public class SpiderAI_new : IEnemy
     public float health;
     private float maxHealth;
     public float spiderDamage;
+    private bool isDead = false;
 
     Transform player;
     GameObject playerObj;
@@ -50,8 +51,11 @@ public class SpiderAI_new : IEnemy
         health -= damage;
         Debug.Log("Enemy health: " + health + "  damage: " + damage);
         healthBar.GetComponent<Image>().fillAmount -= (0.01f * damage * 100/maxHealth);
-        if (health <= 0)
+        if (health <= 0 && !isDead)
+        {
+            isDead = true;
             Invoke(nameof(OnDeath), .1f);
+        }
     }
 
     public override void OnDeath()

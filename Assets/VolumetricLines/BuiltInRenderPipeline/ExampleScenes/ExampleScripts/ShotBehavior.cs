@@ -7,6 +7,7 @@ public class ShotBehavior : MonoBehaviour
 	public GameObject collisionExplosion;
 	public float speed;
 	private float distance;
+	private bool hasHit = false;
 
 	private int damage;
 
@@ -67,12 +68,15 @@ public class ShotBehavior : MonoBehaviour
 		Debug.Log("Bullet hit: " + parent);
 		if (parent.tag != "Player")
 		{
-			Destroy(gameObject);
-			Explode();
-			IDamageable damageable = parent.GetComponent<IDamageable>();
-			if (damageable != null)
-				damageable.TakeDamage(damage);
-
+			if (!hasHit)
+			{
+				hasHit = true;
+				Destroy(gameObject);
+				Explode();
+				IDamageable damageable = other.GetComponentInParent<IDamageable>();
+				if (damageable != null)
+					damageable.TakeDamage(damage);
+			}
 		}
 	}
 

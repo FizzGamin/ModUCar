@@ -85,6 +85,7 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
             HandleMouseMovement();
             HandlePause();
             UpdateFuelBar();
+            CheckHeight();
         }
     }
 
@@ -110,10 +111,13 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
         {
             GetOutOfVehicle();
         }
-        foreach (ModuleSlot moduleSlot in moduleSlots)
+        if (gameObject.transform.position.y > -200)
         {
-            VehicleModule module = moduleSlot.RemoveModule();
-            if (module != null) module.gameObject.SetActive(true);
+            foreach (ModuleSlot moduleSlot in moduleSlots)
+            {
+                VehicleModule module = moduleSlot.RemoveModule();
+                if (module != null) module.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -329,5 +333,14 @@ public class VehicleController : UserControllable, IInteractable, IDamageable
         }
 
         fuelBar.SetBar(totalFuel, totalCapacity);
+    }
+
+    /// <summary>
+    /// Calls the OnDeath method if the player is falling below the map.
+    /// </summary>
+    public void CheckHeight()
+    {
+        if (gameObject.transform.position.y < -200)
+            OnDeath();
     }
 }
