@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEquipped: 0
   weight: 17
+  spriteName: storageModuleB
   quality: 3
   numSlots: 5
 --- !u!64 &813844759208936871

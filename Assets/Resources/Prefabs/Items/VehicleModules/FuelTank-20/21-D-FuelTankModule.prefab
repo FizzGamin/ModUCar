@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEquipped: 0
   weight: 20
+  spriteName: fuelTankModuleD
   quality: 1
   capacity: 75
   fuel: 37.5

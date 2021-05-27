@@ -21,11 +21,6 @@ public class ControlModule : VehicleModule
         return seat;
     }
 
-    public override string GetSpriteName()
-    {
-        return null;
-    }
-
     protected override void OnEquip(VehicleController vehicle)
     {
         //Not implemented

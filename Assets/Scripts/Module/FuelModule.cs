@@ -25,11 +25,6 @@ public class FuelModule : VehicleModule, IFuelContainer
         return quality;
     }
 
-    public override string GetSpriteName()
-    {
-        return "TempC";
-    }
-
     protected override void OnEquip(VehicleController vehicle)
     {
         Debug.Log("Equipped " + gameObject.name);

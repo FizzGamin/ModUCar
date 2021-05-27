@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEquipped: 0
   weight: 100
+  spriteName: turretModuleA
   quality: 4
   sightRange: 300
   whatIsEnemy:

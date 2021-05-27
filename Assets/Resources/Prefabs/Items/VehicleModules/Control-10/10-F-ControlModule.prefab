@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEquipped: 0
   weight: 100
+  spriteName: controlModuleF
   seat: {fileID: 4055293338376291975}
 --- !u!1 &6055387079237051249
 GameObject:

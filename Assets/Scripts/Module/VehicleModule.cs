@@ -8,11 +8,18 @@ public abstract class VehicleModule : IItem, IInteractable
     protected bool isEquipped = false;
     [SerializeField]
     private int weight = 100;
+    [SerializeField]
+    protected string spriteName = "";
 
     public virtual string GetInteractionText()
     {
         if (!isEquipped) return "Pick up " + GetName();
         else return null;
+    }
+
+    public override string GetSpriteName()
+    {
+        return spriteName;
     }
 
     public virtual void Interact(IPlayer player)

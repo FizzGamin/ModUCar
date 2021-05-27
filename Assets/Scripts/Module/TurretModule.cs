@@ -27,11 +27,6 @@ public class TurretModule : VehicleModule
         return quality;
     }
 
-    public override string GetSpriteName()
-    {
-        return null;
-    }
-
     protected override void OnEquip(VehicleController vehicle)
     {
         Debug.Log("Equipped " + gameObject.name);
