@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8241633178086576383}
   - component: {fileID: 3235903924639496355}
   - component: {fileID: 1151227455950465425}
+  - component: {fileID: 6635084613934644416}
   m_Layer: 0
   m_Name: Soda
   m_TagString: Untagged
@@ -113,3 +114,19 @@ MonoBehaviour:
   itemName: Soda
   itemQuality: 2
   spriteName: Drink
+--- !u!54 &6635084613934644416
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593304016688460074}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
