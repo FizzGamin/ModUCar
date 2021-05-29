@@ -90,17 +90,17 @@ public class TerrainObjectGenerator : MonoBehaviour
         bigRockRadius = Random.Range(10, 15);
         smallRockRadius = Random.Range(50, 60);
         snowRockRadius = Random.Range(10, 15);
-        buildingRadius = Random.Range(70, 100);
+        buildingRadius = Random.Range(65, 80);
 
         //if radius goes below 10 then sets radius to 10
-        enemiesRadius.Add(Mathf.Max(10, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
-        enemiesRadius.Add(Mathf.Max(10, Random.Range(70, 200) - enemySpawnRate)); //Truck at Index 1
+        enemiesRadius.Add(Mathf.Max(20, Random.Range(30, 70) - enemySpawnRate)); //Spider at Index 0
+        enemiesRadius.Add(Mathf.Max(40, Random.Range(70, 200) - enemySpawnRate)); //Truck at Index 1
     }
 
     private void SetupEnemies()
     {
-        GameObject spider = (GameObject)Resources.Load("Prefabs/Enemy_Spider", typeof(GameObject));
-        GameObject truck = (GameObject)Resources.Load("Prefabs/Enemy_Truck_AI", typeof(GameObject));
+        GameObject spider = (GameObject)Resources.Load("Prefabs/Enemies/Enemy_Spider_new", typeof(GameObject));
+        GameObject truck = (GameObject)Resources.Load("Prefabs/Enemies/Enemy_Truck_AI", typeof(GameObject));
 
         enemies = new List<GameObject> { spider, truck };
     }
@@ -182,7 +182,7 @@ public class TerrainObjectGenerator : MonoBehaviour
 
                 int objectIndex = Random.Range(0, objects.Count);
                 GameObject terrainObject = objects[objectIndex];
-                
+
                 if (position.y > spawnYMin && position.y < spawnYMax)
                 {
                     Debug.LogWarning(terrainObject.name + " Min: " + spawnYMin + " Max: " + spawnYMax + " Y: " + position.y);
@@ -206,20 +206,17 @@ public class TerrainObjectGenerator : MonoBehaviour
             position.y -= 2;
         }
 
-        Quaternion rotateAngle;
-        //If object is a building
-        if (terrainObject.name.Contains("small"))
+        Quaternion rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+        //If object is a building or Rock/Boulder
+        if (terrainObject.name.Contains("small") || terrainObject.name.Contains("Rock"))
         {
             RaycastHit hit;
             position.y += 1000;
             if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Terrain")))
                 rotateAngle = Quaternion.FromToRotation(transform.up, hit.normal);
-            else
-                rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
             position.y -= 1000;
         }
-        else
-            rotateAngle = Quaternion.Euler(0, Random.Range(0, 360f), 0);
+
 
         int objectRadius;
         int radiusIncrease = 1;
@@ -235,8 +232,9 @@ public class TerrainObjectGenerator : MonoBehaviour
         else
             objectRadius = radiusIncrease;
 
+        //If the object doesnt collide with any other terrain object and if the object is a building than the angle has to be less than 3
         if (!Physics.CheckSphere(position, objectRadius, LayerMask.GetMask("TerrainObjects"))
-            && rotateAngle.eulerAngles.x < 3 && rotateAngle.eulerAngles.z < 3)
+            && ((terrainObject.name.Contains("small") && rotateAngle.eulerAngles.x < 3 && rotateAngle.eulerAngles.z < 3) || !terrainObject.name.Contains("small")))
         {
             GameObject newGameObject = Instantiate(terrainObject, position, rotateAngle);
             allObjects.Add(newGameObject);

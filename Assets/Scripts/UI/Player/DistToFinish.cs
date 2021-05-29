@@ -7,14 +7,13 @@ public class DistToFinish : MonoBehaviour
 {
     TMP_Text totalDist;
     TMP_Text distTraveled;
-
     GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        totalDist = gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        distTraveled = gameObject.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+        totalDist = gameObject.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+        distTraveled = gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
 
         player = GameObject.FindGameObjectWithTag("Player");
 
