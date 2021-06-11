@@ -13,7 +13,8 @@ public class PlayerController : IPlayer, IDamageable
     public int sprintSpeed = 30;
     public int jumpHeight = 10;
     public float sensitivity = 3;
-    public float dropDistance = 5;
+    public float dropDistance = 20;
+    public LayerMask dropLayerMask;
 
     private int speed;
     private float yAngle;
@@ -293,12 +294,13 @@ public class PlayerController : IPlayer, IDamageable
         RaycastHit hit;
         Vector3 dropPoint;
         Transform cameraTransform = GetCamera().transform;
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, dropDistance, ~(1 >> 3)))
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, dropDistance, ~dropLayerMask))
         {
             dropPoint = hit.point;
         }
         else
         {
+            Debug.Log("dropped item");
             dropPoint = cameraTransform.position + cameraTransform.forward * dropDistance;
         }
         IItem cur = inventoryUI.GetItem(index);

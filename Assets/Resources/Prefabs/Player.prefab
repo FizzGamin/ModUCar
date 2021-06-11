@@ -2072,7 +2072,10 @@ MonoBehaviour:
   sprintSpeed: 50
   jumpHeight: 30
   sensitivity: 3
-  dropDistance: 5
+  dropDistance: 20
+  dropLayerMask:
+    serializedVersion: 2
+    m_Bits: 296
   legScripts:
   - {fileID: 6704414601210525787}
   - {fileID: 6704414599756842041}
